@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HABIT_OS">
+<meta name="theme-color" content="#050810">
+<link rel="manifest" href="manifest.json">
+<title>HABIT_OS // LIFE TIME</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --nc:#00f5ff;--nm:#ff00aa;--ng:#39ff14;--na:#ffaa00;--np:#bf5fff;
+  --bg:#050810;--bgp:#0a0f1e;--bgc:#0d1528;
+  --bd:rgba(0,245,255,0.15);--bdh:rgba(0,245,255,0.4);
+  --tp:#d0e8ff;--tm:#4a6080;--td:#2a3a50;
+  --mono:'Share Tech Mono',monospace;--disp:'Rajdhani',sans-serif;
+}
+body{background:var(--bg);color:var(--tp);font-family:var(--disp);min-height:100vh;overflow-x:hidden}
+.scan{position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.025) 2px,rgba(0,0,0,0.025) 4px);pointer-events:none;z-index:998}
+
+/* SYNC BAR */
+.sync-bar{position:fixed;top:0;left:0;width:100%;height:3px;z-index:9999;opacity:0;transition:opacity 0.3s}
+.sync-bar.syncing{opacity:1;background:linear-gradient(90deg,transparent,var(--nc),transparent);background-size:200%;animation:syncaim 1s linear infinite}
+.sync-bar.ok{opacity:1;background:var(--ng);animation:fadeout 1.5s forwards}
+.sync-bar.err{opacity:1;background:#ff4444;animation:fadeout 2s forwards}
+@keyframes syncaim{0%{background-position:200%}100%{background-position:-200%}}
+@keyframes fadeout{0%{opacity:1}80%{opacity:1}100%{opacity:0}}
+.offline-pill{position:fixed;top:8px;right:8px;background:rgba(255,170,0,0.12);border:1px solid var(--na);border-radius:4px;font-family:var(--mono);font-size:8px;color:var(--na);padding:3px 8px;letter-spacing:1px;z-index:997;display:none}
+.offline-pill.show{display:block}
+
+/* LOADING / ERROR */
+.fullscreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center}
+.fs-box{background:var(--bgp);border:1px solid var(--bdh);border-radius:12px;padding:32px;width:340px;max-width:100%}
+.fs-logo{font-family:var(--mono);font-size:17px;color:var(--nc);letter-spacing:4px;margin-bottom:4px}
+.fs-logo span{color:var(--nm)}
+.fs-sub{font-family:var(--mono);font-size:8px;color:var(--tm);letter-spacing:3px;margin-bottom:20px}
+.fs-msg{font-family:var(--mono);font-size:10px;color:var(--tm);letter-spacing:1px;line-height:1.8}
+.spinner{display:inline-block;width:20px;height:20px;border:2px solid var(--bd);border-top-color:var(--nc);border-radius:50%;animation:spin 0.7s linear infinite;margin-bottom:12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* APP */
+#app{display:none}
+.wrap{max-width:960px;margin:0 auto;padding:14px 12px}
+.hdr{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd);padding-bottom:10px;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.logo{font-family:var(--mono);font-size:15px;color:var(--nc);letter-spacing:3px}
+.logo span{color:var(--nm)}
+.hdr-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.datedisp{font-family:var(--mono);font-size:9px;color:var(--tm);letter-spacing:1px}
+
+/* CLIENT BAR */
+.cbar{background:var(--bgc);border:1px solid var(--bd);border-radius:6px;padding:8px 12px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.cbar-name{font-family:var(--mono);font-size:13px;color:var(--nc);letter-spacing:2px}
+.cbar-right{display:flex;align-items:center;gap:8px}
+.cbar-ch{font-family:var(--mono);font-size:9px;color:var(--na);letter-spacing:2px}
+
+/* PRESTIGE BANNER */
+.prestige-banner{background:rgba(255,170,0,0.07);border:1px solid rgba(255,170,0,0.35);border-radius:8px;padding:20px;margin-bottom:14px;text-align:center;display:none}
+.prestige-banner.show{display:block}
+.pb-label{font-family:var(--mono);font-size:10px;letter-spacing:3px;color:var(--na);margin-bottom:6px}
+.pb-roman{font-size:52px;font-weight:700;color:var(--na);line-height:1;margin-bottom:8px;font-family:var(--disp)}
+.pb-msg{font-size:12px;color:var(--tp);margin-bottom:14px;line-height:1.7}
+.pb-btn{font-family:var(--mono);font-size:9px;letter-spacing:2px;padding:9px 22px;border-radius:4px;border:1px solid var(--na);color:var(--na);background:rgba(255,170,0,0.1);cursor:pointer;transition:all 0.2s}
+.pb-btn:hover{background:rgba(255,170,0,0.2)}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px}
+@media(max-width:480px){.stats{grid-template-columns:repeat(2,1fr)}}
+.sc{background:var(--bgc);border:1px solid var(--bd);border-radius:6px;padding:10px;position:relative;overflow:hidden}
+.sc::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--acc,var(--nc))}
+.sl{font-family:var(--mono);font-size:7px;color:var(--tm);letter-spacing:2px;margin-bottom:3px}
+.sv{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--acc,var(--nc))}
+.ssub{font-size:9px;color:var(--tm);margin-top:1px}
+
+/* XP */
+.xpsec{background:var(--bgc);border:1px solid var(--bd);border-radius:6px;padding:10px 12px;margin-bottom:14px}
+.xp-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;flex-wrap:wrap;gap:6px}
+.lvlb{font-family:var(--mono);font-size:9px;color:var(--na);letter-spacing:2px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.prestige-badge{font-family:var(--mono);font-size:8px;padding:2px 7px;border-radius:3px;background:rgba(255,170,0,0.15);border:1px solid rgba(255,170,0,0.4);color:var(--na)}
+.xp-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.comp-pill{font-family:var(--mono);font-size:9px;color:var(--ng);background:rgba(57,255,20,0.08);border:1px solid rgba(57,255,20,0.2);border-radius:3px;padding:2px 8px;white-space:nowrap}
+.xptxt{font-family:var(--mono);font-size:9px;color:var(--tm)}
+.xpbg{height:6px;background:rgba(0,245,255,0.07);border-radius:4px;border:1px solid var(--bd);overflow:hidden}
+.xpfill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--nc),var(--np));transition:width 0.8s cubic-bezier(0.4,0,0.2,1)}
+.xp-chapter{font-family:var(--mono);font-size:7px;color:var(--tm);text-align:right;margin-top:3px;letter-spacing:1px}
+
+/* TABS */
+.maintabs{display:flex;gap:5px;margin-bottom:14px;flex-wrap:wrap}
+.mtab{font-family:var(--mono);font-size:8px;letter-spacing:2px;padding:6px 11px;border-radius:4px;border:1px solid var(--bd);background:transparent;color:var(--tm);cursor:pointer;white-space:nowrap;transition:all 0.2s}
+.mtab:hover{border-color:var(--nc);color:var(--nc)}
+.mtab.active{border-color:var(--nc);color:var(--nc);background:rgba(0,245,255,0.08)}
+.panel{display:none}.panel.active{display:block}
+.timetabs{display:flex;gap:0;margin-bottom:16px;border:1px solid var(--bd);border-radius:6px;overflow:hidden}
+.ttab{flex:1;font-family:var(--mono);font-size:8px;letter-spacing:1px;padding:9px 6px;background:transparent;color:var(--tm);cursor:pointer;border:none;border-right:1px solid var(--bd);transition:all 0.2s;text-align:center}
+.ttab:last-child{border-right:none}
+.ttab:hover{background:rgba(0,245,255,0.05);color:var(--nc)}
+.ttab.active{background:rgba(0,245,255,0.1);color:var(--nc)}
+.ttab-name{font-size:10px;font-weight:600;display:block;margin-bottom:2px}
+.ttab-sub{font-size:7px;opacity:0.7}
+.timepanel{display:none}.timepanel.active{display:block}
+
+/* HABIT CARDS */
+.hgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px;margin-bottom:10px}
+.hcard{background:var(--bgc);border:1px solid var(--bd);border-radius:8px;padding:12px;transition:border-color 0.2s}
+.hcard:hover{border-color:var(--bdh)}
+.hcard-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.hcard-info{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
+.hico{width:28px;height:28px;border-radius:5px;background:rgba(0,0,0,0.4);border:1px solid var(--hc,var(--nc));display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.hname{font-size:13px;font-weight:600;color:var(--tp);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hcat{font-family:var(--mono);font-size:7px;color:var(--tm);letter-spacing:1px;margin-top:1px}
+.hbtn{background:transparent;border:none;cursor:pointer;font-size:13px;padding:2px 4px;border-radius:3px;transition:color 0.2s;line-height:1;color:var(--td)}
+.hbtn.info:hover{color:var(--nc)}
+.hmeta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.hxp{font-family:var(--mono);font-size:9px;color:var(--hc,var(--nc))}
+.hstr{display:flex;align-items:center;gap:3px;font-family:var(--mono);font-size:8px;color:var(--na)}
+.sdot{width:5px;height:5px;border-radius:50%;background:var(--na);animation:pulse 1.5s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+
+/* CALENDAR */
+.mcal{margin-top:4px}
+.mnav{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.mlbl{font-family:var(--mono);font-size:8px;color:var(--nc);letter-spacing:2px}
+.mnavbtn{background:transparent;border:1px solid var(--bd);color:var(--tm);font-family:var(--mono);font-size:9px;padding:2px 6px;border-radius:3px;cursor:pointer;transition:all 0.15s}
+.mnavbtn:hover{border-color:var(--nc);color:var(--nc)}
+.dowrow{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:2px}
+.dowc{font-family:var(--mono);font-size:6px;color:var(--td);text-align:center}
+.dgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.dc{aspect-ratio:1;border-radius:3px;border:1px solid var(--bd);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:7px;color:var(--tm);background:rgba(0,0,0,0.25);min-width:0}
+.dc:hover{border-color:var(--hc,var(--nc))}
+.dc.done{background:var(--hc,var(--ng));border-color:var(--hc,var(--ng));color:#000;font-weight:700}
+.dc.today{border-color:var(--hc,var(--nc));color:var(--hc,var(--nc))}
+.dc.today.done{color:#000}
+.dc.emp{border-color:transparent;cursor:default;background:transparent}
+.dc.fut{opacity:0.3;cursor:not-allowed}
+
+/* LOCKED SLOT */
+.locked-slot{background:rgba(0,0,0,0.3);border:1px dashed var(--td);border-radius:8px;padding:16px 12px;display:flex;align-items:center;gap:10px}
+.lock-icon{font-size:18px;opacity:0.4}
+.lock-info{flex:1}
+.lock-title{font-family:var(--mono);font-size:9px;color:var(--tm);letter-spacing:2px;margin-bottom:3px}
+.lock-cd{font-family:var(--mono);font-size:11px;color:var(--na)}
+.addbtn{width:100%;padding:9px;background:transparent;border:1px dashed var(--bd);border-radius:8px;color:var(--tm);font-family:var(--mono);font-size:8px;letter-spacing:2px;cursor:pointer;transition:all 0.2s;height:80px}
+.addbtn:hover{border-color:var(--nc);color:var(--nc);background:rgba(0,245,255,0.04)}
+.sectit{font-family:var(--mono);font-size:8px;letter-spacing:3px;color:var(--tm);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sectit::after{content:'';flex:1;height:1px;background:var(--bd)}
+
+/* QUESTS */
+.qcard{background:var(--bgc);border:1px solid var(--bd);border-radius:8px;padding:13px;margin-bottom:8px}
+.qhdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;flex-wrap:wrap;gap:4px}
+.qtit{font-size:13px;font-weight:700;color:var(--tp)}
+.qrew{font-family:var(--mono);font-size:9px;color:var(--na);white-space:nowrap}
+.qtier{font-family:var(--mono);font-size:7px;padding:2px 6px;border-radius:2px;letter-spacing:1px}
+.tier-r{background:rgba(57,255,20,0.1);color:var(--ng);border:1px solid rgba(57,255,20,0.25)}
+.tier-v{background:rgba(255,170,0,0.1);color:var(--na);border:1px solid rgba(255,170,0,0.25)}
+.tier-e{background:rgba(191,95,255,0.1);color:var(--np);border:1px solid rgba(191,95,255,0.25)}
+.qdesc{font-size:11px;color:var(--tm);margin-bottom:8px;line-height:1.5}
+.qpbg{height:3px;background:rgba(255,255,255,0.05);border-radius:2px;overflow:hidden;margin-bottom:6px}
+.qpfill{height:100%;border-radius:2px;transition:width 0.6s}
+.qfoot{display:flex;justify-content:space-between;align-items:center}
+.qptxt{font-family:var(--mono);font-size:8px;color:var(--tm)}
+.qcomp{font-family:var(--mono);font-size:8px;color:var(--ng);letter-spacing:1px}
+
+/* BADGES */
+.bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+.bcard{background:var(--bgc);border:1px solid var(--bd);border-radius:8px;padding:12px;text-align:center;transition:border-color 0.3s}
+.bcard.on{border-color:var(--bc,var(--na))}
+.bcard.off{opacity:0.3}
+.bico{font-size:22px;margin-bottom:5px;display:block}
+.bnm{font-size:10px;font-weight:600;color:var(--tp);margin-bottom:2px}
+.bdsc{font-family:var(--mono);font-size:7px;color:var(--tm);line-height:1.4}
+
+/* OVERLAYS */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);display:none;align-items:flex-start;justify-content:center;z-index:1000;padding:16px;padding-top:20px;overflow-y:auto}
+.overlay.open{display:flex}
+.modal{background:var(--bgp);border:1px solid var(--bdh);border-radius:10px;padding:20px;width:420px;max-width:100%;max-height:88vh;overflow-y:auto}
+.modal.wide{width:740px}
+.mtit{font-family:var(--mono);font-size:10px;letter-spacing:3px;color:var(--nc);margin-bottom:16px}
+.fg{margin-bottom:11px}
+.fl{font-family:var(--mono);font-size:7px;letter-spacing:2px;color:var(--tm);margin-bottom:4px;display:block}
+.fi,.fsel{width:100%;padding:8px 10px;background:rgba(0,0,0,0.5);border:1px solid var(--bd);border-radius:4px;color:var(--tp);font-family:var(--mono);font-size:11px;outline:none;transition:border-color 0.2s}
+.fi:focus,.fsel:focus{border-color:var(--nc)}
+.fsel option{background:var(--bgp)}
+.mact{display:flex;gap:8px;margin-top:14px}
+.bcnl,.bcrt{flex:1;padding:8px;border-radius:4px;font-family:var(--mono);font-size:8px;letter-spacing:2px;cursor:pointer;transition:all 0.2s}
+.bcnl{background:transparent;border:1px solid var(--bd);color:var(--tm)}
+.bcnl:hover{border-color:var(--nm);color:var(--nm)}
+.bcrt{background:rgba(0,245,255,0.1);border:1px solid var(--nc);color:var(--nc)}
+.bcrt:hover{background:rgba(0,245,255,0.18)}
+
+/* ADD HABIT LIBRARY */
+.add-layout{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:580px){.add-layout{grid-template-columns:1fr}}
+.add-left{border-right:1px solid var(--bd);padding-right:14px}
+@media(max-width:580px){.add-left{border-right:none;padding-right:0;border-bottom:1px solid var(--bd);padding-bottom:14px}}
+.lib-tabs{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap}
+.libtab{font-family:var(--mono);font-size:7px;letter-spacing:1px;padding:3px 8px;border-radius:3px;border:1px solid var(--bd);color:var(--tm);cursor:pointer;transition:all 0.2s;background:transparent}
+.libtab.active{border-color:var(--nc);color:var(--nc);background:rgba(0,245,255,0.07)}
+.lib-list{max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
+.lib-item{background:rgba(0,0,0,0.35);border:1px solid var(--bd);border-radius:5px;padding:7px 9px;cursor:pointer;transition:all 0.2s}
+.lib-item:hover{border-color:var(--nc);background:rgba(0,245,255,0.05)}
+.lib-item.sel{border-color:var(--nc);background:rgba(0,245,255,0.1)}
+.lib-iname{font-size:11px;font-weight:600;color:var(--tp);margin-bottom:1px;display:flex;align-items:center;justify-content:space-between}
+.lib-imeta{font-family:var(--mono);font-size:7px;color:var(--tm)}
+.lib-diff{font-family:var(--mono);font-size:6px;padding:1px 5px;border-radius:2px;letter-spacing:1px;flex-shrink:0}
+.diff-1{background:rgba(57,255,20,0.12);color:var(--ng);border:1px solid rgba(57,255,20,0.25)}
+.diff-2{background:rgba(255,170,0,0.12);color:var(--na);border:1px solid rgba(255,170,0,0.25)}
+.diff-3{background:rgba(255,0,170,0.12);color:var(--nm);border:1px solid rgba(255,0,170,0.25)}
+.habit-preview{background:rgba(0,0,0,0.3);border:1px solid var(--bd);border-radius:8px;padding:12px;min-height:180px}
+.hp-empty{font-family:var(--mono);font-size:9px;color:var(--td);text-align:center;padding:30px 10px;letter-spacing:1px;line-height:1.8}
+.hp-name{font-size:14px;font-weight:700;color:var(--tp);margin-bottom:3px}
+.hp-cat{font-family:var(--mono);font-size:7px;color:var(--tm);letter-spacing:2px;margin-bottom:10px}
+.hp-st{font-family:var(--mono);font-size:7px;letter-spacing:2px;color:var(--nc);margin-bottom:4px;margin-top:8px}
+.hp-body{font-size:11px;color:var(--tp);line-height:1.6;opacity:0.9}
+.hp-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.hp-tag{font-family:var(--mono);font-size:7px;padding:2px 6px;border-radius:2px;border:1px solid var(--bd);color:var(--tm)}
+.or-div{text-align:center;font-family:var(--mono);font-size:8px;color:var(--td);margin:10px 0;letter-spacing:2px}
+.copts{display:flex;gap:6px;flex-wrap:wrap}
+.copt{width:20px;height:20px;border-radius:3px;cursor:pointer;border:2px solid transparent;transition:all 0.2s}
+.copt.sel,.copt:hover{border-color:white;transform:scale(1.15)}
+
+/* INFO MODAL */
+.info-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--bd)}
+.info-icon-lg{width:44px;height:44px;border-radius:8px;background:rgba(0,0,0,0.4);border:1px solid var(--hc,var(--nc));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.info-title{font-size:17px;font-weight:700;color:var(--tp);margin-bottom:2px}
+.info-cat{font-family:var(--mono);font-size:8px;color:var(--tm);letter-spacing:2px}
+.info-st{font-family:var(--mono);font-size:8px;letter-spacing:2px;color:var(--nc);margin-bottom:5px;margin-top:12px}
+.info-body{font-size:12px;color:var(--tp);line-height:1.7;opacity:0.9}
+.info-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.info-tag{font-family:var(--mono);font-size:7px;padding:2px 7px;border-radius:3px;border:1px solid var(--bd);color:var(--tm)}
+.info-res{background:rgba(255,170,0,0.06);border:1px solid rgba(255,170,0,0.2);border-radius:6px;padding:10px;margin-top:12px}
+.info-res-title{font-family:var(--mono);font-size:7px;letter-spacing:2px;color:var(--na);margin-bottom:8px}
+.info-res-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px}
+.info-res-icon{font-size:14px;flex-shrink:0}
+.info-res-name{font-size:11px;font-weight:600;color:var(--tp);margin-bottom:1px}
+.info-res-desc{font-family:var(--mono);font-size:8px;color:var(--tm);line-height:1.4}
+.info-xp-row{display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,0.3);border-radius:5px;padding:8px 12px;margin-top:10px}
+.info-xp-label{font-family:var(--mono);font-size:8px;color:var(--tm);letter-spacing:2px}
+.info-xp-val{font-family:var(--mono);font-size:14px;color:var(--nc)}
+
+/* TOAST */
+.toast{position:fixed;bottom:16px;right:16px;background:var(--bgc);border:1px solid var(--ng);border-radius:8px;padding:9px 14px;font-family:var(--mono);font-size:10px;color:var(--ng);transform:translateY(50px);opacity:0;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);z-index:9999;max-width:280px}
+.toast.show{transform:translateY(0);opacity:1}
+</style>
+</head>
+<body>
+<div class="scan"></div>
+<div class="sync-bar" id="sync-bar"></div>
+<div class="offline-pill" id="offline-pill">OFFLINE</div>
+
+<!-- LOADING -->
+<div id="loading-screen" class="fullscreen">
+  <div class="fs-box">
+    <div class="fs-logo">HABIT<span>_</span>OS</div>
+    <div class="fs-sub">// LIFE TIME</div>
+    <div class="spinner"></div>
+    <div class="fs-msg" id="loading-msg">LOADING YOUR DASHBOARD...</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+<div class="wrap">
+
+  <div class="hdr">
+    <div class="logo">HABIT<span>_</span>OS <span style="font-size:9px;color:var(--tm);letter-spacing:1px">// LIFE TIME</span></div>
+    <div class="hdr-right">
+      <div class="datedisp" id="datedisp"></div>
+    </div>
+  </div>
+
+  <div class="cbar">
+    <div class="cbar-name" id="cbar-name"></div>
+    <div class="cbar-right">
+      <div class="cbar-ch" id="cbar-ch"></div>
+    </div>
+  </div>
+
+  <div class="prestige-banner" id="prestige-banner">
+    <div class="pb-label">CHAPTER COMPLETE</div>
+    <div class="pb-roman" id="pb-roman">I</div>
+    <div class="pb-msg" id="pb-msg"></div>
+    <button class="pb-btn" onclick="doPrestige()">BEGIN CHAPTER <span id="pb-next-roman">II</span></button>
+  </div>
+
+  <div class="stats">
+    <div class="sc" style="--acc:var(--nc)"><div class="sl">TOTAL XP</div><div class="sv" id="s-xp">0</div><div class="ssub">this chapter</div></div>
+    <div class="sc" style="--acc:var(--na)"><div class="sl">BEST STREAK</div><div class="sv" id="s-str">0</div><div class="ssub">day record</div></div>
+    <div class="sc" style="--acc:var(--ng)"><div class="sl">THIS MONTH</div><div class="sv" id="s-mo">0</div><div class="ssub">completions</div></div>
+    <div class="sc" style="--acc:var(--np)"><div class="sl">LEVEL</div><div class="sv" id="s-lvl">1</div><div class="ssub" id="s-lvlname">NEWCOMER</div></div>
+  </div>
+
+  <div class="xpsec">
+    <div class="xp-top">
+      <div class="lvlb">
+        <span id="lvlb-text">LEVEL 1 // NEWCOMER</span>
+        <span class="prestige-badge" id="prestige-badge" style="display:none">CHAPTER I</span>
+      </div>
+      <div class="xp-right">
+        <div class="comp-pill" id="comp-pill">0 TOTAL COMPLETIONS</div>
+        <div class="xptxt" id="xptxt">0 / 300 XP</div>
+      </div>
+    </div>
+    <div class="xpbg"><div class="xpfill" id="xpbar" style="width:0%"></div></div>
+    <div class="xp-chapter" id="xp-chapter">CHAPTER I · 0 / 11,000 XP TO PRESTIGE</div>
+  </div>
+
+  <div class="maintabs">
+    <button class="mtab active" onclick="showMain('habits',this)">// HABITS</button>
+    <button class="mtab" onclick="showMain('quests',this)">// QUESTS</button>
+    <button class="mtab" onclick="showMain('badges',this)">// ACHIEVEMENTS</button>
+  </div>
+
+  <div class="panel active" id="panel-habits">
+    <div class="timetabs">
+      <button class="ttab active" onclick="showTime('morning',this)"><span class="ttab-name">MORNING</span><span class="ttab-sub">ACTIVATE</span></button>
+      <button class="ttab" onclick="showTime('midday',this)"><span class="ttab-name">MIDDAY</span><span class="ttab-sub">SUSTAIN</span></button>
+      <button class="ttab" onclick="showTime('evening',this)"><span class="ttab-name">EVENING</span><span class="ttab-sub">RESTORE</span></button>
+    </div>
+    <div class="timepanel active" id="tp-morning"><div class="hgrid" id="hg-morning"></div></div>
+    <div class="timepanel" id="tp-midday"><div class="hgrid" id="hg-midday"></div></div>
+    <div class="timepanel" id="tp-evening"><div class="hgrid" id="hg-evening"></div></div>
+  </div>
+
+  <div class="panel" id="panel-quests">
+    <div class="sectit">ACTIVE QUESTS</div>
+    <div id="quests-list"></div>
+  </div>
+
+  <div class="panel" id="panel-badges">
+    <div class="sectit">LIFE TIME ACHIEVEMENTS</div>
+    <div class="bgrid" id="badges-grid"></div>
+  </div>
+
+</div>
+</div>
+
+<!-- ADD HABIT OVERLAY -->
+<div class="overlay" id="add-overlay">
+  <div class="modal wide">
+    <div class="mtit">// ADD HABIT</div>
+    <div class="fg"><label class="fl">TIME SLOT</label>
+      <select class="fsel" id="h-slot"><option value="morning">MORNING ACTIVATE</option><option value="midday">MIDDAY SUSTAIN</option><option value="evening">EVENING RESTORE</option></select>
+    </div>
+    <div class="add-layout">
+      <div class="add-left">
+        <div class="fl" style="margin-bottom:8px">HABIT LIBRARY</div>
+        <div class="lib-tabs">
+          <button class="libtab active" onclick="setLibCat('movement',this)">MOVEMENT</button>
+          <button class="libtab" onclick="setLibCat('nutrition',this)">NUTRITION</button>
+          <button class="libtab" onclick="setLibCat('regeneration',this)">REGEN</button>
+          <button class="libtab" onclick="setLibCat('mindset',this)">MINDSET</button>
+        </div>
+        <div class="lib-list" id="lib-list"></div>
+        <div class="or-div">— OR CUSTOM —</div>
+        <div style="display:flex;gap:8px">
+          <div class="fg" style="flex:2"><label class="fl">NAME</label><input class="fi" id="h-name" type="text" placeholder="Custom habit" oninput="clearLibSel()"></div>
+          <div class="fg" style="flex:1"><label class="fl">ICON</label><input class="fi" id="h-icon" type="text" placeholder="⭐" maxlength="2"></div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <div class="fg" style="flex:1"><label class="fl">CATEGORY</label>
+            <select class="fsel" id="h-cat"><option value="MOVEMENT">MOVEMENT</option><option value="NUTRITION">NUTRITION</option><option value="REGENERATION">REGENERATION</option><option value="MINDSET">MINDSET</option></select>
+          </div>
+          <div class="fg" style="flex:1"><label class="fl">XP</label>
+            <select class="fsel" id="h-xp"><option value="10">EASY 10xp</option><option value="20" selected>MED 20xp</option><option value="35">HARD 35xp</option><option value="50">EPIC 50xp</option></select>
+          </div>
+        </div>
+        <div class="fg"><label class="fl">COLOR</label>
+          <div class="copts">
+            <div class="copt sel" data-c="#00f5ff" style="background:#00f5ff" onclick="pickColor(this)"></div>
+            <div class="copt" data-c="#39ff14" style="background:#39ff14" onclick="pickColor(this)"></div>
+            <div class="copt" data-c="#ff00aa" style="background:#ff00aa" onclick="pickColor(this)"></div>
+            <div class="copt" data-c="#ffaa00" style="background:#ffaa00" onclick="pickColor(this)"></div>
+            <div class="copt" data-c="#bf5fff" style="background:#bf5fff" onclick="pickColor(this)"></div>
+            <div class="copt" data-c="#ff6b35" style="background:#ff6b35" onclick="pickColor(this)"></div>
+          </div>
+        </div>
+        <div class="mact"><button class="bcnl" onclick="closeOverlay('add-overlay')">CANCEL</button><button class="bcrt" onclick="addHabit()">ADD HABIT</button></div>
+      </div>
+      <div>
+        <div class="fl" style="margin-bottom:8px">HABIT PREVIEW</div>
+        <div class="habit-preview" id="habit-preview"><div class="hp-empty">← SELECT A HABIT<br>TO SEE DETAILS &amp;<br>LIFE TIME RESOURCES</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INFO OVERLAY -->
+<div class="overlay" id="info-overlay">
+  <div class="modal wide">
+    <div class="info-header">
+      <div class="info-icon-lg" id="info-icon">❓</div>
+      <div><div class="info-title" id="info-title">Habit</div><div class="info-cat" id="info-cat">CATEGORY</div></div>
+    </div>
+    <div class="info-st">WHY THIS HABIT</div><div class="info-body" id="info-why"></div>
+    <div class="info-st">HOW TO DO IT</div><div class="info-body" id="info-how"></div>
+    <div class="info-st">COACHING TIP</div><div class="info-body" id="info-tip"></div>
+    <div class="info-tags" id="info-tags"></div>
+    <div class="info-res">
+      <div class="info-res-title">LIFE TIME APP RESOURCES</div>
+      <div id="info-res-list"></div>
+    </div>
+    <div class="info-xp-row"><div class="info-xp-label">XP REWARD PER DAY</div><div class="info-xp-val" id="info-xp">+20 XP</div></div>
+    <div class="mact"><button class="bcnl" onclick="closeOverlay('info-overlay')" style="width:100%;flex:none">CLOSE</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+const SUPABASE_URL='https://iwzkxnzqyszjoielblo.supabase.co';
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml3enpreG56cXlzempvaWVsYmxvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzMTUyMDQsImV4cCI6MjA4OTg5MTIwNH0.CMJNkZNgRqrrEJojiARbFeUuU5-C6L_ms56pZ5csW1s';
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+const MAX_SLOTS=4,SLOT_WEEKS=4,PRESTIGE_XP=11000;
+const MONTHS=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+const ROMAN=['I','II','III'];
+const LEVELS=[
+  {min:0,name:'NEWCOMER'},{min:300,name:'MOVER'},{min:700,name:'BUILDER'},
+  {min:1400,name:'ATHLETE'},{min:2500,name:'PERFORMER'},{min:4000,name:'COMPETITOR'},
+  {min:6000,name:'CHAMPION'},{min:8500,name:'ELITE'},{min:11000,name:'LEGEND'}
+];
+
+const RESOURCES={
+  movement:[
+    {icon:'🏋️',name:'GT Training Plans',desc:'Guided strength & cardio programs in the Life Time app'},
+    {icon:'📹',name:'Alpha Training Videos',desc:'Movement tutorials led by Life Time coaches'},
+    {icon:'⌚',name:'Activity Tracking',desc:'Sync Apple Health / Garmin for automatic logging'},
+  ],
+  nutrition:[
+    {icon:'🥗',name:'Nutrition Coaching',desc:'Book a session with a Life Time RD through the app'},
+    {icon:'📊',name:'Food Journal',desc:'Log meals and track macros in the Life Time app'},
+    {icon:'🛒',name:'Healthy Café Menu',desc:'Pre/post-workout nutrition options at the club'},
+  ],
+  regeneration:[
+    {icon:'🧘',name:'Guided Meditation',desc:'Sleep and recovery sessions in the Life Time Mind tab'},
+    {icon:'🔥',name:'Sauna & Recovery',desc:'Book sauna, steam, and cold plunge through the club app'},
+    {icon:'💆',name:'LifeSpa Services',desc:'Massage and bodywork — schedule in the Life Time app'},
+  ],
+  mindset:[
+    {icon:'🎧',name:'Life Time Mind',desc:'Mindfulness and breathwork audio sessions in the app'},
+    {icon:'👥',name:'Group Coaching',desc:'Life Time Alpha group sessions for accountability'},
+    {icon:'📚',name:'Member Blog',desc:'Expert articles on mindset and behavior change at lifetime.life'},
+  ]
+};
+
+const HABIT_LIBRARY={
+  movement:[
+    {name:'Morning Walk',icon:'🚶',cat:'MOVEMENT',xp:10,diff:1,res:'movement',why:'Low-intensity movement first thing activates metabolism, improves mood, and sets a positive behavioral tone for the day.',how:'Walk at conversational pace for 10–20 min within 30 min of waking. Go outside when possible.',tip:'Pair with morning sunlight for circadian rhythm benefits. Even cloudy light is 10x brighter than indoors.',tags:['Low Impact','Daily','Circadian']},
+    {name:'Strength Training',icon:'🏋️',cat:'MOVEMENT',xp:35,diff:3,res:'movement',why:'Preserves lean muscle, improves insulin sensitivity, strengthens bones, and elevates resting metabolic rate.',how:'30–60 min compound movements (squat, hinge, push, pull) with progressive overload.',tip:'Log lifts every session. Progressive overload — not maximum soreness — is the goal.',tags:['Compound','Progressive','Metabolic']},
+    {name:'Mobility Flow',icon:'🧘',cat:'MOVEMENT',xp:15,diff:1,res:'movement',why:'Addresses the root cause of chronic pain and movement dysfunction. Improves joint range of motion and reduces injury risk.',how:'10–15 min controlled range-of-motion work focusing on hips, thoracic spine, and shoulders.',tip:'Use before workout as dynamic prep or after as cooldown.',tags:['Daily','Recovery','Joint Health']},
+    {name:'Zone 2 Cardio',icon:'🚴',cat:'MOVEMENT',xp:30,diff:2,res:'movement',why:'Trains mitochondria to burn fat efficiently, improves VO2 max, and builds the aerobic base all fitness sits on.',how:'30–45 min at conversational pace (60–70% max HR). Bike, jog, row, or incline walk.',tip:'If you can\'t speak in full sentences, you\'re going too hard. Slow down.',tags:['Aerobic','Fat Burning','Mitochondria']},
+    {name:'10,000 Steps',icon:'👟',cat:'MOVEMENT',xp:20,diff:2,res:'movement',why:'Non-exercise activity thermogenesis (NEAT) accounts for 15–30% of daily calorie burn.',how:'Distribute steps throughout the day. Take stairs, park farther, walk during calls.',tip:'Start with 7,500 if 10k feels daunting. Consistency beats perfection.',tags:['NEAT','Daily','Metabolic']},
+    {name:'Sprint Intervals',icon:'⚡',cat:'MOVEMENT',xp:35,diff:3,res:'movement',why:'HIIT elevates afterburn, improves insulin sensitivity acutely, and reaches fast-twitch fibers Zone 2 doesn\'t.',how:'6–8 rounds of 20–30s all-out effort with 90–120s recovery after a warm-up.',tip:'Limit to 1–2x per week. More is not better for this stimulus.',tags:['HIIT','Fat Loss','VO2 Max']},
+    {name:'Yoga Session',icon:'🌀',cat:'MOVEMENT',xp:20,diff:2,res:'movement',why:'Integrates movement, breath, and mindfulness while activating the parasympathetic nervous system.',how:'20–60 min practice. Check Life Time\'s group fitness schedule for Vinyasa, Yin, or Hatha.',tip:'A vigorous Vinyasa class can match a moderate gym session in intensity.',tags:['Flexibility','Breathwork','Recovery']},
+    {name:'Stretch Routine',icon:'🤸',cat:'MOVEMENT',xp:10,diff:1,res:'movement',why:'Maintains tissue length, reduces post-workout soreness, and improves posture over time.',how:'10 min holding major muscle groups 30–60 seconds. Focus on hip flexors and hamstrings.',tip:'Static stretching is best post-workout or in the evening, not before lifting.',tags:['Daily','Flexibility','Posture']},
+  ],
+  nutrition:[
+    {name:'Eat Slowly',icon:'🍽️',cat:'NUTRITION',xp:15,diff:1,res:'nutrition',why:'PN Level 1 foundational habit. Satiety hormones take 15–20 min — slow eaters consume 10–15% fewer calories with higher satisfaction.',how:'Put fork down between bites. Aim for 20 min per meal minimum. No screens while eating.',tip:'This single habit consistently produces more body composition change than complex diet plans.',tags:['PN Level 1','Mindful Eating','Appetite']},
+    {name:'80% Full Rule',icon:'🥗',cat:'NUTRITION',xp:20,diff:2,res:'nutrition',why:'Practiced by some of the longest-lived populations. Prevents the chronic low-grade overeating that drives fat gain.',how:'Before your last few bites, pause: am I satisfied? Stop when satisfied but could eat more.',tip:'Pairs powerfully with eating slowly. Together they form the core of PN Level 1.',tags:['PN Level 1','Appetite','Longevity']},
+    {name:'Protein at Every Meal',icon:'🥩',cat:'NUTRITION',xp:15,diff:1,res:'nutrition',why:'The most satiating macronutrient. Distributing protein across meals maximizes muscle-building stimulus throughout the day.',how:'Palm-sized serving (20–40g) at every meal. Chicken, fish, eggs, Greek yogurt, tofu, legumes.',tip:'Most people eat 60–70% of optimal protein without realizing it. Track for 3 days.',tags:['PN Level 1','Muscle','Satiety']},
+    {name:'Drink 3L Water',icon:'💧',cat:'NUTRITION',xp:10,diff:1,res:'nutrition',why:'Even 1–2% dehydration measurably impairs cognitive performance, energy, and exercise capacity.',how:'Half your bodyweight in ounces daily. Large glass before coffee every morning.',tip:'Add electrolytes if training hard. A pinch of sea salt in morning water helps sodium balance.',tags:['Daily','Hydration','Energy']},
+    {name:'Veggies Each Meal',icon:'🥦',cat:'NUTRITION',xp:15,diff:1,res:'nutrition',why:'Fiber, micronutrients, and phytocompounds largely absent from processed foods. High fiber is one of the strongest longevity predictors.',how:'Fist-sized serving every meal. Frozen is as nutritious as fresh.',tip:'Rotate colors — green, orange, red, purple — for a broad phytonutrient spectrum.',tags:['PN Level 1','Micronutrients','Fiber']},
+    {name:'No Liquid Calories',icon:'🚫',cat:'NUTRITION',xp:20,diff:2,res:'nutrition',why:'Liquid calories bypass satiety signals. Juice, soda, and specialty coffee can add 300–600 hidden calories daily.',how:'Water, black coffee, plain tea only. Check labels on "healthy" drinks like kombucha and sports drinks.',tip:'A daily latte + afternoon juice can be 400+ calories — often the single highest-leverage change.',tags:['PN Level 1','Calorie Awareness','High Leverage']},
+    {name:'Meal Prep Sunday',icon:'📦',cat:'NUTRITION',xp:35,diff:2,res:'nutrition',why:'Environment design beats willpower every time. Ready-to-eat healthy food leads to automatic better choices.',how:'Batch cook 2–3 proteins, vegetables, and a grain or starch on Sunday.',tip:'Just prep ingredients — cooked chicken, roasted veg, hard-boiled eggs. No full meals needed.',tags:['PN Level 1','Environment Design','Planning']},
+    {name:'Nutrient Timing',icon:'⏱️',cat:'NUTRITION',xp:20,diff:3,res:'nutrition',why:'PN Level 2: eating carbs and protein around training windows improves performance, recovery, and body composition.',how:'20–40g protein + fast carbs within 1–2 hours post-workout. Moderate protein + carbs 1–2h pre-workout.',tip:'Only matters meaningfully once foundational habits are solid. A genuine Level 2 detail.',tags:['PN Level 2','Advanced','Performance']},
+  ],
+  regeneration:[
+    {name:'Sleep by 10pm',icon:'🌙',cat:'REGENERATION',xp:20,diff:2,res:'regeneration',why:'Hours before midnight yield disproportionately more deep sleep, driving physical recovery and growth hormone release.',how:'Wind-down routine at 9:15pm. Dim lights, 65–67°F, no screens. In bed by 10pm.',tip:'Put your phone in another room. Blue light suppresses melatonin production significantly.',tags:['Circadian','Deep Sleep','Hormonal']},
+    {name:'7–9 Hours Sleep',icon:'😴',cat:'REGENERATION',xp:20,diff:2,res:'regeneration',why:'The master recovery variable. Under 7 hours impairs muscle protein synthesis, elevates cortisol, and dysregulates appetite hormones.',how:'Work backward from your wake time to set your required bedtime. Protect it like a non-negotiable appointment.',tip:'Try 8+ hours for 2 weeks and observe the difference in energy, appetite, and performance.',tags:['Foundational','Recovery','Cognitive']},
+    {name:'No Screens 1hr Before Bed',icon:'📵',cat:'REGENERATION',xp:15,diff:2,res:'regeneration',why:'Blue light suppresses melatonin by up to 50%, delaying sleep onset and reducing quality.',how:'Set a phone alarm 1 hour before your target bedtime. Plug phone in across the room.',tip:'Physical separation from your phone is more effective than blue-light blocking glasses.',tags:['Sleep Hygiene','Melatonin','High Leverage']},
+    {name:'Cold Shower',icon:'🧊',cat:'REGENERATION',xp:25,diff:3,res:'regeneration',why:'Releases norepinephrine up to 300%, builds stress resilience, and improves mood and alertness.',how:'End shower with 1–3 min cold. Start with 30 seconds and build over weeks.',tip:'The psychological benefit often exceeds the physiological one. Voluntary discomfort builds resilience.',tags:['Cold Exposure','Resilience','Recovery']},
+    {name:'Breathwork',icon:'🌬️',cat:'REGENERATION',xp:15,diff:1,res:'regeneration',why:'Directly shifts the autonomic nervous system from sympathetic to parasympathetic state in minutes.',how:'Box breathing: 4 in, 4 hold, 4 out, 4 hold. 5–10 min before bed or after stressful events.',tip:'Daily practice rewires your nervous system\'s baseline tone over weeks.',tags:['Parasympathetic','Stress','Recovery']},
+    {name:'Sauna Session',icon:'🔥',cat:'REGENERATION',xp:20,diff:2,res:'regeneration',why:'Regular sauna use associated with dramatically reduced cardiovascular disease risk and improved growth hormone release.',how:'15–20 min at 80–100°C. Hydrate well before and after.',tip:'Pair with cold exposure (contrast therapy) for an amplified hormetic stress response.',tags:['Longevity','Cardiovascular','Heat Therapy']},
+    {name:'HRV Check-in',icon:'💓',cat:'REGENERATION',xp:10,diff:1,res:'regeneration',why:'Heart Rate Variability is the most sensitive real-time indicator of recovery status and nervous system health.',how:'Measure first thing in the morning before rising using a wearable or the Elite HRV app.',tip:'Your personal trend matters, not comparison to others. 3-day suppression signals need to reduce load.',tags:['Biometric','Recovery','Data-Driven']},
+    {name:'Stress Journal',icon:'📓',cat:'REGENERATION',xp:15,diff:1,res:'regeneration',why:'Unprocessed psychological stress elevates cortisol undermining sleep, recovery, and body composition.',how:'5 min before bed: write stressors, one action step, one thing outside your control to release.',tip:'This is a cortisol management tool. Externalizing worry onto paper reduces its mental occupancy.',tags:['Cortisol','Stress','Sleep']},
+  ],
+  mindset:[
+    {name:'Gratitude Log',icon:'🙏',cat:'MINDSET',xp:10,diff:1,res:'mindset',why:'Reduces cortisol, increases dopamine baseline, and shifts attentional bias toward opportunity.',how:'Write 3 specific things you\'re grateful for each morning. Specificity creates the neurological benefit.',tip:'Pair with morning coffee via habit stacking — existing routine anchors the new one.',tags:['PN Level 1','Cortisol','Dopamine']},
+    {name:'Meditation',icon:'🧠',cat:'MINDSET',xp:15,diff:1,res:'mindset',why:'Reduces amygdala reactivity, improves prefrontal cortex function, and builds metacognitive awareness.',how:'10 min: focus on breath, return attention gently when it wanders. App or silent sit.',tip:'The goal is not to stop thinking — it\'s to notice you\'re thinking and return to the present.',tags:['Stress','Focus','Metacognition']},
+    {name:'Visualization',icon:'🎯',cat:'MINDSET',xp:15,diff:1,res:'mindset',why:'Mental rehearsal activates the same neural pathways as physical practice.',how:'5 min daily: vividly imagine having already achieved your goal. Engage all senses.',tip:'PN Level 2 emphasizes identity as the root of sustainable behavior change. This is the practice.',tags:['PN Level 2','Identity','Performance']},
+    {name:'Read 20 Pages',icon:'📖',cat:'MINDSET',xp:20,diff:1,res:'mindset',why:'20 pages daily compounds to 12–15 books per year. Builds knowledge that compounds over time.',how:'Physical book, Kindle, or audiobook. Same time daily makes it automatic.',tip:'Reading before bed significantly improves sleep onset vs phone use.',tags:['Learning','Knowledge','Focus']},
+    {name:'Daily Intention',icon:'✨',cat:'MINDSET',xp:10,diff:1,res:'mindset',why:'Shifts brain from reactive mode to proactive mode. Creates a filter for all decisions that follow.',how:'Each morning: "Today I will ___." Make it behavioral, specific, and achievable in one day.',tip:'This is directional — it guides your energy, not just your task list.',tags:['Morning','Focus','Behavior Change']},
+    {name:'Evening Review',icon:'🔍',cat:'MINDSET',xp:10,diff:1,res:'mindset',why:'Structured reflection accelerates learning from experience and builds self-awareness.',how:'5 min: What went well? What would I change? What am I looking forward to tomorrow?',tip:'Ending on anticipation primes the brain positively, improving sleep quality.',tags:['Reflection','Self-Awareness','Evening']},
+    {name:'Identity Journaling',icon:'📝',cat:'MINDSET',xp:15,diff:2,res:'mindset',why:'PN Level 2: identity-based motivation dramatically outlasts outcome-based motivation in research.',how:'10 min: write as your future self. Present tense: "I prioritize recovery because I value performance."',tip:'The discomfort is your current identity resisting change. It lessens over weeks.',tags:['PN Level 2','Identity','Advanced']},
+    {name:'Digital Detox',icon:'🌿',cat:'MINDSET',xp:20,diff:2,res:'mindset',why:'Social media activates threat-detection and comparison systems, chronically elevating cortisol.',how:'1 hour/day with no social media or news. Replace with any analog activity.',tip:'The resistance you feel when putting the phone down is exactly why this habit matters.',tags:['Digital Health','Cortisol','Attention']},
+  ]
+};
+
+const QUEST_TEMPLATES=[
+  {cat:'movement',tiers:[{id:'mov_r',tier:'r',title:'First Rep',desc:'Complete movement habits 5 times.',req:5,reward:'100 XP'},{id:'mov_v',tier:'v',title:'Consistent Athlete',desc:'Complete movement habits 20 times.',req:20,reward:'300 XP'},{id:'mov_e',tier:'e',title:'Movement Mastery',desc:'Complete movement habits 50 times.',req:50,reward:'750 XP'}]},
+  {cat:'nutrition',tiers:[{id:'nut_r',tier:'r',title:'Fueled Up',desc:'Complete nutrition habits 5 times.',req:5,reward:'100 XP'},{id:'nut_v',tier:'v',title:'Precision Eater',desc:'Complete nutrition habits 20 times.',req:20,reward:'300 XP'},{id:'nut_e',tier:'e',title:'Nutrition Pro',desc:'Complete nutrition habits 50 times.',req:50,reward:'750 XP'}]},
+  {cat:'regeneration',tiers:[{id:'reg_r',tier:'r',title:'Recovery Initiated',desc:'Complete regeneration habits 5 times.',req:5,reward:'100 XP'},{id:'reg_v',tier:'v',title:'Recovery Athlete',desc:'Complete regeneration habits 20 times.',req:20,reward:'300 XP'},{id:'reg_e',tier:'e',title:'Recovery Elite',desc:'Complete regeneration habits 50 times.',req:50,reward:'750 XP'}]},
+  {cat:'mindset',tiers:[{id:'mnd_r',tier:'r',title:'Mind Activated',desc:'Complete mindset habits 5 times.',req:5,reward:'100 XP'},{id:'mnd_v',tier:'v',title:'Mental Athlete',desc:'Complete mindset habits 20 times.',req:20,reward:'300 XP'},{id:'mnd_e',tier:'e',title:'Mind Master',desc:'Complete mindset habits 50 times.',req:50,reward:'750 XP'}]},
+  {cat:'streak',tiers:[{id:'str_r',tier:'r',title:'Streak Starter',desc:'Build a 3-day check-in streak.',req:3,reward:'150 XP'},{id:'str_v',tier:'v',title:'Streak Warrior',desc:'Build a 7-day streak.',req:7,reward:'400 XP'},{id:'str_e',tier:'e',title:'Unstoppable',desc:'Build a 21-day streak.',req:21,reward:'1000 XP'}]},
+];
+
+const BADGES=[
+  {id:'first_rep',name:'First Rep',desc:'Log your first completion',icon:'🏅',color:'#39ff14',req:s=>totalChecks(s)>=1},
+  {id:'consistency',name:'Consistency Club',desc:'3-day streak',icon:'🔥',color:'#ff6b35',req:s=>s.bestStreak>=3},
+  {id:'week_warrior',name:'Week Warrior',desc:'7-day streak',icon:'⚔️',color:'#ffaa00',req:s=>s.bestStreak>=7},
+  {id:'iron_will',name:'Iron Will',desc:'21-day streak',icon:'🦾',color:'#00f5ff',req:s=>s.bestStreak>=21},
+  {id:'century',name:'Century Club',desc:'Earn 100 XP',icon:'💯',color:'#00f5ff',req:s=>s.xp>=100},
+  {id:'grinder',name:'Life Time Grinder',desc:'Earn 500 XP',icon:'⚙️',color:'#bf5fff',req:s=>s.xp>=500},
+  {id:'legend_ch1',name:'Legend',desc:'Complete Chapter I',icon:'🏆',color:'#ffaa00',req:s=>(s.prestigeCount||0)>=1},
+  {id:'legend_ch2',name:'Veteran',desc:'Complete Chapter II',icon:'⭐',color:'#ffaa00',req:s=>(s.prestigeCount||0)>=2},
+  {id:'legend_ch3',name:'Life Time Icon',desc:'Complete Chapter III',icon:'👑',color:'#ffaa00',req:s=>(s.prestigeCount||0)>=3},
+  {id:'perfect',name:'Perfect Day',desc:'All habits in one day',icon:'🌟',color:'#ff00aa',req:s=>s.hadPerfectDay},
+  {id:'mover_b',name:'Mover',desc:'50 movement completions',icon:'🏃',color:'#39ff14',req:s=>getCatChecks(s,'MOVEMENT')>=50},
+  {id:'fueled_b',name:'Precision Fueled',desc:'50 nutrition completions',icon:'🥗',color:'#00f5ff',req:s=>getCatChecks(s,'NUTRITION')>=50},
+  {id:'recovered_b',name:'Recovery Pro',desc:'50 regeneration completions',icon:'😴',color:'#bf5fff',req:s=>getCatChecks(s,'REGENERATION')>=50},
+  {id:'mind_b',name:'Mental Athlete',desc:'50 mindset completions',icon:'🧠',color:'#ff00aa',req:s=>getCatChecks(s,'MINDSET')>=50},
+];
+
+let clientRecord=null, saveDebounce=null, calStates={}, selColor='#00f5ff', selLibItem=null, isOnline=navigator.onLine;
+
+window.addEventListener('online',()=>{isOnline=true;document.getElementById('offline-pill').classList.remove('show');});
+window.addEventListener('offline',()=>{isOnline=false;document.getElementById('offline-pill').classList.add('show');});
+
+async function init(){
+  const params=new URLSearchParams(window.location.search);
+  const pin=params.get('id');
+  if(!pin){showError('NO CLIENT ID FOUND IN URL<br><br>Please use the personal link your coach sent you.');return;}
+  const{data,error}=await sb.from('clients').select('*').eq('pin',pin).single();
+  if(error||!data){showError('CLIENT NOT FOUND<br><br>This link may be invalid or expired.<br>Contact your coach for a new link.');return;}
+  clientRecord=data;
+  if(!clientRecord.data)clientRecord.data={xp:0,bestStreak:0,hadPerfectDay:false,habits:[],completions:{},unlockedBadges:[],completedQuests:[],prestigeCount:0,extraUnlocks:0};
+  document.getElementById('loading-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  render();
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+
+function showError(msg){
+  document.getElementById('loading-screen').innerHTML=`<div class="fs-box"><div class="fs-logo">HABIT<span style="color:#ff00aa">_</span>OS</div><div class="fs-sub">// LIFE TIME</div><div class="fs-msg">${msg}</div></div>`;
+}
+
+function d(){return clientRecord.data;}
+
+function syncIndicator(state){
+  const bar=document.getElementById('sync-bar');
+  bar.className='sync-bar '+state;
+}
+
+async function saveToSupabase(){
+  if(!clientRecord)return;
+  syncIndicator('syncing');
+  const{error}=await sb.from('clients').update({data:clientRecord.data}).eq('id',clientRecord.id);
+  if(error){syncIndicator('err');console.error(error);}
+  else{syncIndicator('ok');}
+}
+
+function scheduleSave(){
+  clearTimeout(saveDebounce);
+  saveDebounce=setTimeout(saveToSupabase,1500);
+}
+
+function dateKey(y,m,dd){return`${y}-${String(m+1).padStart(2,'0')}-${String(dd).padStart(2,'0')}`;}
+function isCompleted(id,y,m,dd){const k=dateKey(y,m,dd);return!!(d().completions[k]&&d().completions[k][id]);}
+function totalChecks(s){let c=0;Object.values(s.completions||{}).forEach(day=>{c+=Object.values(day).filter(Boolean).length;});return c;}
+function getCatChecks(s,cat){const ids=(s.habits||[]).filter(h=>(h.cat||h.category)===cat).map(h=>h.id);let c=0;Object.values(s.completions||{}).forEach(day=>{ids.forEach(id=>{if(day[id])c++;});});return c;}
+function getMonthTotal(){const n=new Date(),m=n.getMonth(),y=n.getFullYear();let c=0;Object.keys(d().completions||{}).forEach(k=>{if(k.startsWith(`${y}-${String(m+1).padStart(2,'0')}`))c+=Object.values(d().completions[k]).filter(Boolean).length;});return c;}
+function getStreakForHabit(id){let s=0,dd=new Date();while(true){const k=dateKey(dd.getFullYear(),dd.getMonth(),dd.getDate());if(d().completions[k]&&d().completions[k][id]){s++;dd.setDate(dd.getDate()-1);}else break;}return s;}
+function getSlotsUnlocked(){
+  const sd=clientRecord.start_date;if(!sd)return 1;
+  const start=new Date(sd),now=new Date();
+  const weeks=Math.floor((now-start)/(7*24*3600*1000));
+  const natural=Math.min(MAX_SLOTS,1+Math.floor(weeks/SLOT_WEEKS));
+  return Math.min(MAX_SLOTS,natural+(d().extraUnlocks||0));
+}
+function getDaysUntilNextUnlock(){
+  const sd=clientRecord.start_date;if(!sd)return 0;
+  const slots=getSlotsUnlocked();if(slots>=MAX_SLOTS)return null;
+  const start=new Date(sd),now=new Date();
+  const unlockDate=new Date(start.getTime()+SLOT_WEEKS*slots*7*24*3600*1000);
+  return Math.max(0,Math.ceil((unlockDate-now)/(24*3600*1000)));
+}
+function getHabitsForSlot(slot){return(d().habits||[]).filter(h=>(h.slot||'morning')===slot);}
+function getLevel(xp){let l=1;for(let i=LEVELS.length-1;i>=0;i--){if(xp>=LEVELS[i].min){l=i+1;break;}}return l;}
+function getLvlName(xp){let n=LEVELS[0].name;for(let i=LEVELS.length-1;i>=0;i--){if(xp>=LEVELS[i].min){n=LEVELS[i].name;break;}}return n;}
+function getXpProg(xp){for(let i=0;i<LEVELS.length-1;i++){if(xp>=LEVELS[i].min&&xp<LEVELS[i+1].min){return{pct:Math.round((xp-LEVELS[i].min)/(LEVELS[i+1].min-LEVELS[i].min)*100),curr:xp-LEVELS[i].min,total:LEVELS[i+1].min-LEVELS[i].min};}}return{pct:100,curr:xp,total:xp};}
+
+function render(){
+  const data=d();const now=new Date();
+  document.getElementById('datedisp').textContent=now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'}).toUpperCase();
+  document.getElementById('cbar-name').textContent=clientRecord.name.toUpperCase();
+  const ch=data.prestigeCount||0;const chR=ROMAN[Math.min(ch,2)]||'I';
+  document.getElementById('cbar-ch').textContent=ch>0?'CHAPTER '+chR:'';
+  document.getElementById('s-xp').textContent=data.xp||0;
+  document.getElementById('s-str').textContent=data.bestStreak||0;
+  document.getElementById('s-mo').textContent=getMonthTotal();
+  document.getElementById('s-lvl').textContent=getLevel(data.xp||0);
+  document.getElementById('s-lvlname').textContent=getLvlName(data.xp||0);
+  const prog=getXpProg(data.xp||0);
+  document.getElementById('lvlb-text').textContent='LEVEL '+getLevel(data.xp||0)+' // '+getLvlName(data.xp||0);
+  const pb=document.getElementById('prestige-badge');
+  if(ch>0){pb.textContent='CHAPTER '+chR;pb.style.display='inline-block';}else{pb.style.display='none';}
+  document.getElementById('xptxt').textContent=prog.curr+' / '+prog.total+' XP';
+  document.getElementById('xpbar').style.width=prog.pct+'%';
+  document.getElementById('comp-pill').textContent=totalChecks(data)+' TOTAL COMPLETIONS';
+  document.getElementById('xp-chapter').textContent='CHAPTER '+(ch<3?chR:'III COMPLETE')+' · '+(data.xp||0).toLocaleString()+' / '+PRESTIGE_XP.toLocaleString()+' XP TO PRESTIGE'+(ch>=3?' (MAX)':'');
+  if((data.xp||0)>=PRESTIGE_XP&&ch<3)showPrestigeBanner(ch);
+  else document.getElementById('prestige-banner').classList.remove('show');
+  renderHabits();renderQuests();renderBadges();
+}
+
+function showPrestigeBanner(ch){
+  const banner=document.getElementById('prestige-banner');
+  document.getElementById('pb-roman').textContent=ROMAN[ch];
+  document.getElementById('pb-msg').textContent=`You've reached Legend and completed Chapter ${ROMAN[ch]}. Your habit history and streaks are preserved. A new chapter begins.`;
+  document.getElementById('pb-next-roman').textContent=ROMAN[ch+1];
+  banner.classList.add('show');
+}
+function doPrestige(){
+  clientRecord.data.xp=0;clientRecord.data.prestigeCount=(clientRecord.data.prestigeCount||0)+1;
+  clientRecord.data.completedQuests=[];
+  document.getElementById('prestige-banner').classList.remove('show');
+  checkNewBadges();scheduleSave();render();
+  showToast('⭐ CHAPTER '+ROMAN[clientRecord.data.prestigeCount-1]+' COMPLETE!');
+}
+
+function renderHabits(){
+  ['morning','midday','evening'].forEach(slot=>{
+    const grid=document.getElementById('hg-'+slot);
+    const habits=getHabitsForSlot(slot);
+    const slotsUnlocked=getSlotsUnlocked();const now=new Date();let html='';
+    habits.forEach(h=>{
+      if(!calStates[h.id])calStates[h.id]={m:now.getMonth(),y:now.getFullYear()};
+      const cs=calStates[h.id];const streak=getStreakForHabit(h.id);
+      html+=`<div class="hcard" style="--hc:${h.color}">
+        <div class="hcard-top">
+          <div class="hcard-info"><div class="hico">${h.icon}</div>
+            <div style="min-width:0"><div class="hname">${h.name}</div><div class="hcat">${h.cat||h.category}</div></div>
+          </div>
+          <button class="hbtn info" onclick="openInfoModal(${h.id})" title="Info">ⓘ</button>
+        </div>
+        <div class="hmeta"><div class="hxp">+${h.xp} XP/day</div><div class="hstr">${streak>0?`<span class="sdot"></span>${streak}D STREAK`:'NO STREAK'}</div></div>
+        ${buildCal(h,cs.y,cs.m)}
+      </div>`;
+    });
+    for(let i=habits.length;i<slotsUnlocked;i++)html+=`<div style="min-height:80px"><button class="addbtn" onclick="openAddModal('${slot}')">+ ADD ${slot.toUpperCase()} HABIT</button></div>`;
+    for(let i=slotsUnlocked;i<MAX_SLOTS;i++){const days=getDaysUntilNextUnlock();html+=`<div class="locked-slot"><div class="lock-icon">🔒</div><div class="lock-info"><div class="lock-title">SLOT ${i+1} LOCKED</div><div class="lock-cd">${days!==null?days+' DAYS TO UNLOCK':'MAX REACHED'}</div></div></div>`;}
+    grid.innerHTML=html;
+  });
+}
+
+function buildCal(habit,y,m){
+  const now=new Date();const tY=now.getFullYear(),tM=now.getMonth(),tD=now.getDate();
+  const firstDay=new Date(y,m,1).getDay();const dim=new Date(y,m+1,0).getDate();
+  let cells='';
+  for(let i=0;i<firstDay;i++)cells+='<div class="dc emp"></div>';
+  for(let dd=1;dd<=dim;dd++){
+    const done=isCompleted(habit.id,y,m,dd);
+    const isToday=y===tY&&m===tM&&dd===tD;
+    const isFut=new Date(y,m,dd)>new Date(tY,tM,tD);
+    const cls=['dc',done?'done':'',isToday?'today':'',isFut?'fut':''].filter(Boolean).join(' ');
+    const click=isFut?'':`onclick="toggleDay(${habit.id},${y},${m},${dd})"`;
+    cells+=`<div class="${cls}" ${click}>${dd}</div>`;
+  }
+  return`<div class="mcal" id="cal-${habit.id}">
+    <div class="mnav"><button class="mnavbtn" onclick="navCal(${habit.id},-1)">◀</button><div class="mlbl">${MONTHS[m]} ${y}</div><button class="mnavbtn" onclick="navCal(${habit.id},1)">▶</button></div>
+    <div class="dowrow"><div class="dowc">S</div><div class="dowc">M</div><div class="dowc">T</div><div class="dowc">W</div><div class="dowc">T</div><div class="dowc">F</div><div class="dowc">S</div></div>
+    <div class="dgrid">${cells}</div>
+  </div>`;
+}
+
+function navCal(id,dir){
+  if(!calStates[id]){const n=new Date();calStates[id]={m:n.getMonth(),y:n.getFullYear()};}
+  let{m,y}=calStates[id];m+=dir;if(m<0){m=11;y--;}if(m>11){m=0;y++;}calStates[id]={m,y};
+  const habit=(d().habits||[]).find(h=>h.id===id);if(!habit)return;
+  const calEl=document.getElementById('cal-'+id);if(!calEl)return;
+  const now=new Date();const tY=now.getFullYear(),tM=now.getMonth(),tD=now.getDate();
+  const firstDay=new Date(y,m,1).getDay();const dim=new Date(y,m+1,0).getDate();
+  let cells='';
+  for(let i=0;i<firstDay;i++)cells+='<div class="dc emp"></div>';
+  for(let dd=1;dd<=dim;dd++){
+    const done=isCompleted(id,y,m,dd);const isToday=y===tY&&m===tM&&dd===tD;const isFut=new Date(y,m,dd)>new Date(tY,tM,tD);
+    const cls=['dc',done?'done':'',isToday?'today':'',isFut?'fut':''].filter(Boolean).join(' ');
+    const click=isFut?'':`onclick="toggleDay(${id},${y},${m},${dd})"`;
+    cells+=`<div class="${cls}" ${click}>${dd}</div>`;
+  }
+  calEl.querySelector('.mlbl').textContent=MONTHS[m]+' '+y;calEl.querySelector('.dgrid').innerHTML=cells;
+}
+
+function toggleDay(id,y,m,dd){
+  const k=dateKey(y,m,dd);
+  if(!clientRecord.data.completions[k])clientRecord.data.completions[k]={};
+  const was=clientRecord.data.completions[k][id];
+  clientRecord.data.completions[k][id]=!was;
+  const h=(clientRecord.data.habits||[]).find(x=>x.id===id);
+  if(h){
+    if(!was){
+      clientRecord.data.xp=(clientRecord.data.xp||0)+h.xp;
+      showToast('+'+h.xp+' XP — '+h.name.toUpperCase());
+      const streak=getStreakForHabit(id);
+      if(streak>(clientRecord.data.bestStreak||0))clientRecord.data.bestStreak=streak;
+      if(checkPerfectDay(k))clientRecord.data.hadPerfectDay=true;
+    }else{clientRecord.data.xp=Math.max(0,(clientRecord.data.xp||0)-h.xp);}
+  }
+  checkNewBadges();scheduleSave();render();
+}
+
+function checkPerfectDay(k){
+  const habits=clientRecord.data.habits||[];if(!habits.length)return false;
+  const day=clientRecord.data.completions[k]||{};return habits.every(h=>day[h.id]);
+}
+
+function openInfoModal(id){
+  const h=(d().habits||[]).find(x=>x.id===id);if(!h)return;
+  const libCat=(h.cat||h.category||'MOVEMENT').toLowerCase();
+  const libItems=HABIT_LIBRARY[libCat]||[];
+  const lib=libItems.find(i=>i.name===h.name);
+  document.getElementById('info-icon').textContent=h.icon;
+  document.getElementById('info-icon').style.setProperty('--hc',h.color);
+  document.getElementById('info-title').textContent=h.name;
+  document.getElementById('info-cat').textContent=(h.cat||h.category||'CUSTOM')+' • '+(['','EASY','MEDIUM','HARD'][(lib?.diff)||0]||'CUSTOM');
+  document.getElementById('info-why').textContent=lib?.why||'A custom habit you\'ve set for yourself. Keep the purpose front of mind — it\'s the fuel that keeps the habit going.';
+  document.getElementById('info-how').textContent=lib?.how||'Be specific about what "done" looks like for this habit. Time, duration, and location all help make it concrete.';
+  document.getElementById('info-tip').textContent=lib?.tip||'Start small and build. Consistency over intensity wins every time.';
+  document.getElementById('info-tags').innerHTML=(lib?.tags||[h.cat||'CUSTOM']).map(t=>`<span class="info-tag">${t}</span>`).join('');
+  const resCat=lib?.res||libCat;
+  const resources=RESOURCES[resCat]||RESOURCES.movement;
+  document.getElementById('info-res-list').innerHTML=resources.map(r=>`<div class="info-res-item"><div class="info-res-icon">${r.icon}</div><div><div class="info-res-name">${r.name}</div><div class="info-res-desc">${r.desc}</div></div></div>`).join('');
+  document.getElementById('info-xp').textContent='+'+h.xp+' XP';
+  openOverlay('info-overlay');
+}
+
+function openAddModal(slot){
+  document.getElementById('h-slot').value=slot||'morning';
+  selLibItem=null;
+  document.getElementById('h-name').value='';document.getElementById('h-icon').value='';
+  document.getElementById('habit-preview').innerHTML='<div class="hp-empty">← SELECT A HABIT<br>TO SEE DETAILS &amp;<br>LIFE TIME RESOURCES</div>';
+  setLibCat('movement',document.querySelector('#add-overlay .libtab'));
+  openOverlay('add-overlay');
+}
+
+function setLibCat(cat,btn){
+  document.querySelectorAll('#add-overlay .libtab').forEach(x=>x.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const items=HABIT_LIBRARY[cat]||[];
+  document.getElementById('lib-list').innerHTML=items.map((item,i)=>{
+    const dC=['','diff-1','diff-2','diff-3'][item.diff]||'diff-1';
+    const dL=['','EASY','MED','HARD'][item.diff]||'EASY';
+    return`<div class="lib-item" onclick="selectLibItem(${i},'${cat}')" id="li-${cat}-${i}">
+      <div class="lib-iname">${item.icon} ${item.name}<span class="lib-diff ${dC}">${dL}</span></div>
+      <div class="lib-imeta">${(item.tags||[]).join(' · ')}</div>
+    </div>`;
+  }).join('');
+}
+function selectLibItem(i,cat){
+  selLibItem={...HABIT_LIBRARY[cat][i]};
+  document.querySelectorAll('.lib-item').forEach(x=>x.classList.remove('sel'));
+  const el=document.getElementById(`li-${cat}-${i}`);if(el)el.classList.add('sel');
+  document.getElementById('h-name').value=selLibItem.name;
+  document.getElementById('h-icon').value=selLibItem.icon;
+  document.getElementById('h-cat').value=selLibItem.cat;
+  const dL=['','EASY','MEDIUM','HARD'][selLibItem.diff]||'';
+  const resCat=selLibItem.res||cat;const resources=RESOURCES[resCat]||[];
+  document.getElementById('habit-preview').innerHTML=`
+    <div class="hp-name">${selLibItem.icon} ${selLibItem.name}</div>
+    <div class="hp-cat">${selLibItem.cat} · ${dL}</div>
+    <div class="hp-st">WHY THIS HABIT</div><div class="hp-body">${selLibItem.why}</div>
+    <div class="hp-st">HOW TO DO IT</div><div class="hp-body">${selLibItem.how}</div>
+    <div class="hp-st">COACHING TIP</div><div class="hp-body">${selLibItem.tip}</div>
+    <div class="hp-tags">${(selLibItem.tags||[]).map(t=>`<span class="hp-tag">${t}</span>`).join('')}</div>
+    <div style="background:rgba(255,170,0,0.06);border:1px solid rgba(255,170,0,0.2);border-radius:5px;padding:8px;margin-top:10px">
+      <div style="font-family:var(--mono);font-size:7px;color:var(--na);letter-spacing:2px;margin-bottom:6px">LIFE TIME APP RESOURCES</div>
+      ${resources.map(r=>`<div style="display:flex;gap:6px;margin-bottom:4px"><span style="font-size:11px">${r.icon}</span><div><div style="font-size:10px;font-weight:600;color:var(--tp)">${r.name}</div><div style="font-family:var(--mono);font-size:7px;color:var(--tm)">${r.desc}</div></div></div>`).join('')}
+    </div>`;
+}
+function clearLibSel(){selLibItem=null;document.querySelectorAll('.lib-item').forEach(x=>x.classList.remove('sel'));}
+function pickColor(el){document.querySelectorAll('.copt').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');selColor=el.dataset.c;}
+
+function addHabit(){
+  const name=(document.getElementById('h-name').value||'').trim();
+  if(!name){showToast('! NAME REQUIRED');return;}
+  const slot=document.getElementById('h-slot').value;
+  const slotsUnlocked=getSlotsUnlocked();
+  if(getHabitsForSlot(slot).length>=slotsUnlocked){showToast('! SLOT FULL — UNLOCK MORE FIRST');return;}
+  const icon=document.getElementById('h-icon').value.trim()||'⭐';
+  const cat=document.getElementById('h-cat').value;
+  const xp=parseInt(document.getElementById('h-xp').value);
+  const id=Date.now();
+  if(!clientRecord.data.habits)clientRecord.data.habits=[];
+  clientRecord.data.habits.push({id,name,cat,icon,color:selColor,xp,slot});
+  closeOverlay('add-overlay');checkNewBadges();scheduleSave();render();
+  showToast('HABIT ADDED: '+name.toUpperCase());
+}
+
+function renderQuests(){
+  const data=d();let html='';
+  QUEST_TEMPLATES.forEach(qt=>{
+    const val=qt.cat==='streak'?data.bestStreak:getCatChecks(data,qt.cat.toUpperCase());
+    let activeTier=qt.tiers[0];
+    for(let i=qt.tiers.length-1;i>=0;i--){if(!(data.completedQuests||[]).includes(qt.tiers[i].id)){activeTier=qt.tiers[i];break;}}
+    const t=activeTier;const pct=Math.min(100,Math.round(val/t.req*100));const complete=val>=t.req;
+    if(complete&&!(data.completedQuests||[]).includes(t.id)){if(!data.completedQuests)data.completedQuests=[];data.completedQuests.push(t.id);scheduleSave();}
+    const tClass={'r':'tier-r','v':'tier-v','e':'tier-e'}[t.tier]||'tier-r';
+    const tName={'r':'ROOKIE','v':'VETERAN','e':'ELITE'}[t.tier]||'ROOKIE';
+    const color={'r':'#39ff14','v':'#ffaa00','e':'#bf5fff'}[t.tier];
+    html+=`<div class="qcard"><div class="qhdr"><div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><div class="qtit">${t.title}</div><span class="qtier ${tClass}">${tName}</span></div><div class="qrew">${t.reward}</div></div><div class="qdesc">${t.desc}</div><div class="qpbg"><div class="qpfill" style="width:${pct}%;background:${color}"></div></div><div class="qfoot"><div class="qptxt">${Math.min(val,t.req)} / ${t.req}</div>${complete?'<div class="qcomp">✓ COMPLETE</div>':''}</div></div>`;
+  });
+  document.getElementById('quests-list').innerHTML=html;
+}
+
+function renderBadges(){
+  const data=d();
+  document.getElementById('badges-grid').innerHTML=BADGES.map(b=>{
+    const on=b.req(data);
+    return`<div class="bcard ${on?'on':'off'}" style="--bc:${b.color}"><span class="bico">${b.icon}</span><div class="bnm">${b.name}</div><div class="bdsc">${b.desc}</div></div>`;
+  }).join('');
+}
+
+function checkNewBadges(){
+  const data=clientRecord.data;const prev=[...(data.unlockedBadges||[])];
+  data.unlockedBadges=BADGES.filter(b=>b.req(data)).map(b=>b.id);
+  data.unlockedBadges.forEach(id=>{if(!prev.includes(id)){const b=BADGES.find(x=>x.id===id);if(b)showToast(b.icon+' ACHIEVEMENT: '+b.name.toUpperCase());}});
+}
+
+function showMain(p,btn){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.mtab').forEach(x=>x.classList.remove('active'));document.getElementById('panel-'+p).classList.add('active');if(btn)btn.classList.add('active');}
+function showTime(t,btn){document.querySelectorAll('.timepanel').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.ttab').forEach(x=>x.classList.remove('active'));document.getElementById('tp-'+t).classList.add('active');if(btn)btn.classList.add('active');}
+function openOverlay(id){document.getElementById(id).classList.add('open');}
+function closeOverlay(id){document.getElementById(id).classList.remove('open');}
+
+let toastTimer;
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2800);}
+
+init();
+</script>
+</body>
+</html>
