@@ -2,200 +2,258 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#050810">
-<title>HABIT_OS // COACH</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#FAF8F5">
+<title>Habit OS — Coach</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --nc:#00f5ff;--nm:#ff00aa;--ng:#39ff14;--na:#ffaa00;--np:#bf5fff;
-  --bg:#050810;--bgp:#0a0f1e;--bgc:#0d1528;
-  --bd:rgba(0,245,255,0.15);--bdh:rgba(0,245,255,0.4);
-  --tp:#d0e8ff;--tm:#4a6080;--td:#2a3a50;
-  --mono:'Share Tech Mono',monospace;--disp:'Rajdhani',sans-serif;
+  --bg:#FAF8F5;--bgc:#F0EDE8;--bgs:#FFFFFF;--border:#EDE9E4;--border2:#DDD8D0;
+  --text:#1A1A1A;--text2:#6B6560;--text3:#9A8F86;--text4:#C8C0B8;
+  --acc:#C4623A;--acc2:#7A9E7E;--acc3:#8B7355;
+  --serif:'DM Serif Display',serif;--sans:'DM Sans',sans-serif;
 }
-body{background:var(--bg);color:var(--tp);font-family:var(--disp);min-height:100vh}
-.scan{position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.025) 2px,rgba(0,0,0,0.025) 4px);pointer-events:none;z-index:998}
-.wrap{max-width:1100px;margin:0 auto;padding:14px 12px}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh}
+.wrap{max-width:1100px;margin:0 auto;padding:20px 16px}
 
 /* LOGIN */
 .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.login-box{background:var(--bgp);border:1px solid var(--bdh);border-radius:12px;padding:32px;width:340px;max-width:100%}
-.login-logo{font-family:var(--mono);font-size:17px;color:var(--nc);letter-spacing:4px;text-align:center;margin-bottom:4px}
-.login-logo span{color:var(--nm)}
-.login-sub{font-family:var(--mono);font-size:8px;color:var(--na);text-align:center;letter-spacing:3px;margin-bottom:24px}
-.lfield{margin-bottom:12px}
-.ll{font-family:var(--mono);font-size:7px;letter-spacing:2px;color:var(--tm);margin-bottom:4px;display:block}
-.li{width:100%;padding:9px 11px;background:rgba(0,0,0,0.5);border:1px solid var(--bd);border-radius:4px;color:var(--tp);font-family:var(--mono);font-size:12px;outline:none;transition:border-color 0.2s}
-.li:focus{border-color:var(--nc)}
-.lbtn{width:100%;padding:11px;border-radius:4px;font-family:var(--mono);font-size:9px;letter-spacing:3px;cursor:pointer;transition:all 0.2s;border:1px solid var(--na);color:var(--na);background:rgba(255,170,0,0.1);margin-top:4px}
-.lbtn:hover{background:rgba(255,170,0,0.2)}
+.login-box{background:var(--bgs);border:1px solid var(--border);border-radius:16px;padding:36px;width:340px;max-width:100%}
+.login-logo{font-family:var(--serif);font-size:24px;color:var(--text);text-align:center;margin-bottom:4px}
+.login-sub{font-size:10px;color:var(--text3);text-align:center;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:28px}
+.fg{margin-bottom:14px}
+.fl{font-size:10px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:5px;display:block}
+.fi{width:100%;padding:10px 12px;background:var(--bgc);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:13px;outline:none;transition:border-color 0.2s}
+.fi:focus{border-color:var(--acc)}
+.lbtn{width:100%;padding:12px;border-radius:8px;font-family:var(--sans);font-size:12px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;border:none;background:var(--text);color:var(--bg);margin-top:4px}
+.lbtn:hover{background:var(--acc)}
 .lbtn:disabled{opacity:0.4;cursor:not-allowed}
-.lerr{font-family:var(--mono);font-size:9px;color:#ff4444;text-align:center;min-height:14px;margin-top:6px;letter-spacing:1px}
+.lerr{font-size:11px;color:#C4623A;text-align:center;min-height:16px;margin-top:8px}
 
 /* APP */
 #app{display:none}
-.hdr{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd);padding-bottom:10px;margin-bottom:16px;flex-wrap:wrap;gap:8px}
-.logo{font-family:var(--mono);font-size:15px;color:var(--nc);letter-spacing:3px}
-.logo span{color:var(--nm)}
-.logo-sub{font-family:var(--mono);font-size:8px;color:var(--na);letter-spacing:2px;margin-top:2px}
-.hdr-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.coach-email{font-family:var(--mono);font-size:9px;color:var(--tm);letter-spacing:1px}
-.hbsm{font-family:var(--mono);font-size:7px;letter-spacing:1px;padding:5px 10px;border-radius:3px;border:1px solid var(--bd);color:var(--tm);background:transparent;cursor:pointer;transition:all 0.2s}
-.hbsm:hover{border-color:var(--nc);color:var(--nc)}
-.hbsm.danger:hover{border-color:#ff4444;color:#ff4444}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:20px;flex-wrap:wrap;gap:8px}
+.logo{font-family:var(--serif);font-size:22px;color:var(--text)}
+.logo-sub{font-size:10px;color:var(--acc);letter-spacing:0.08em;text-transform:uppercase;margin-top:2px}
+.hdr-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.coach-email-disp{font-size:11px;color:var(--text3)}
+.hbtn{font-size:10px;letter-spacing:0.06em;text-transform:uppercase;padding:6px 12px;border-radius:6px;border:1px solid var(--border2);color:var(--text2);background:transparent;cursor:pointer;transition:all 0.2s}
+.hbtn:hover{border-color:var(--acc);color:var(--acc)}
+.hbtn.danger:hover{border-color:#C4623A;color:#C4623A}
 
-/* CLIENT SELECTOR */
-.client-select-bar{background:var(--bgc);border:1px solid var(--bd);border-radius:8px;padding:12px 14px;margin-bottom:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.cs-label{font-family:var(--mono);font-size:8px;color:var(--tm);letter-spacing:2px;white-space:nowrap}
-.cs-sel{background:rgba(0,0,0,0.4);border:1px solid var(--bd);border-radius:4px;color:var(--nc);font-family:var(--mono);font-size:12px;padding:5px 10px;outline:none;cursor:pointer;flex:1;min-width:140px}
-.cs-sel option{background:var(--bgp)}
-.cs-actions{display:flex;gap:6px;flex-wrap:wrap}
-.cbtn{font-family:var(--mono);font-size:7px;letter-spacing:1px;padding:5px 10px;border-radius:3px;border:1px solid var(--bd);color:var(--tm);background:transparent;cursor:pointer;transition:all 0.2s;white-space:nowrap}
-.cbtn:hover{border-color:var(--nc);color:var(--nc)}
-.cbtn.new{border-color:rgba(57,255,20,0.4);color:var(--ng)}
-.cbtn.new:hover{background:rgba(57,255,20,0.08)}
-.cbtn.danger:hover{border-color:#ff4444;color:#ff4444}
+/* ROSTER BAR */
+.roster-bar{background:var(--bgs);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:20px}
+.roster-top{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.roster-label{font-size:10px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap}
+.client-dropdown{flex:1;min-width:160px;padding:8px 12px;background:var(--bgc);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:13px;outline:none;cursor:pointer}
+.client-dropdown:focus{border-color:var(--acc)}
+.roster-actions{display:flex;gap:6px;flex-wrap:wrap}
+.rbtn{font-size:9px;letter-spacing:0.06em;text-transform:uppercase;padding:6px 12px;border-radius:6px;border:1px solid var(--border2);color:var(--text2);background:transparent;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.rbtn:hover{border-color:var(--acc);color:var(--acc)}
+.rbtn.primary{background:var(--text);color:var(--bg);border-color:var(--text)}
+.rbtn.primary:hover{background:var(--acc);border-color:var(--acc)}
+.rbtn.danger:hover{border-color:#C4623A;color:#C4623A}
 
-/* CLIENT OVERVIEW CARDS */
-.overview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-bottom:20px}
-.ov-card{background:var(--bgc);border:1px solid var(--bd);border-radius:8px;padding:12px;cursor:pointer;transition:all 0.2s}
-.ov-card:hover{border-color:var(--bdh)}
-.ov-card.active-client{border-color:var(--nc);background:rgba(0,245,255,0.05)}
-.ov-name{font-size:14px;font-weight:700;color:var(--tp);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ov-meta{font-family:var(--mono);font-size:8px;color:var(--tm);letter-spacing:1px;margin-bottom:8px}
-.ov-stats{display:flex;gap:10px}
-.ov-stat{text-align:center}
-.ov-stat-val{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--nc)}
-.ov-stat-label{font-family:var(--mono);font-size:7px;color:var(--tm);letter-spacing:1px}
-.ov-chapter{display:inline-block;font-family:var(--mono);font-size:8px;padding:2px 7px;border-radius:3px;background:rgba(255,170,0,0.12);border:1px solid rgba(255,170,0,0.3);color:var(--na);letter-spacing:1px;margin-top:6px}
+/* ROSTER TABLE */
+.roster-table{width:100%;border-collapse:collapse}
+.roster-table th{font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);padding:6px 10px;border-bottom:1px solid var(--border);text-align:left;font-weight:500}
+.roster-table td{padding:10px 10px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text);vertical-align:middle}
+.roster-table tr:last-child td{border-bottom:none}
+.roster-table tr{cursor:pointer;transition:background 0.15s}
+.roster-table tr:hover td{background:var(--bgc)}
+.roster-table tr.active-row td{background:#FAF0EC}
+.rt-name{font-weight:500;color:var(--text)}
+.rt-badge{display:inline-block;font-size:8px;padding:2px 7px;border-radius:10px;background:var(--bgc);color:var(--text3);letter-spacing:0.04em;margin-left:6px;vertical-align:middle}
+.rt-badge.active{background:#EFF5EF;color:var(--acc2)}
+.rt-stat{font-size:12px;color:var(--text2)}
+.rt-last{font-size:11px;color:var(--text3)}
+.rt-empty{text-align:center;padding:24px;font-size:12px;color:var(--text3);font-style:italic}
 
 /* CLIENT DETAIL */
-.client-detail{background:var(--bgc);border:1px solid var(--bd);border-radius:8px;padding:14px;margin-bottom:16px}
-.cd-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
-.cd-name{font-size:20px;font-weight:700;color:var(--tp)}
-.cd-meta{font-family:var(--mono);font-size:9px;color:var(--tm);letter-spacing:1px;margin-top:3px}
+#client-detail{display:none}
+.cd-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.cd-title{font-family:var(--serif);font-size:24px;color:var(--text)}
+.cd-meta{font-size:11px;color:var(--text3);margin-top:3px;letter-spacing:0.04em}
 .cd-actions{display:flex;gap:6px;flex-wrap:wrap}
-.cd-btn{font-family:var(--mono);font-size:7px;letter-spacing:1px;padding:5px 10px;border-radius:3px;border:1px solid var(--bd);color:var(--tm);background:transparent;cursor:pointer;transition:all 0.2s;white-space:nowrap}
-.cd-btn:hover{border-color:var(--nc);color:var(--nc)}
-.cd-btn.warn:hover{border-color:var(--na);color:var(--na)}
-.cd-btn.danger:hover{border-color:#ff4444;color:#ff4444}
-.cd-link-box{background:rgba(0,0,0,0.3);border:1px solid var(--bd);border-radius:5px;padding:8px 12px;display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
-.cd-link-label{font-family:var(--mono);font-size:8px;color:var(--tm);letter-spacing:1px;white-space:nowrap}
-.cd-link-url{font-family:var(--mono);font-size:9px;color:var(--nc);flex:1;word-break:break-all}
-.cd-copy-btn{font-family:var(--mono);font-size:7px;padding:4px 10px;border-radius:3px;border:1px solid var(--nc);color:var(--nc);background:transparent;cursor:pointer;transition:all 0.2s;white-space:nowrap}
-.cd-copy-btn:hover{background:rgba(0,245,255,0.1)}
-.cd-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
-@media(max-width:500px){.cd-stats{grid-template-columns:repeat(2,1fr)}}
-.cd-stat{background:rgba(0,0,0,0.3);border-radius:5px;padding:8px;text-align:center}
-.cd-stat-val{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--nc)}
-.cd-stat-label{font-family:var(--mono);font-size:7px;color:var(--tm);letter-spacing:1px;margin-top:2px}
+
+/* CLIENT LINK BOX */
+.link-box{background:var(--bgs);border:1px solid var(--border);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.link-label{font-size:9px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap}
+.link-url{font-size:11px;color:var(--acc);flex:1;word-break:break-all}
+.link-copy{font-size:9px;padding:4px 10px;border-radius:5px;border:1px solid var(--acc);color:var(--acc);background:transparent;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.link-copy:hover{background:rgba(196,98,58,0.08)}
+
+/* STAT CARDS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}}
+.sc{background:var(--bgs);border:1px solid var(--border);border-radius:12px;padding:12px 14px;position:relative;overflow:hidden}
+.sc::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--acc)}
+.sc.green::before{background:var(--acc2)}
+.sc.brown::before{background:var(--acc3)}
+.sc.dark::before{background:var(--text)}
+.sl{font-size:9px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.sv{font-size:24px;font-weight:500;color:var(--text);line-height:1.1}
+.sv-sub{font-size:10px;color:var(--text3);margin-top:2px}
+.ssub{font-size:10px;color:var(--text3);margin-top:2px}
+
+/* XP SECTION */
+.xp-section{background:var(--bgs);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:16px}
+.xp-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px}
+.xp-level{font-size:12px;font-weight:500;color:var(--text);letter-spacing:0.04em}
+.xp-chapter-badge{font-size:10px;color:var(--acc);background:rgba(196,98,58,0.08);padding:2px 8px;border-radius:10px;border:1px solid rgba(196,98,58,0.2)}
+.xp-right{font-size:11px;color:var(--text3)}
+.xp-bar-wrap{margin-bottom:6px}
+.xp-bar-label{font-size:9px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:3px}
+.xp-bar-bg{height:7px;background:var(--bgc);border-radius:4px;overflow:hidden}
+.xp-bar-fill{height:100%;border-radius:4px;background:var(--acc);transition:width 0.8s cubic-bezier(0.4,0,0.2,1)}
+.xp-bar-bg.thin{height:4px;margin-top:4px}
+.xp-bar-fill.chapter{background:var(--acc3)}
+
+/* MONTH NAV */
+.month-nav-bar{display:flex;align-items:center;gap:10px;margin-bottom:14px;background:var(--bgs);border:1px solid var(--border);border-radius:10px;padding:10px 14px;flex-wrap:wrap}
+.month-nav-label{font-size:10px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap}
+.month-sel{padding:6px 10px;background:var(--bgc);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:var(--sans);font-size:12px;outline:none;cursor:pointer}
+.month-sel:focus{border-color:var(--acc)}
+.month-nav-btn{padding:5px 10px;background:transparent;border:1px solid var(--border2);border-radius:6px;color:var(--text2);font-size:12px;cursor:pointer;transition:all 0.15s}
+.month-nav-btn:hover{border-color:var(--acc);color:var(--acc)}
+
+/* SUMMARY ROW */
+.summary-row{display:flex;gap:16px;margin-bottom:14px;flex-wrap:wrap}
+.sr-item{font-size:12px;color:var(--text2)}
+.sr-item strong{color:var(--text);font-weight:500}
+
+/* FILTER BAR */
+.filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.filter-label{font-size:9px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap}
+.fsel{padding:5px 10px;background:var(--bgc);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:var(--sans);font-size:11px;outline:none;cursor:pointer}
+.fsel:focus{border-color:var(--acc)}
+.ftoggle{padding:5px 10px;background:transparent;border:1px solid var(--border2);border-radius:6px;color:var(--text2);font-size:11px;cursor:pointer;transition:all 0.15s}
+.ftoggle.active{background:var(--bgc);border-color:var(--acc);color:var(--acc)}
+
+/* HABIT TABLE */
+.habit-table{width:100%;border-collapse:collapse;margin-bottom:10px}
+.habit-table th{font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);padding:7px 10px;border-bottom:1px solid var(--border);text-align:left;font-weight:500}
+.habit-table td{padding:10px;border-bottom:1px solid var(--border);font-size:12px;color:var(--text);vertical-align:middle}
+.habit-table tr:last-child td{border-bottom:none}
+.habit-table tr:hover td{background:var(--bgc)}
+.slot-tag{font-size:8px;padding:2px 7px;border-radius:10px;background:var(--bgc);color:var(--text3);letter-spacing:0.04em;white-space:nowrap}
+.cat-tag{font-size:8px;padding:2px 7px;border-radius:10px;letter-spacing:0.04em;white-space:nowrap}
+.cat-MOVEMENT{background:#EFF5EF;color:var(--acc2)}
+.cat-NUTRITION{background:#EAF0F5;color:#5A8AA0}
+.cat-REGENERATION{background:#F0EBF5;color:#8B6AA0}
+.cat-MINDSET{background:#FAF0EC;color:var(--acc)}
+.archived-tag{font-size:8px;padding:2px 7px;border-radius:10px;background:#FFF0EE;color:#C4623A;letter-spacing:0.04em}
+.rate-bar{height:3px;background:var(--bgc);border-radius:2px;margin-top:3px;overflow:hidden;width:60px}
+.rate-fill{height:100%;border-radius:2px;background:var(--acc2)}
+.tbl-btn{background:transparent;border:none;cursor:pointer;font-size:12px;color:var(--text4);padding:2px 5px;transition:color 0.2s}
+.tbl-btn:hover{color:var(--acc)}
+.tbl-btn.danger:hover{color:#C4623A}
+.add-habit-btn{width:100%;padding:10px;background:transparent;border:1px dashed var(--border2);border-radius:8px;color:var(--text3);font-family:var(--sans);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;margin-top:4px}
+.add-habit-btn:hover{border-color:var(--acc);color:var(--acc);background:rgba(196,98,58,0.04)}
 
 /* SLOT CONTROLS */
-.slot-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px;padding:10px 12px;background:rgba(0,0,0,0.2);border-radius:5px;border:1px solid var(--bd)}
-.sc-label{font-family:var(--mono);font-size:8px;color:var(--tm);letter-spacing:2px}
-.sc-val{font-family:var(--mono);font-size:14px;color:var(--na)}
-.sc-btn{font-family:var(--mono);font-size:7px;padding:4px 10px;border-radius:3px;border:1px solid var(--na);color:var(--na);background:transparent;cursor:pointer;transition:all 0.2s}
-.sc-btn:hover{background:rgba(255,170,0,0.12)}
-.sc-next{font-family:var(--mono);font-size:8px;color:var(--tm);margin-left:auto}
+.slot-controls{background:var(--bgs);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:14px}
+.sc-title{font-size:10px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px}
+.sc-slots{display:flex;gap:8px;flex-wrap:wrap}
+.sc-slot{display:flex;align-items:center;gap:8px;background:var(--bgc);border-radius:8px;padding:8px 12px;flex:1;min-width:140px}
+.sc-slot-num{font-size:11px;font-weight:500;color:var(--text2)}
+.sc-slot-status{font-size:10px;flex:1}
+.sc-slot-status.unlocked{color:var(--acc2)}
+.sc-slot-status.locked{color:var(--text3)}
+.sc-slot-status.forced{color:var(--acc)}
+.sc-btn{font-size:8px;padding:3px 8px;border-radius:4px;border:1px solid var(--border2);color:var(--text2);background:transparent;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.sc-btn:hover{border-color:var(--acc);color:var(--acc)}
+.sc-btn.undo:hover{border-color:#C4623A;color:#C4623A}
 
-/* HABIT MANAGEMENT TABLE */
-.habit-table{width:100%;border-collapse:collapse;margin-bottom:12px}
-.habit-table th{font-family:var(--mono);font-size:7px;letter-spacing:2px;color:var(--tm);padding:6px 8px;border-bottom:1px solid var(--bd);text-align:left}
-.habit-table td{padding:8px;border-bottom:1px solid rgba(0,245,255,0.06);font-size:12px;color:var(--tp);vertical-align:middle}
-.habit-table tr:hover td{background:rgba(0,245,255,0.03)}
-.habit-slot-tag{font-family:var(--mono);font-size:7px;padding:2px 7px;border-radius:2px;background:rgba(0,245,255,0.08);border:1px solid var(--bd);color:var(--nc);letter-spacing:1px}
-.habit-cat-tag{font-family:var(--mono);font-size:7px;padding:2px 7px;border-radius:2px;letter-spacing:1px}
-.cat-MOVEMENT{background:rgba(57,255,20,0.08);color:var(--ng);border:1px solid rgba(57,255,20,0.2)}
-.cat-NUTRITION{background:rgba(0,245,255,0.08);color:var(--nc);border:1px solid rgba(0,245,255,0.2)}
-.cat-REGENERATION{background:rgba(191,95,255,0.08);color:var(--np);border:1px solid rgba(191,95,255,0.2)}
-.cat-MINDSET{background:rgba(255,0,170,0.08);color:var(--nm);border:1px solid rgba(255,0,170,0.2)}
-.htbl-del{background:transparent;border:none;color:var(--td);cursor:pointer;font-size:12px;padding:2px 5px;transition:color 0.2s}
-.htbl-del:hover{color:#ff4444}
-.add-habit-row{width:100%;padding:8px;background:transparent;border:1px dashed var(--bd);border-radius:5px;color:var(--tm);font-family:var(--mono);font-size:8px;letter-spacing:2px;cursor:pointer;transition:all 0.2s;margin-top:4px}
-.add-habit-row:hover{border-color:var(--nc);color:var(--nc);background:rgba(0,245,255,0.03)}
+/* NOTES */
+.notes-section{background:var(--bgs);border:1px solid var(--border);border-radius:12px;padding:14px;margin-top:14px}
+.notes-title{font-size:10px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px}
+.notes-area{width:100%;min-height:80px;padding:10px 12px;background:var(--bgc);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:13px;resize:vertical;outline:none;transition:border-color 0.2s}
+.notes-area:focus{border-color:var(--acc)}
+.notes-save{margin-top:6px;font-size:10px;padding:6px 14px;border-radius:6px;border:1px solid var(--border2);color:var(--text2);background:transparent;cursor:pointer;transition:all 0.2s;text-transform:uppercase;letter-spacing:0.06em}
+.notes-save:hover{border-color:var(--acc);color:var(--acc)}
+.notes-saved{font-size:10px;color:var(--acc2);margin-left:8px;opacity:0;transition:opacity 0.3s}
+.notes-saved.show{opacity:1}
 
 /* SECTION TITLE */
-.sectit{font-family:var(--mono);font-size:8px;letter-spacing:3px;color:var(--tm);margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.sectit::after{content:'';flex:1;height:1px;background:var(--bd)}
+.sectit{font-size:10px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sectit::after{content:'';flex:1;height:1px;background:var(--border)}
 
 /* OVERLAYS */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);display:none;align-items:flex-start;justify-content:center;z-index:1000;padding:16px;padding-top:24px;overflow-y:auto}
+.overlay{position:fixed;inset:0;background:rgba(26,26,26,0.7);display:none;align-items:flex-start;justify-content:center;z-index:1000;padding:20px;padding-top:40px;overflow-y:auto}
 .overlay.open{display:flex}
-.modal{background:var(--bgp);border:1px solid var(--bdh);border-radius:10px;padding:22px;width:420px;max-width:100%;max-height:88vh;overflow-y:auto}
-.modal.wide{width:740px}
-.mtit{font-family:var(--mono);font-size:10px;letter-spacing:3px;color:var(--nc);margin-bottom:16px}
-.fg{margin-bottom:12px}
-.fl{font-family:var(--mono);font-size:7px;letter-spacing:2px;color:var(--tm);margin-bottom:4px;display:block}
-.fi,.fsel{width:100%;padding:8px 10px;background:rgba(0,0,0,0.5);border:1px solid var(--bd);border-radius:4px;color:var(--tp);font-family:var(--mono);font-size:11px;outline:none;transition:border-color 0.2s}
-.fi:focus,.fsel:focus{border-color:var(--nc)}
-.fsel option{background:var(--bgp)}
-.mact{display:flex;gap:8px;margin-top:14px}
-.bcnl,.bcrt{flex:1;padding:8px;border-radius:4px;font-family:var(--mono);font-size:8px;letter-spacing:2px;cursor:pointer;transition:all 0.2s}
-.bcnl{background:transparent;border:1px solid var(--bd);color:var(--tm)}
-.bcnl:hover{border-color:var(--nm);color:var(--nm)}
-.bcrt{background:rgba(0,245,255,0.1);border:1px solid var(--nc);color:var(--nc)}
-.bcrt:hover{background:rgba(0,245,255,0.18)}
-.del-modal{background:var(--bgp);border:1px solid #ff4444;border-radius:10px;padding:22px;width:320px;max-width:100%}
-.deltit{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:#ff4444;margin-bottom:8px}
-.delmsg{font-size:12px;color:var(--tp);margin-bottom:14px;line-height:1.6}
-.delact{display:flex;gap:8px}
-.bkp,.bdl{flex:1;padding:8px;border-radius:4px;font-family:var(--mono);font-size:8px;letter-spacing:2px;cursor:pointer;transition:all 0.2s}
-.bkp{background:transparent;border:1px solid var(--bd);color:var(--tm)}
-.bkp:hover{border-color:var(--nc);color:var(--nc)}
-.bdl{background:rgba(255,68,68,0.12);border:1px solid #ff4444;color:#ff4444}
-.bdl:hover{background:rgba(255,68,68,0.22)}
+.modal{background:var(--bgs);border:1px solid var(--border);border-radius:16px;padding:24px;width:420px;max-width:100%;max-height:85vh;overflow-y:auto}
+.modal.wide{width:760px}
+.modal.narrow{width:340px}
+.mtit{font-family:var(--serif);font-size:20px;color:var(--text);margin-bottom:20px}
+.mfg{margin-bottom:14px}
+.mfl{font-size:10px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:5px;display:block}
+.mfi,.mfsel{width:100%;padding:10px 12px;background:var(--bgc);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:13px;outline:none;transition:border-color 0.2s}
+.mfi:focus,.mfsel:focus{border-color:var(--acc)}
+.mfsel option{background:var(--bgs)}
+.mact{display:flex;gap:8px;margin-top:18px}
+.mcnl,.mcrt{flex:1;padding:10px;border-radius:8px;font-family:var(--sans);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s}
+.mcnl{background:transparent;border:1px solid var(--border2);color:var(--text2)}
+.mcnl:hover{border-color:var(--text);color:var(--text)}
+.mcrt{background:var(--text);border:1px solid var(--text);color:var(--bg)}
+.mcrt:hover{background:var(--acc);border-color:var(--acc)}
+.del-modal{background:var(--bgs);border:1px solid var(--border);border-radius:16px;padding:24px;width:340px;max-width:100%}
+.del-title{font-family:var(--serif);font-size:18px;color:#C4623A;margin-bottom:8px}
+.del-msg{font-size:13px;color:var(--text2);margin-bottom:18px;line-height:1.6}
+.del-act{display:flex;gap:8px}
+.bkeep,.bdel{flex:1;padding:10px;border-radius:8px;font-family:var(--sans);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s}
+.bkeep{background:transparent;border:1px solid var(--border2);color:var(--text2)}
+.bkeep:hover{border-color:var(--acc);color:var(--acc)}
+.bdel{background:rgba(196,98,58,0.1);border:1px solid var(--acc);color:var(--acc)}
+.bdel:hover{background:rgba(196,98,58,0.2)}
 
-/* HABIT LIBRARY IN MODAL */
-.add-layout{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:580px){.add-layout{grid-template-columns:1fr}}
-.add-left{border-right:1px solid var(--bd);padding-right:14px}
-@media(max-width:580px){.add-left{border-right:none;padding-right:0;border-bottom:1px solid var(--bd);padding-bottom:14px}}
-.lib-tabs{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap}
-.libtab{font-family:var(--mono);font-size:7px;letter-spacing:1px;padding:3px 8px;border-radius:3px;border:1px solid var(--bd);color:var(--tm);cursor:pointer;transition:all 0.2s;background:transparent}
-.libtab.active{border-color:var(--nc);color:var(--nc);background:rgba(0,245,255,0.07)}
-.lib-list{max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
-.lib-item{background:rgba(0,0,0,0.35);border:1px solid var(--bd);border-radius:5px;padding:7px 9px;cursor:pointer;transition:all 0.2s}
-.lib-item:hover{border-color:var(--nc);background:rgba(0,245,255,0.05)}
-.lib-item.sel{border-color:var(--nc);background:rgba(0,245,255,0.1)}
-.lib-iname{font-size:11px;font-weight:600;color:var(--tp);margin-bottom:1px;display:flex;align-items:center;justify-content:space-between}
-.lib-imeta{font-family:var(--mono);font-size:7px;color:var(--tm)}
-.lib-diff{font-family:var(--mono);font-size:6px;padding:1px 5px;border-radius:2px;letter-spacing:1px;flex-shrink:0}
-.diff-1{background:rgba(57,255,20,0.12);color:var(--ng);border:1px solid rgba(57,255,20,0.25)}
-.diff-2{background:rgba(255,170,0,0.12);color:var(--na);border:1px solid rgba(255,170,0,0.25)}
-.diff-3{background:rgba(255,0,170,0.12);color:var(--nm);border:1px solid rgba(255,0,170,0.25)}
-.habit-preview{background:rgba(0,0,0,0.3);border:1px solid var(--bd);border-radius:8px;padding:12px;min-height:200px}
-.hp-empty{font-family:var(--mono);font-size:9px;color:var(--td);text-align:center;padding:40px 10px;letter-spacing:1px;line-height:1.8}
-.hp-name{font-size:14px;font-weight:700;color:var(--tp);margin-bottom:3px}
-.hp-cat{font-family:var(--mono);font-size:7px;color:var(--tm);letter-spacing:2px;margin-bottom:10px}
-.hp-st{font-family:var(--mono);font-size:7px;letter-spacing:2px;color:var(--nc);margin-bottom:4px;margin-top:8px}
-.hp-body{font-size:11px;color:var(--tp);line-height:1.6;opacity:0.9}
-.hp-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
-.hp-tag{font-family:var(--mono);font-size:7px;padding:2px 6px;border-radius:2px;border:1px solid var(--bd);color:var(--tm)}
-.or-div{text-align:center;font-family:var(--mono);font-size:8px;color:var(--td);margin:10px 0;letter-spacing:2px}
-.copts{display:flex;gap:6px;flex-wrap:wrap}
-.copt{width:20px;height:20px;border-radius:3px;cursor:pointer;border:2px solid transparent;transition:all 0.2s}
-.copt.sel,.copt:hover{border-color:white;transform:scale(1.15)}
+/* HABIT LIBRARY */
+.lib-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:580px){.lib-layout{grid-template-columns:1fr}}
+.lib-left{border-right:1px solid var(--border);padding-right:16px}
+@media(max-width:580px){.lib-left{border-right:none;padding-right:0;border-bottom:1px solid var(--border);padding-bottom:16px}}
+.lib-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+.libtab{font-size:9px;padding:4px 10px;border-radius:6px;border:1px solid var(--border2);color:var(--text3);cursor:pointer;transition:all 0.2s;background:transparent;letter-spacing:0.04em;text-transform:uppercase}
+.libtab.active{border-color:var(--acc);color:var(--acc);background:rgba(196,98,58,0.06)}
+.lib-list{max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
+.lib-item{background:var(--bgc);border:1px solid var(--border);border-radius:8px;padding:8px 10px;cursor:pointer;transition:all 0.2s}
+.lib-item:hover{border-color:var(--acc);background:rgba(196,98,58,0.04)}
+.lib-item.sel{border-color:var(--acc);background:rgba(196,98,58,0.08)}
+.lib-iname{font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px;display:flex;align-items:center;justify-content:space-between}
+.lib-imeta{font-size:10px;color:var(--text3)}
+.lib-diff{font-size:8px;padding:1px 6px;border-radius:4px;letter-spacing:0.04em}
+.diff-1{background:#EFF5EF;color:var(--acc2)}
+.diff-2{background:#FAF0EC;color:var(--acc)}
+.diff-3{background:#F5EAEA;color:#A04040}
+.or-div{text-align:center;font-size:10px;color:var(--text4);margin:10px 0;letter-spacing:0.06em;text-transform:uppercase}
+.preview-box{background:var(--bgc);border:1px solid var(--border);border-radius:10px;padding:14px;min-height:200px}
+.preview-empty{font-size:11px;color:var(--text4);text-align:center;padding:40px 10px;line-height:1.8;font-style:italic}
+.prev-name{font-size:15px;font-weight:500;color:var(--text);margin-bottom:3px}
+.prev-cat{font-size:10px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px}
+.prev-st{font-size:9px;color:var(--acc);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;margin-top:10px}
+.prev-body{font-size:12px;color:var(--text2);line-height:1.6}
+.copts{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.copt{width:22px;height:22px;border-radius:5px;cursor:pointer;border:2px solid transparent;transition:all 0.2s}
+.copt.sel,.copt:hover{border-color:var(--text);transform:scale(1.1)}
 
 /* TOAST */
-.toast{position:fixed;bottom:16px;right:16px;background:var(--bgc);border:1px solid var(--ng);border-radius:8px;padding:9px 14px;font-family:var(--mono);font-size:10px;color:var(--ng);transform:translateY(50px);opacity:0;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);z-index:9999;max-width:300px}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--text);color:var(--bg);border-radius:10px;padding:10px 16px;font-size:12px;transform:translateY(50px);opacity:0;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);z-index:9999;max-width:300px;line-height:1.5}
 .toast.show{transform:translateY(0);opacity:1}
-.spinner{display:inline-block;width:12px;height:12px;border:2px solid var(--bd);border-top-color:var(--nc);border-radius:50%;animation:spin 0.6s linear infinite;vertical-align:middle;margin-right:6px}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--acc);border-radius:50%;animation:spin 0.6s linear infinite;vertical-align:middle;margin-right:6px}
 @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
-<div class="scan"></div>
 
 <!-- LOGIN -->
 <div id="login-screen" class="login-screen">
   <div class="login-box">
-    <div class="login-logo">HABIT<span>_</span>OS</div>
-    <div class="login-sub">// COACH DASHBOARD</div>
-    <div class="lfield"><label class="ll">EMAIL</label><input class="li" id="l-email" type="email" placeholder="your@email.com" autocomplete="email"></div>
-    <div class="lfield"><label class="ll">PASSWORD</label><input class="li" id="l-pass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
-    <button class="lbtn" id="l-btn" onclick="coachLogin()">LOGIN TO COACH DASHBOARD</button>
+    <div class="login-logo">Habit OS</div>
+    <div class="login-sub">Coach Dashboard</div>
+    <div class="fg"><label class="fl">Email</label><input class="fi" id="l-email" type="email" placeholder="your@email.com" autocomplete="email"></div>
+    <div class="fg"><label class="fl">Password</label><input class="fi" id="l-pass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+    <button class="lbtn" id="l-btn" onclick="coachLogin()">Sign In</button>
     <div class="lerr" id="l-err"></div>
   </div>
 </div>
@@ -204,136 +262,185 @@ body{background:var(--bg);color:var(--tp);font-family:var(--disp);min-height:100
 <div id="app">
 <div class="wrap">
 
-  <div class="hdr">
-    <div>
-      <div class="logo">HABIT<span>_</span>OS</div>
-      <div class="logo-sub">⚡ COACH DASHBOARD</div>
-    </div>
-    <div class="hdr-right">
-      <div class="coach-email" id="coach-email"></div>
-      <div class="coach-email" id="hdr-date"></div>
-      <button class="hbsm danger" onclick="coachLogout()">LOGOUT</button>
-    </div>
+<div class="hdr">
+  <div><div class="logo">Habit OS</div><div class="logo-sub">Coach Dashboard</div></div>
+  <div class="hdr-right">
+    <div class="coach-email-disp" id="coach-email-disp"></div>
+    <div class="coach-email-disp" id="hdr-date"></div>
+    <button class="hbtn danger" onclick="coachLogout()">Sign Out</button>
   </div>
+</div>
 
-  <!-- CLIENT SELECTOR -->
-  <div class="client-select-bar">
-    <div class="cs-label">CLIENT</div>
-    <select class="cs-sel" id="client-sel" onchange="selectClient(this.value)">
-      <option value="">— SELECT CLIENT —</option>
+<!-- ROSTER BAR -->
+<div class="roster-bar">
+  <div class="roster-top">
+    <div class="roster-label">Client</div>
+    <select class="client-dropdown" id="client-dropdown" onchange="selectClient(this.value)">
+      <option value="">— Select a client —</option>
     </select>
-    <div class="cs-actions">
-      <button class="cbtn new" onclick="openNewClient()">+ NEW CLIENT</button>
+    <div class="roster-actions">
+      <button class="rbtn primary" onclick="openNewClient()">+ New Client</button>
+      <button class="rbtn danger" onclick="openDeleteClient()">Remove</button>
+    </div>
+  </div>
+  <table class="roster-table" id="roster-table">
+    <thead><tr><th>Client</th><th>Streak</th><th>Last Check-in</th><th>This Month</th><th>Completion Rate</th></tr></thead>
+    <tbody id="roster-tbody"><tr><td colspan="5" class="rt-empty">No clients yet — create your first client</td></tr></tbody>
+  </table>
+</div>
+
+<!-- CLIENT DETAIL -->
+<div id="client-detail">
+  <div class="cd-header">
+    <div>
+      <div class="cd-title" id="cd-name"></div>
+      <div class="cd-meta" id="cd-meta"></div>
+    </div>
+    <div class="cd-actions">
+      <button class="rbtn" onclick="regenerateLink()">↻ New Link</button>
+      <button class="rbtn" onclick="copyClientLink()">⎘ Copy Link</button>
     </div>
   </div>
 
-  <!-- OVERVIEW GRID -->
-  <div class="sectit">ALL CLIENTS</div>
-  <div class="overview-grid" id="overview-grid"></div>
-
-  <!-- CLIENT DETAIL -->
-  <div id="client-detail" style="display:none">
-    <div class="sectit" id="detail-sectit">CLIENT DETAIL</div>
-    <div class="client-detail">
-      <div class="cd-header">
-        <div>
-          <div class="cd-name" id="cd-name"></div>
-          <div class="cd-meta" id="cd-meta"></div>
-        </div>
-        <div class="cd-actions">
-          <button class="cd-btn warn" onclick="regenerateLink()">↻ NEW LINK</button>
-          <button class="cd-btn" onclick="copyClientLink()">⎘ COPY LINK</button>
-          <button class="cd-btn danger" onclick="openDeleteClient()">✕ REMOVE</button>
-        </div>
-      </div>
-
-      <div class="cd-link-box">
-        <div class="cd-link-label">CLIENT LINK</div>
-        <div class="cd-link-url" id="cd-link"></div>
-        <button class="cd-copy-btn" onclick="copyClientLink()">COPY</button>
-      </div>
-
-      <div class="cd-stats">
-        <div class="cd-stat"><div class="cd-stat-val" id="cd-xp">0</div><div class="cd-stat-label">TOTAL XP</div></div>
-        <div class="cd-stat"><div class="cd-stat-val" id="cd-streak">0</div><div class="cd-stat-label">BEST STREAK</div></div>
-        <div class="cd-stat"><div class="cd-stat-val" id="cd-completions">0</div><div class="cd-stat-label">COMPLETIONS</div></div>
-        <div class="cd-stat"><div class="cd-stat-val" id="cd-level">1</div><div class="cd-stat-label" id="cd-levelname">NEWCOMER</div></div>
-      </div>
-
-      <div class="slot-controls">
-        <div class="cs-label">SLOTS UNLOCKED</div>
-        <div class="sc-val" id="sc-slots">1 / 4</div>
-        <button class="sc-btn" onclick="forceUnlock()">⚡ FORCE UNLOCK</button>
-        <div class="sc-next" id="sc-next"></div>
-      </div>
-
-      <div class="sectit">HABITS</div>
-      <table class="habit-table">
-        <thead><tr><th>HABIT</th><th>SLOT</th><th>CATEGORY</th><th>XP</th><th>STREAK</th><th></th></tr></thead>
-        <tbody id="habit-tbody"></tbody>
-      </table>
-      <button class="add-habit-row" onclick="openAddHabit()">+ ADD HABIT FOR THIS CLIENT</button>
-    </div>
+  <div class="link-box">
+    <div class="link-label">Client Link</div>
+    <div class="link-url" id="cd-link"></div>
+    <button class="link-copy" onclick="copyClientLink()">Copy</button>
   </div>
 
-</div>
-</div>
+  <!-- COACH MESSAGE -->
+  <div class="notes-section" style="margin-top:0;margin-bottom:16px">
+    <div class="notes-title">Client Message <span style="font-size:9px;color:var(--text4);font-weight:400;text-transform:none;letter-spacing:0">(shown on client dashboard)</span></div>
+    <textarea class="notes-area" id="coach-message" placeholder="e.g. Hi Sarah — we're focusing on movement and sleep this month. Check in daily and I'll see your progress at our next session." rows="2"></textarea>
+    <button class="notes-save" onclick="saveCoachMessage()">Save Message</button>
+    <span class="notes-saved" id="msg-saved">Saved</span>
+  </div>
+
+  <!-- STAT CARDS -->
+  <div class="stats">
+    <div class="sc"><div class="sl">Chapter XP</div><div class="sv" id="cd-xp">0</div><div class="sv-sub" id="cd-alltime-xp">0 all-time</div></div>
+    <div class="sc green"><div class="sl">Best Streak</div><div class="sv" id="cd-streak">0</div><div class="ssub">days</div></div>
+    <div class="sc brown"><div class="sl">This Month</div><div class="sv" id="cd-month">0</div><div class="ssub">completions</div></div>
+    <div class="sc dark"><div class="sl">Journey</div><div class="sv" id="cd-day">—</div><div class="ssub" id="cd-day-sub">day</div></div>
+  </div>
+
+  <!-- XP BAR -->
+  <div class="xp-section">
+    <div class="xp-top">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <div class="xp-level" id="cd-level-name">Level 1 — Newcomer</div>
+        <div class="xp-chapter-badge" id="cd-chapter-badge">Chapter I</div>
+      </div>
+      <div class="xp-right" id="cd-xp-txt">0 / 300 XP to next level</div>
+    </div>
+    <div class="xp-bar-wrap">
+      <div class="xp-bar-label">Level Progress</div>
+      <div class="xp-bar-bg"><div class="xp-bar-fill" id="cd-level-bar" style="width:0%"></div></div>
+    </div>
+    <div class="xp-bar-wrap">
+      <div class="xp-bar-label">Chapter Progress</div>
+      <div class="xp-bar-bg thin"><div class="xp-bar-fill chapter" id="cd-chapter-bar" style="width:0%"></div></div>
+    </div>
+    <div style="font-size:10px;color:var(--text3);text-align:right;margin-top:4px" id="cd-chapter-txt">0 / 11,000 XP to prestige</div>
+  </div>
+
+  <!-- SLOT CONTROLS -->
+  <div class="slot-controls">
+    <div class="sc-title">Habit Slot Progression</div>
+    <div class="sc-slots" id="sc-slots-display"></div>
+  </div>
+
+  <!-- MONTH NAV -->
+  <div class="month-nav-bar">
+    <div class="month-nav-label">Viewing</div>
+    <button class="month-nav-btn" onclick="changeViewMonth(-1)">◀</button>
+    <select class="month-sel" id="month-sel" onchange="onMonthSelChange()"></select>
+    <button class="month-nav-btn" onclick="changeViewMonth(1)">▶</button>
+    <div style="flex:1"></div>
+    <div style="font-size:10px;color:var(--text3)" id="month-completion-stat"></div>
+  </div>
+
+  <!-- SUMMARY ROW -->
+  <div class="summary-row" id="summary-row"></div>
+
+  <!-- HABITS SECTION -->
+  <div class="sectit">Habits</div>
+  <div class="filter-bar">
+    <div class="filter-label">Filter</div>
+    <select class="fsel" id="f-slot" onchange="renderHabitTable()"><option value="">All Slots</option><option value="morning">Morning</option><option value="midday">Midday</option><option value="evening">Evening</option></select>
+    <select class="fsel" id="f-cat" onchange="renderHabitTable()"><option value="">All Categories</option><option value="MOVEMENT">Movement</option><option value="NUTRITION">Nutrition</option><option value="REGENERATION">Regeneration</option><option value="MINDSET">Mindset</option></select>
+    <select class="fsel" id="f-sort" onchange="renderHabitTable()"><option value="name">Name</option><option value="streak">Streak</option><option value="rate">Completion Rate</option><option value="xp">XP Value</option></select>
+    <button class="ftoggle" id="f-archived" onclick="toggleArchivedFilter()">Show Archived</button>
+  </div>
+  <table class="habit-table">
+    <thead><tr><th>Habit</th><th>Slot</th><th>Category</th><th>XP</th><th>Streak</th><th>Rate (Month)</th><th>Status</th><th></th></tr></thead>
+    <tbody id="habit-tbody"></tbody>
+  </table>
+  <button class="add-habit-btn" onclick="openAddHabit()">+ Add Habit for This Client</button>
+
+  <!-- COACH NOTES -->
+  <div class="notes-section">
+    <div class="notes-title">Private Coach Notes <span style="font-size:9px;color:var(--text4);font-weight:400;text-transform:none;letter-spacing:0">(never shown to client)</span></div>
+    <textarea class="notes-area" id="coach-notes" placeholder="Session notes, observations, goals for next session..."></textarea>
+    <button class="notes-save" onclick="saveNotes()">Save Notes</button>
+    <span class="notes-saved" id="notes-saved">Saved</span>
+  </div>
+
+</div><!-- /client-detail -->
+</div><!-- /wrap -->
+</div><!-- /app -->
 
 <!-- NEW CLIENT OVERLAY -->
 <div class="overlay" id="newclient-overlay">
-  <div class="modal" style="width:360px">
-    <div class="mtit">// NEW CLIENT</div>
-    <div class="fg"><label class="fl">FULL NAME</label><input class="fi" id="nc-name" type="text" placeholder="e.g. Sarah Johnson"></div>
-    <div class="fg"><label class="fl">START DATE</label><input class="fi" id="nc-start" type="date"></div>
-    <div class="mact"><button class="bcnl" onclick="closeOverlay('newclient-overlay')">CANCEL</button><button class="bcrt" onclick="createClient()">CREATE &amp; GENERATE LINK</button></div>
+  <div class="modal narrow">
+    <div class="mtit">New Client</div>
+    <div class="mfg"><label class="mfl">Full Name</label><input class="mfi" id="nc-name" type="text" placeholder="e.g. Sarah Johnson"></div>
+    <div class="mfg"><label class="mfl">Start Date</label><input class="mfi" id="nc-start" type="date"></div>
+    <div class="mact"><button class="mcnl" onclick="closeOverlay('newclient-overlay')">Cancel</button><button class="mcrt" onclick="createClient()">Create & Generate Link</button></div>
   </div>
 </div>
 
 <!-- ADD HABIT OVERLAY -->
 <div class="overlay" id="add-habit-overlay">
   <div class="modal wide">
-    <div class="mtit">// ADD HABIT</div>
-    <div class="fg"><label class="fl">TIME SLOT</label>
-      <select class="fsel" id="h-slot"><option value="morning">MORNING ACTIVATE</option><option value="midday">MIDDAY SUSTAIN</option><option value="evening">EVENING RESTORE</option></select>
+    <div class="mtit">Add Habit</div>
+    <div class="mfg"><label class="mfl">Time Slot</label>
+      <select class="mfsel" id="h-slot"><option value="morning">Morning Activate</option><option value="midday">Midday Sustain</option><option value="evening">Evening Restore</option></select>
     </div>
-    <div class="add-layout">
-      <div class="add-left">
-        <div class="fl" style="margin-bottom:8px">HABIT LIBRARY</div>
+    <div class="lib-layout">
+      <div class="lib-left">
+        <label class="mfl" style="margin-bottom:8px">Habit Library</label>
         <div class="lib-tabs">
-          <button class="libtab active" onclick="setLibCat('movement',this)">MOVEMENT</button>
-          <button class="libtab" onclick="setLibCat('nutrition',this)">NUTRITION</button>
-          <button class="libtab" onclick="setLibCat('regeneration',this)">REGEN</button>
-          <button class="libtab" onclick="setLibCat('mindset',this)">MINDSET</button>
+          <button class="libtab active" onclick="setLibCat('movement',this)">Movement</button>
+          <button class="libtab" onclick="setLibCat('nutrition',this)">Nutrition</button>
+          <button class="libtab" onclick="setLibCat('regeneration',this)">Regen</button>
+          <button class="libtab" onclick="setLibCat('mindset',this)">Mindset</button>
         </div>
         <div class="lib-list" id="lib-list"></div>
-        <div class="or-div">— OR CUSTOM —</div>
+        <div class="or-div">or custom</div>
         <div style="display:flex;gap:8px">
-          <div class="fg" style="flex:2"><label class="fl">NAME</label><input class="fi" id="h-name" type="text" placeholder="Custom habit" oninput="clearLibSel()"></div>
-          <div class="fg" style="flex:1"><label class="fl">ICON</label><input class="fi" id="h-icon" type="text" placeholder="⭐" maxlength="2"></div>
+          <div class="mfg" style="flex:2"><label class="mfl">Name</label><input class="mfi" id="h-name" type="text" placeholder="Custom habit" oninput="clearLibSel()"></div>
+          <div class="mfg" style="flex:1"><label class="mfl">Icon</label><input class="mfi" id="h-icon" type="text" placeholder="⭐" maxlength="2"></div>
         </div>
         <div style="display:flex;gap:8px">
-          <div class="fg" style="flex:1"><label class="fl">CATEGORY</label>
-            <select class="fsel" id="h-cat"><option value="MOVEMENT">MOVEMENT</option><option value="NUTRITION">NUTRITION</option><option value="REGENERATION">REGENERATION</option><option value="MINDSET">MINDSET</option></select>
-          </div>
-          <div class="fg" style="flex:1"><label class="fl">XP</label>
-            <select class="fsel" id="h-xp"><option value="10">EASY 10xp</option><option value="20" selected>MED 20xp</option><option value="35">HARD 35xp</option><option value="50">EPIC 50xp</option></select>
-          </div>
+          <div class="mfg" style="flex:1"><label class="mfl">Category</label><select class="mfsel" id="h-cat"><option value="MOVEMENT">Movement</option><option value="NUTRITION">Nutrition</option><option value="REGENERATION">Regeneration</option><option value="MINDSET">Mindset</option></select></div>
+          <div class="mfg" style="flex:1"><label class="mfl">XP</label><select class="mfsel" id="h-xp"><option value="10">Easy — 10 XP</option><option value="20" selected>Medium — 20 XP</option><option value="35">Hard — 35 XP</option><option value="50">Epic — 50 XP</option></select></div>
         </div>
-        <div class="fg"><label class="fl">COLOR</label>
+        <div class="mfg"><label class="mfl">Color</label>
           <div class="copts">
-            <div class="copt sel" data-c="#00f5ff" style="background:#00f5ff" onclick="pickColor(this)"></div>
-            <div class="copt" data-c="#39ff14" style="background:#39ff14" onclick="pickColor(this)"></div>
-            <div class="copt" data-c="#ff00aa" style="background:#ff00aa" onclick="pickColor(this)"></div>
-            <div class="copt" data-c="#ffaa00" style="background:#ffaa00" onclick="pickColor(this)"></div>
-            <div class="copt" data-c="#bf5fff" style="background:#bf5fff" onclick="pickColor(this)"></div>
-            <div class="copt" data-c="#ff6b35" style="background:#ff6b35" onclick="pickColor(this)"></div>
+            <div class="copt sel" data-c="#C4623A" style="background:#C4623A" onclick="pickColor(this)"></div>
+            <div class="copt" data-c="#7A9E7E" style="background:#7A9E7E" onclick="pickColor(this)"></div>
+            <div class="copt" data-c="#8B7355" style="background:#8B7355" onclick="pickColor(this)"></div>
+            <div class="copt" data-c="#5A8AA0" style="background:#5A8AA0" onclick="pickColor(this)"></div>
+            <div class="copt" data-c="#8B6AA0" style="background:#8B6AA0" onclick="pickColor(this)"></div>
+            <div class="copt" data-c="#A04040" style="background:#A04040" onclick="pickColor(this)"></div>
           </div>
         </div>
-        <div class="mact"><button class="bcnl" onclick="closeOverlay('add-habit-overlay')">CANCEL</button><button class="bcrt" onclick="addHabit()">ADD HABIT</button></div>
+        <div class="mact"><button class="mcnl" onclick="closeOverlay('add-habit-overlay')">Cancel</button><button class="mcrt" onclick="addHabit()">Add Habit</button></div>
       </div>
       <div>
-        <div class="fl" style="margin-bottom:8px">PREVIEW</div>
-        <div class="habit-preview" id="habit-preview"><div class="hp-empty">← SELECT FROM LIBRARY<br>TO PREVIEW</div></div>
+        <label class="mfl" style="margin-bottom:8px">Preview</label>
+        <div class="preview-box" id="habit-preview"><div class="preview-empty">Select a habit from the library to preview details and Life Time app resources</div></div>
       </div>
     </div>
   </div>
@@ -342,18 +449,18 @@ body{background:var(--bg);color:var(--tp);font-family:var(--disp);min-height:100
 <!-- DELETE CLIENT OVERLAY -->
 <div class="overlay" id="del-client-overlay">
   <div class="del-modal">
-    <div class="deltit">// REMOVE CLIENT</div>
-    <div class="delmsg" id="del-client-msg">Remove this client? All data will be permanently deleted.</div>
-    <div class="delact"><button class="bkp" onclick="closeOverlay('del-client-overlay')">CANCEL</button><button class="bdl" onclick="confirmDeleteClient()">REMOVE</button></div>
+    <div class="del-title">Remove Client</div>
+    <div class="del-msg" id="del-client-msg">Remove this client?</div>
+    <div class="del-act"><button class="bkeep" onclick="closeOverlay('del-client-overlay')">Cancel</button><button class="bdel" onclick="confirmDeleteClient()">Remove</button></div>
   </div>
 </div>
 
 <!-- DELETE HABIT OVERLAY -->
 <div class="overlay" id="del-habit-overlay">
   <div class="del-modal">
-    <div class="deltit">// DELETE HABIT</div>
-    <div class="delmsg" id="del-habit-msg">Delete this habit?</div>
-    <div class="delact"><button class="bkp" onclick="closeOverlay('del-habit-overlay')">KEEP</button><button class="bdl" onclick="confirmDeleteHabit()">DELETE</button></div>
+    <div class="del-title">Archive Habit</div>
+    <div class="del-msg" id="del-habit-msg">Archive this habit?</div>
+    <div class="del-act"><button class="bkeep" onclick="closeOverlay('del-habit-overlay')">Keep</button><button class="bdel" onclick="confirmArchiveHabit()">Archive</button></div>
   </div>
 </div>
 
@@ -361,372 +468,556 @@ body{background:var(--bg);color:var(--tp);font-family:var(--disp);min-height:100
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
-const SUPABASE_URL = 'https://iwzzkxnzqyszjoielblo.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml3enpreG56cXlzempvaWVsYmxvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzMTUyMDQsImV4cCI6MjA4OTg5MTIwNH0.CMJNkZNgRqrrEJojiARbFeUuU5-C6L_ms56pZ5csW1s';
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const SUPABASE_URL='https://iwzzkxnzqyszjoielblo.supabase.co';
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml3enpreG56cXlzempvaWVsYmxvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzMTUyMDQsImV4cCI6MjA4OTg5MTIwNH0.CMJNkZNgRqrrEJojiARbFeUuU5-C6L_ms56pZ5csW1s';
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-const MAX_SLOTS=4, SLOT_WEEKS=4, PRESTIGE_XP=11000;
-const MONTHS=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+const MAX_SLOTS=4,SLOT_WEEKS=4,PRESTIGE_XP=11000;
+const MONTHS_SHORT=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const ROMAN=['I','II','III'];
 const LEVELS=[
-  {min:0,name:'NEWCOMER'},{min:300,name:'MOVER'},{min:700,name:'BUILDER'},
-  {min:1400,name:'ATHLETE'},{min:2500,name:'PERFORMER'},{min:4000,name:'COMPETITOR'},
-  {min:6000,name:'CHAMPION'},{min:8500,name:'ELITE'},{min:11000,name:'LEGEND'}
+  {min:0,name:'Newcomer'},{min:300,name:'Mover'},{min:700,name:'Builder'},
+  {min:1400,name:'Athlete'},{min:2500,name:'Performer'},{min:4000,name:'Competitor'},
+  {min:6000,name:'Champion'},{min:8500,name:'Elite'},{min:11000,name:'Icon'}
 ];
 
 const HABIT_LIBRARY={
   movement:[
-    {name:'Morning Walk',icon:'🚶',cat:'MOVEMENT',xp:10,diff:1,why:'Low-intensity movement first thing activates metabolism, improves mood, and sets a positive behavioral tone.',how:'Walk at conversational pace for 10–20 min within 30 min of waking.',tip:'Pair with morning sunlight for circadian rhythm benefits.',tags:['Low Impact','Daily','Circadian']},
-    {name:'Strength Training',icon:'🏋️',cat:'MOVEMENT',xp:35,diff:3,why:'Preserves lean muscle, improves insulin sensitivity, and elevates resting metabolic rate.',how:'30–60 min compound movements (squat, hinge, push, pull) with progressive overload.',tip:'Log lifts to track overload. You don\'t need to feel destroyed after every session.',tags:['Compound','Progressive','Metabolic']},
-    {name:'Mobility Flow',icon:'🧘',cat:'MOVEMENT',xp:15,diff:1,why:'Addresses root cause of chronic pain and movement dysfunction.',how:'10–15 min controlled range-of-motion work focusing on hips, thoracic spine, and shoulders.',tip:'Use before workout as dynamic prep or after as cooldown.',tags:['Daily','Recovery','Joint Health']},
-    {name:'Zone 2 Cardio',icon:'🚴',cat:'MOVEMENT',xp:30,diff:2,why:'Trains mitochondria to burn fat, improves VO2 max, builds aerobic base.',how:'30–45 min at conversational pace, 60–70% max heart rate.',tip:'If you can\'t speak in full sentences, slow down.',tags:['Aerobic','Fat Burning','Mitochondria']},
-    {name:'10,000 Steps',icon:'👟',cat:'MOVEMENT',xp:20,diff:2,why:'NEAT accounts for 15–30% of daily calorie burn and strongly predicts metabolic health.',how:'Distribute steps throughout the day. Take stairs, park farther, walk during calls.',tip:'Start with 7,500 if 10k feels daunting. Consistency beats perfection.',tags:['NEAT','Daily','Metabolic']},
-    {name:'Sprint Intervals',icon:'⚡',cat:'MOVEMENT',xp:35,diff:3,why:'HIIT elevates EPOC, improves insulin sensitivity, and stimulates fast-twitch fibers.',how:'6–8 rounds of 20–30s all-out effort with 90–120s recovery.',tip:'Limit to 1–2x per week. More is not better.',tags:['HIIT','Fat Loss','VO2 Max']},
-    {name:'Yoga Session',icon:'🌀',cat:'MOVEMENT',xp:20,diff:2,why:'Integrates movement, breath, and mindfulness while activating parasympathetic NS.',how:'20–60 min practice. Vinyasa for intensity, Yin for recovery.',tip:'A vigorous Vinyasa class can match a moderate gym session.',tags:['Flexibility','Breathwork','Recovery']},
-    {name:'Stretch Routine',icon:'🤸',cat:'MOVEMENT',xp:10,diff:1,why:'Maintains tissue length, reduces soreness, and improves posture over time.',how:'10 min holding major muscle groups 30–60 seconds.',tip:'Static stretching is best post-workout or in the evening.',tags:['Daily','Flexibility','Posture']},
+    {name:'Morning Walk',icon:'🚶',cat:'MOVEMENT',xp:10,diff:1,why:'Low-intensity movement first thing activates metabolism, improves mood through endorphin release, and sets a positive behavioral tone for the day.',how:'Walk at a conversational pace for 10–20 min within 30 min of waking. Go outside when possible.',tip:'Pair with morning sunlight for circadian rhythm benefits. Even cloudy light is 10x brighter than indoors.',resource:'Ask L•AI•C in the Life Time app for a personalized walking program. Sync Apple Health or Garmin for automatic step tracking.'},
+    {name:'Strength Training',icon:'🏋️',cat:'MOVEMENT',xp:35,diff:3,why:'Preserves lean muscle, improves insulin sensitivity, strengthens bones, and elevates resting metabolic rate.',how:'30–60 min compound movements (squat, hinge, push, pull) with progressive overload. Log lifts every session.',tip:'Progressive overload — not maximum soreness — is the goal. Consistency over months beats intensity.',resource:'Use L•AI•C in the Life Time app to build a custom strength program. On-demand strength classes available under Classes.'},
+    {name:'Mobility Flow',icon:'🧘',cat:'MOVEMENT',xp:15,diff:1,why:'Addresses the root cause of chronic pain and movement dysfunction. Improves joint range of motion and reduces injury risk.',how:'10–15 min controlled range-of-motion work. Focus on hips, thoracic spine, and shoulders.',tip:'Use before workout as dynamic prep or after as cooldown.',resource:'Book a Dynamic Stretch session with a Life Time Stretch Specialist. Find flexibility articles at experiencelife.lifetime.life/category/fitness/flexibility-mobility/'},
+    {name:'Zone 2 Cardio',icon:'🚴',cat:'MOVEMENT',xp:30,diff:2,why:'Trains mitochondria to burn fat, improves VO2 max, builds the aerobic base all other fitness sits on.',how:'30–45 min at conversational pace (60–70% max HR). Bike, jog, row, or incline walk.',tip:'If you cannot speak in full sentences, slow down. Most people go too hard for Zone 2.',resource:'Use the Life Time app\'s on-demand cardio classes for guided Zone 2 sessions. Ask L•AI•C to build a cardio program.'},
+    {name:'10,000 Steps',icon:'👟',cat:'MOVEMENT',xp:20,diff:2,why:'Non-exercise activity thermogenesis (NEAT) accounts for 15–30% of daily calorie burn.',how:'Distribute steps throughout the day. Take stairs, park farther, walk during calls.',tip:'Start with 7,500 if 10k feels daunting. Consistency beats perfection.',resource:'Sync Apple Health or Garmin with the Life Time app for automatic step tracking. Ask L•AI•C for NEAT strategies.'},
+    {name:'Sprint Intervals',icon:'⚡',cat:'MOVEMENT',xp:35,diff:3,why:'HIIT elevates afterburn, improves insulin sensitivity, and stimulates fast-twitch fibers Zone 2 does not reach.',how:'6–8 rounds of 20–30s all-out effort with 90–120s recovery after warm-up.',tip:'Limit to 1–2x per week. More is not better for this stimulus.',resource:'Find HIIT classes in the Life Time app under Classes. Ask L•AI•C for a custom interval program.'},
+    {name:'Yoga Session',icon:'🌀',cat:'MOVEMENT',xp:20,diff:2,why:'Integrates movement, breath, and mindfulness while activating the parasympathetic nervous system.',how:'20–60 min practice. Vinyasa for intensity, Yin for recovery, Hatha for balance.',tip:'Check the Life Time group fitness schedule for live yoga classes.',resource:'Book a live yoga class through the Life Time app. On-demand yoga classes also available under Classes.'},
+    {name:'Stretch Routine',icon:'🤸',cat:'MOVEMENT',xp:10,diff:1,why:'Maintains tissue length, reduces post-workout soreness, and improves posture over time.',how:'10 min holding major muscle groups 30–60 seconds. Focus on hip flexors and hamstrings.',tip:'Static stretching is best post-workout or in the evening, not before lifting.',resource:'Find the stretching and mobility workout at experiencelife.lifetime.life. Book a Dynamic Stretch session at the club.'},
   ],
   nutrition:[
-    {name:'Eat Slowly',icon:'🍽️',cat:'NUTRITION',xp:15,diff:1,why:'PN Level 1 foundational habit. Satiety hormones take 15–20 min — slow eaters consume 10–15% fewer calories.',how:'Put fork down between bites. Aim for 20 min minimum per meal. No screens.',tip:'This single habit often produces more body composition change than any diet plan.',tags:['PN Level 1','Mindful Eating','Appetite']},
-    {name:'80% Full Rule',icon:'🥗',cat:'NUTRITION',xp:20,diff:2,why:'Practiced by the longest-lived populations. Prevents chronic low-grade overeating.',how:'Pause before last bites — am I satisfied? Stop when satisfied but could eat more.',tip:'Pairs powerfully with eating slowly. Together they form the core of PN Level 1.',tags:['PN Level 1','Appetite','Longevity']},
-    {name:'Protein at Every Meal',icon:'🥩',cat:'NUTRITION',xp:15,diff:1,why:'Most satiating macronutrient. Distributing protein maximizes muscle protein synthesis.',how:'Palm-sized serving (20–40g) at every meal. Chicken, fish, eggs, Greek yogurt, tofu.',tip:'Most clients are under-proteinated. Track for 3 days to find baseline.',tags:['PN Level 1','Muscle','Satiety']},
-    {name:'Drink 3L Water',icon:'💧',cat:'NUTRITION',xp:10,diff:1,why:'Even 1–2% dehydration impairs cognition, energy, and exercise capacity.',how:'Half bodyweight in ounces daily. Large glass first thing before coffee.',tip:'Add electrolytes if training hard. A pinch of sea salt in morning water helps.',tags:['Daily','Hydration','Energy']},
-    {name:'Veggies Each Meal',icon:'🥦',cat:'NUTRITION',xp:15,diff:1,why:'Fiber, micronutrients, and phytocompounds largely absent from processed foods.',how:'Fist-sized serving every meal. Frozen is as nutritious as fresh.',tip:'Rotate colors (green, orange, red, purple) for a broad phytonutrient spectrum.',tags:['PN Level 1','Micronutrients','Fiber']},
-    {name:'No Liquid Calories',icon:'🚫',cat:'NUTRITION',xp:20,diff:2,why:'Liquid calories bypass satiety signals. Can add 300–600 hidden calories daily.',how:'Drink water, black coffee, plain tea. Check labels — even "healthy" drinks add up.',tip:'A daily latte + juice can represent 400+ calories — often the highest-leverage change.',tags:['PN Level 1','Calorie Awareness','High Leverage']},
-    {name:'Meal Prep Sunday',icon:'📦',cat:'NUTRITION',xp:35,diff:2,why:'Environment design beats willpower. Prepared food leads to automatic better choices.',how:'Batch cook 2–3 proteins, vegetables, and a grain on Sunday.',tip:'Just prep ingredients — cooked chicken, roasted veg, boiled eggs. No full meals needed.',tags:['PN Level 1','Environment Design','Planning']},
-    {name:'Nutrient Timing',icon:'⏱️',cat:'NUTRITION',xp:20,diff:3,why:'PN Level 2: eating around training windows improves performance and recovery.',how:'20–40g protein + fast carbs within 1–2 hours post-workout.',tip:'Only matters meaningfully once baseline habits are solid. A Level 2 detail.',tags:['PN Level 2','Advanced','Performance']},
+    {name:'Eat Slowly',icon:'🍽️',cat:'NUTRITION',xp:15,diff:1,why:'PN Level 1 foundational habit. Satiety hormones take 15–20 min — slow eaters consume 10–15% fewer calories with higher satisfaction.',how:'Put fork down between bites. 20 min minimum per meal. No screens while eating.',tip:'This single habit consistently produces more body composition change than any complex diet plan.',resource:'Ask L•AI•C for mindful eating strategies. Read nutrition tips at experiencelife.lifetime.life/category/nutrition/nutrition-tips/'},
+    {name:'80% Full Rule',icon:'🥗',cat:'NUTRITION',xp:20,diff:2,why:'Practiced by the longest-lived populations. Prevents chronic low-grade overeating without restriction.',how:'Before last few bites: am I satisfied? Stop when satisfied but could eat more.',tip:'Pairs powerfully with eating slowly. Together they form the core of PN Level 1.',resource:'Ask L•AI•C for personalized appetite regulation strategies. Life Time RD consultations available through the app.'},
+    {name:'Protein at Every Meal',icon:'🥩',cat:'NUTRITION',xp:15,diff:1,why:'Most satiating macronutrient. Distributing protein maximizes muscle-building stimulus throughout the day.',how:'Palm-sized serving (20–40g) every meal. Chicken, fish, eggs, Greek yogurt, tofu, legumes.',tip:'Most clients eat 60–70% of optimal protein without realizing it. Track for 3 days.',resource:'Explore LTH protein supplements in LT Shop. Read about protein goals at experiencelife.lifetime.life/category/nutrition/nutrition-tips/'},
+    {name:'Drink 3L Water',icon:'💧',cat:'NUTRITION',xp:10,diff:1,why:'Even 1–2% dehydration impairs cognition, energy, and exercise capacity.',how:'Half bodyweight in ounces daily. Large glass before coffee every morning.',tip:'Add electrolytes if training hard.',resource:'LTH electrolyte supplements available in LT Shop in the Life Time app. Ask L•AI•C for hydration guidance.'},
+    {name:'Veggies Each Meal',icon:'🥦',cat:'NUTRITION',xp:15,diff:1,why:'Fiber, micronutrients, and phytocompounds largely absent from processed foods.',how:'Fist-sized serving every meal. Frozen is as nutritious as fresh.',tip:'Rotate colors — green, orange, red, purple — for a broad phytonutrient spectrum.',resource:'Find healthy recipes at experiencelife.lifetime.life/recipes/ — many are vegetable-forward and dietitian-crafted.'},
+    {name:'No Liquid Calories',icon:'🚫',cat:'NUTRITION',xp:20,diff:2,why:'Liquid calories bypass satiety signals. Can add 300–600 hidden calories daily.',how:'Water, black coffee, plain tea only. Check labels on "healthy" drinks.',tip:'A daily latte plus afternoon juice can be 400+ calories — often the highest-leverage change.',resource:'Ask L•AI•C for beverage guidance. Life Time RD consultations available through the app for personalized nutrition coaching.'},
+    {name:'Meal Prep Sunday',icon:'📦',cat:'NUTRITION',xp:35,diff:2,why:'Environment design beats willpower. Ready-to-eat healthy food leads to automatic better choices.',how:'Batch cook 2–3 proteins, vegetables, and a grain on Sunday.',tip:'Just prep ingredients — cooked chicken, roasted veg, hard-boiled eggs. No full meals needed.',resource:'Explore the 1-2-12 nutrition system at experiencelife.lifetime.life. Find meal prep guides at experiencelife.lifetime.life/category/nutrition/meal-prep/'},
+    {name:'Nutrient Timing',icon:'⏱️',cat:'NUTRITION',xp:20,diff:3,why:'PN Level 2: eating carbs and protein around training windows improves performance and recovery.',how:'20–40g protein + fast carbs within 1–2 hours post-workout.',tip:'Only matters meaningfully once foundational habits are solid. A true Level 2 detail.',resource:'Ask L•AI•C for pre and post-workout nutrition guidance. LTH supplements available in LT Shop for workout nutrition.'},
   ],
   regeneration:[
-    {name:'Sleep by 10pm',icon:'🌙',cat:'REGENERATION',xp:20,diff:2,why:'Hours before midnight yield disproportionately more deep sleep and growth hormone release.',how:'Wind-down routine at 9:15pm. Dim lights, 65–67°F, no screens. In bed by 10pm.',tip:'Phone in another room. Blue light suppresses melatonin production.',tags:['Circadian','Deep Sleep','Hormonal']},
-    {name:'7–9 Hours Sleep',icon:'😴',cat:'REGENERATION',xp:20,diff:2,why:'The master recovery variable. Under 7 hours impairs MPS, elevates cortisol, dysregulates appetite.',how:'Work backward from wake time to set bedtime. Protect it like a non-negotiable appointment.',tip:'Try 8+ hours for 2 weeks and observe the difference in energy and performance.',tags:['Foundational','Recovery','Cognitive']},
-    {name:'No Screens 1hr Before Bed',icon:'📵',cat:'REGENERATION',xp:15,diff:2,why:'Blue light suppresses melatonin by up to 50%. Stimulating content elevates cortisol.',how:'Set a phone alarm 1 hour before bed. Plug phone across the room.',tip:'Physical separation is more effective than blue-light glasses.',tags:['Sleep Hygiene','Melatonin','High Leverage']},
-    {name:'Cold Shower',icon:'🧊',cat:'REGENERATION',xp:25,diff:3,why:'Releases norepinephrine up to 300%. Builds stress resilience and improves mood.',how:'End shower with 1–3 min cold. Start with 30s and build. Slow exhales help.',tip:'The psychological benefit often exceeds the physiological one.',tags:['Cold Exposure','Resilience','Recovery']},
-    {name:'Breathwork',icon:'🌬️',cat:'REGENERATION',xp:15,diff:1,why:'Directly shifts autonomic NS from sympathetic to parasympathetic in minutes.',how:'Box breathing: 4 in, 4 hold, 4 out, 4 hold. 5–10 min before bed or after stress.',tip:'Daily practice rewires your nervous system baseline tone over weeks.',tags:['Parasympathetic','Stress','Recovery']},
-    {name:'Sauna Session',icon:'🔥',cat:'REGENERATION',xp:20,diff:2,why:'Regular sauna use associated with reduced CVD risk and improved growth hormone.',how:'15–20 min at 80–100°C. Hydrate before and after.',tip:'Pair with cold exposure for amplified hormetic stress response.',tags:['Longevity','Cardiovascular','Heat Therapy']},
-    {name:'HRV Check-in',icon:'💓',cat:'REGENERATION',xp:10,diff:1,why:'Most sensitive real-time indicator of recovery status and nervous system health.',how:'Measure first thing in morning before rising. Log and note subjective feel.',tip:'YOUR trend matters, not comparison to others. 3-day suppression = reduce training load.',tags:['Biometric','Recovery','Data-Driven']},
-    {name:'Stress Journal',icon:'📓',cat:'REGENERATION',xp:15,diff:1,why:'Unprocessed stress elevates cortisol undermining sleep, recovery, and body composition.',how:'5 min before bed: write stressors, one action step, one thing to release.',tip:'This is a cortisol management tool, not a diary. Externalizing worry reduces its impact.',tags:['Cortisol','Stress','Sleep']},
+    {name:'Sleep by 10pm',icon:'🌙',cat:'REGENERATION',xp:20,diff:2,why:'Hours before midnight yield disproportionately more deep sleep and growth hormone release.',how:'Wind-down at 9:15pm. Dim lights, 65–67°F, no screens. In bed by 10pm.',tip:'Phone in another room. Blue light suppresses melatonin production significantly.',resource:'Access guided sleep meditations in the Life Time app under Mind & Body. Ask L•AI•C for sleep improvement tips.'},
+    {name:'7–9 Hours Sleep',icon:'😴',cat:'REGENERATION',xp:20,diff:2,why:'The master recovery variable. Under 7 hours impairs muscle protein synthesis and dysregulates appetite hormones.',how:'Work backward from wake time to set bedtime. Protect it like a non-negotiable appointment.',tip:'Try 8+ hours for 2 weeks and observe the difference in energy and performance.',resource:'Access on-demand sleep support meditations in the Life Time app. Ask L•AI•C: "How do I get better sleep?"'},
+    {name:'No Screens 1hr Before Bed',icon:'📵',cat:'REGENERATION',xp:15,diff:2,why:'Blue light suppresses melatonin by up to 50%, delaying sleep onset and reducing quality.',how:'Set phone alarm 1 hour before bed. Plug phone across the room.',tip:'Physical separation is more effective than blue-light blocking glasses.',resource:'Replace screen time with the Life Time app\'s guided meditations or breathwork sessions under Mind & Body.'},
+    {name:'Cold Shower',icon:'🧊',cat:'REGENERATION',xp:25,diff:3,why:'Releases norepinephrine up to 300%, builds stress resilience, and improves mood and alertness.',how:'End shower with 1–3 min cold. Start with 30 seconds and build.',tip:'The psychological benefit often exceeds the physiological one. Voluntary discomfort builds resilience.',resource:'Book a cold plunge session at Life Time through the app. Ask L•AI•C for cold exposure guidance.'},
+    {name:'Breathwork',icon:'🌬️',cat:'REGENERATION',xp:15,diff:1,why:'Directly shifts the autonomic nervous system from sympathetic to parasympathetic state in minutes.',how:'Box breathing: 4 in, 4 hold, 4 out, 4 hold. 5–10 min before bed or after stress.',tip:'Daily practice rewires your nervous system baseline tone over weeks.',resource:'Access on-demand breathwork sessions in the Life Time app under Mind & Body Wellness Tools.'},
+    {name:'Sauna Session',icon:'🔥',cat:'REGENERATION',xp:20,diff:2,why:'Regular sauna use associated with reduced cardiovascular disease risk and improved growth hormone release.',how:'15–20 min at 80–100°C. Hydrate before and after.',tip:'Pair with cold exposure for an amplified hormetic stress response.',resource:'Book sauna and steam sessions through the Life Time app at your club. Ask L•AI•C for heat therapy guidance.'},
+    {name:'HRV Check-in',icon:'💓',cat:'REGENERATION',xp:10,diff:1,why:'The most sensitive real-time indicator of recovery status and nervous system health.',how:'Measure first thing in the morning using a wearable or Elite HRV app. Log and note subjective feel.',tip:'Your personal trend matters, not comparison to others. 3-day suppression signals need to reduce training load.',resource:'Sync your wearable with the Life Time app for activity and recovery data. Ask L•AI•C for recovery interpretation.'},
+    {name:'Stress Journal',icon:'📓',cat:'REGENERATION',xp:15,diff:1,why:'Unprocessed psychological stress drives cortisol elevation that undermines sleep and body composition.',how:'5 min before bed: write stressors, one action step, one thing to release.',tip:'This is a cortisol management tool, not a diary. Externalizing worry reduces its mental occupancy.',resource:'Listen to the Life Time Talks podcast episode on recovery at experiencelife.lifetime.life/podcast/why-recovery/'},
   ],
   mindset:[
-    {name:'Gratitude Log',icon:'🙏',cat:'MINDSET',xp:10,diff:1,why:'Reduces cortisol, increases dopamine baseline, shifts attentional bias toward opportunity.',how:'Write 3 specific things you\'re grateful for each morning. Specificity creates neurological benefit.',tip:'Pair with morning coffee via habit stacking.',tags:['PN Level 1','Cortisol','Dopamine']},
-    {name:'Meditation',icon:'🧠',cat:'MINDSET',xp:15,diff:1,why:'Reduces amygdala reactivity, improves prefrontal cortex function and metacognitive awareness.',how:'10 min: focus on breath, return attention when it wanders. Use app or sit quietly.',tip:'The goal is not to stop thinking — it\'s to notice you\'re thinking and return.',tags:['Stress','Focus','Metacognition']},
-    {name:'Visualization',icon:'🎯',cat:'MINDSET',xp:15,diff:1,why:'Mental rehearsal activates same neural pathways as physical practice.',how:'5 min: vividly imagine having achieved your goal. Engage all senses.',tip:'PN Level 2 emphasizes identity as the root of sustainable behavior change.',tags:['PN Level 2','Identity','Performance']},
-    {name:'Read 20 Pages',icon:'📖',cat:'MINDSET',xp:20,diff:1,why:'20 pages daily = 12–15 books per year. Builds knowledge compounding.',how:'Physical book, Kindle, or audiobook. Same time daily makes it automatic.',tip:'Reading before bed improves sleep onset vs phone use.',tags:['Learning','Knowledge','Focus']},
-    {name:'Daily Intention',icon:'✨',cat:'MINDSET',xp:10,diff:1,why:'Shifts brain from reactive to proactive mode. Creates a filter for daily decisions.',how:'Each morning: "Today I will ___." Behavioral, specific, achievable today.',tip:'Different from a to-do list — it\'s directional, guiding energy.',tags:['Morning','Focus','Behavior Change']},
-    {name:'Evening Review',icon:'🔍',cat:'MINDSET',xp:10,diff:1,why:'Structured reflection accelerates learning. Builds self-awareness — prerequisite for change.',how:'5 min: What went well? What would I change? What am I looking forward to?',tip:'Ending on anticipation primes the brain positively and improves sleep quality.',tags:['Reflection','Self-Awareness','Evening']},
-    {name:'Identity Journaling',icon:'📝',cat:'MINDSET',xp:15,diff:2,why:'PN Level 2: identity-based motivation dramatically outlasts outcome-based motivation.',how:'10 min: write as your future self. Present tense: "I prioritize sleep because..."',tip:'Discomfort is normal — it\'s your current identity resisting change.',tags:['PN Level 2','Identity','Advanced']},
-    {name:'Digital Detox',icon:'🌿',cat:'MINDSET',xp:20,diff:2,why:'Social media activates threat-detection and comparison systems, elevating cortisol.',how:'1 hour/day with no social media or news. Replace with analog activity.',tip:'The resistance you feel is exactly why this habit matters.',tags:['Digital Health','Cortisol','Attention']},
+    {name:'Gratitude Log',icon:'🙏',cat:'MINDSET',xp:10,diff:1,why:'Reduces cortisol, increases dopamine baseline, and shifts attentional bias toward opportunity.',how:'Write 3 specific things you\'re grateful for each morning. Specificity creates the neurological benefit.',tip:'Pair with morning coffee via habit stacking — an existing routine anchors the new one.',resource:'Access guided gratitude meditations in the Life Time app under Mind & Body. Ask L•AI•C for mindset strategies.'},
+    {name:'Meditation',icon:'🧠',cat:'MINDSET',xp:15,diff:1,why:'Reduces amygdala reactivity, improves prefrontal cortex function, and builds metacognitive awareness.',how:'10 min: focus on breath, return attention when it wanders.',tip:'The goal is not to stop thinking — it\'s to notice you\'re thinking and return to the present.',resource:'Access on-demand guided meditation sessions in the Life Time app under Mind & Body Wellness Tools.'},
+    {name:'Visualization',icon:'🎯',cat:'MINDSET',xp:15,diff:1,why:'Mental rehearsal activates the same neural pathways as physical practice.',how:'5 min daily: vividly imagine having already achieved your goal. Engage all senses.',tip:'PN Level 2 emphasizes identity as the root of sustainable behavior change.',resource:'Access guided visualization sessions in the Life Time app. Ask L•AI•C for mindset and goal-setting guidance.'},
+    {name:'Read 20 Pages',icon:'📖',cat:'MINDSET',xp:20,diff:1,why:'20 pages daily compounds to 12–15 books per year. Builds knowledge that compounds over time.',how:'Physical book, Kindle, or audiobook. Same time daily makes it automatic.',tip:'Reading before bed significantly improves sleep onset vs phone use.',resource:'Explore expert health and wellness content at experiencelife.lifetime.life — Life Time\'s award-winning magazine.'},
+    {name:'Daily Intention',icon:'✨',cat:'MINDSET',xp:10,diff:1,why:'Shifts brain from reactive to proactive mode. Creates a filter for all daily decisions.',how:'Each morning: "Today I will ___." Behavioral, specific, achievable in one day.',tip:'This is directional — it guides your energy, not just your task list.',resource:'Ask L•AI•C for daily intention prompts. Life Time Talks podcast features mindset experts at experiencelife.lifetime.life'},
+    {name:'Evening Review',icon:'🔍',cat:'MINDSET',xp:10,diff:1,why:'Structured reflection accelerates learning and builds self-awareness.',how:'5 min: What went well? What would I change? What am I looking forward to tomorrow?',tip:'Ending on anticipation primes the brain positively and improves sleep quality.',resource:'Listen to Life Time Talks podcast for expert insights on reflection and behavior change.'},
+    {name:'Identity Journaling',icon:'📝',cat:'MINDSET',xp:15,diff:2,why:'PN Level 2: identity-based motivation dramatically outlasts outcome-based motivation in research.',how:'10 min: write as your future self. Present tense: "I prioritize recovery because I value performance."',tip:'The discomfort is your current identity resisting change. It lessens over weeks.',resource:'Read behavior change articles at experiencelife.lifetime.life. Ask L•AI•C for identity coaching guidance.'},
+    {name:'Digital Detox',icon:'🌿',cat:'MINDSET',xp:20,diff:2,why:'Social media chronically activates threat-detection and comparison systems, elevating cortisol.',how:'1 hour per day with no social media or news. Replace with any analog activity.',tip:'The resistance when putting the phone down is exactly why this habit matters.',resource:'Replace screen time with Life Time app\'s guided meditation or breathwork sessions.'},
   ]
 };
 
-let allClients=[], curClientId=null, selColor='#00f5ff', delHabitId=null;
+let allClients=[],curClientId=null,selColor='#C4623A',selLibItem=null,archiveTargetId=null;
+let showArchived=false,viewMonth=new Date().getMonth(),viewYear=new Date().getFullYear();
 
 async function coachLogin(){
   const email=document.getElementById('l-email').value.trim();
   const pass=document.getElementById('l-pass').value;
   const btn=document.getElementById('l-btn');
   const err=document.getElementById('l-err');
-  if(!email||!pass){err.textContent='! EMAIL AND PASSWORD REQUIRED';return;}
-  btn.disabled=true;btn.innerHTML='<span class="spinner"></span>LOGGING IN...';
-  err.textContent='';
+  if(!email||!pass){err.textContent='Email and password required';return;}
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span>Signing in...';err.textContent='';
   const{error}=await sb.auth.signInWithPassword({email,password:pass});
-  if(error){err.textContent='! '+error.message.toUpperCase();btn.disabled=false;btn.textContent='LOGIN TO COACH DASHBOARD';return;}
+  if(error){err.textContent=error.message;btn.disabled=false;btn.textContent='Sign In';return;}
   showApp();
 }
-
-async function coachLogout(){
-  await sb.auth.signOut();
-  document.getElementById('app').style.display='none';
-  document.getElementById('login-screen').style.display='flex';
-}
-
+async function coachLogout(){await sb.auth.signOut();document.getElementById('app').style.display='none';document.getElementById('login-screen').style.display='flex';}
 async function showApp(){
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app').style.display='block';
   const{data:{user}}=await sb.auth.getUser();
-  document.getElementById('coach-email').textContent=user?.email||'';
-  document.getElementById('hdr-date').textContent=new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'}).toUpperCase();
+  document.getElementById('coach-email-disp').textContent=user?.email||'';
+  document.getElementById('hdr-date').textContent=new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
   await loadClients();
 }
-
 async function loadClients(){
   const{data,error}=await sb.from('clients').select('*').order('name');
-  if(error){showToast('! ERROR LOADING CLIENTS');return;}
+  if(error){showToast('Error loading clients');return;}
   allClients=data||[];
-  renderOverviewGrid();
-  renderClientSel();
+  renderDropdown();renderRoster();
   if(curClientId){const c=allClients.find(x=>x.id===curClientId);if(c)renderClientDetail(c);}
 }
-
-function renderClientSel(){
-  const sel=document.getElementById('client-sel');
+function renderDropdown(){
+  const sel=document.getElementById('client-dropdown');
   const prev=sel.value;
-  sel.innerHTML='<option value="">— SELECT CLIENT —</option>'+allClients.map(c=>`<option value="${c.id}" ${c.id===curClientId?'selected':''}>${c.name}</option>`).join('');
+  sel.innerHTML='<option value="">— Select a client —</option>'+allClients.map(c=>{
+    const ch=(c.data?.prestigeCount||0);
+    return`<option value="${c.id}" ${c.id===curClientId?'selected':''}>${c.name}${ch>0?' [Ch.'+ROMAN[Math.min(ch-1,2)]+']':''}</option>`;
+  }).join('');
   if(prev)sel.value=prev;
 }
-
-function renderOverviewGrid(){
-  const grid=document.getElementById('overview-grid');
-  if(!allClients.length){grid.innerHTML='<div style="font-family:var(--mono);font-size:10px;color:var(--td);letter-spacing:1px;padding:20px">NO CLIENTS YET — CREATE YOUR FIRST CLIENT</div>';return;}
-  grid.innerHTML=allClients.map(c=>{
+function renderRoster(){
+  const tbody=document.getElementById('roster-tbody');
+  if(!allClients.length){tbody.innerHTML='<tr><td colspan="5" class="rt-empty">No clients yet — create your first client</td></tr>';return;}
+  tbody.innerHTML=allClients.map(c=>{
     const d=c.data||{};
-    const xp=d.xp||0;const streak=d.bestStreak||0;
+    const streak=d.bestStreak||0;
+    const lastCI=getLastCheckin(d);
+    const rate=getMonthCompletionRate(d);
     const ch=d.prestigeCount||0;
-    const lvl=getLevel(xp);const lvlName=getLvlName(xp);
-    const checks=totalChecks(d);
-    return`<div class="ov-card ${c.id===curClientId?'active-client':''}" onclick="selectClient('${c.id}')">
-      <div class="ov-name">${c.name}</div>
-      <div class="ov-meta">${c.pin} · STARTED ${c.start_date?new Date(c.start_date).toLocaleDateString('en-US',{month:'short',day:'numeric'}):'NOT SET'}</div>
-      <div class="ov-stats">
-        <div class="ov-stat"><div class="ov-stat-val">${xp}</div><div class="ov-stat-label">XP</div></div>
-        <div class="ov-stat"><div class="ov-stat-val">${streak}</div><div class="ov-stat-label">STREAK</div></div>
-        <div class="ov-stat"><div class="ov-stat-val">${checks}</div><div class="ov-stat-label">CHECKS</div></div>
-        <div class="ov-stat"><div class="ov-stat-val">${lvl}</div><div class="ov-stat-label">${lvlName.substring(0,6)}</div></div>
-      </div>
-      ${ch>0?`<div class="ov-chapter">CHAPTER ${['I','II','III'][Math.min(ch-1,2)]}</div>`:''}
-    </div>`;
+    return`<tr class="${c.id===curClientId?'active-row':''}" onclick="selectClient('${c.id}')">
+      <td><span class="rt-name">${c.name}</span>${ch>0?`<span class="rt-badge active">Ch. ${ROMAN[Math.min(ch-1,2)]}</span>`:''}</td>
+      <td><span class="rt-stat">${streak}d</span></td>
+      <td><span class="rt-last">${lastCI||'—'}</span></td>
+      <td><span class="rt-stat">${getMonthTotal(d)}</span></td>
+      <td><span class="rt-stat">${rate}%</span></td>
+    </tr>`;
   }).join('');
+}
+function getLastCheckin(d){
+  const keys=Object.keys(d.completions||{}).sort().reverse();
+  for(const k of keys){if(Object.values(d.completions[k]).some(Boolean))return new Date(k).toLocaleDateString('en-US',{month:'short',day:'numeric'});}
+  return null;
+}
+function getMonthTotal(d){
+  const n=new Date(),m=n.getMonth(),y=n.getFullYear();
+  let c=0;
+  Object.keys(d.completions||{}).forEach(k=>{if(k.startsWith(`${y}-${String(m+1).padStart(2,'0')}`))c+=Object.values(d.completions[k]).filter(Boolean).length;});
+  return c;
+}
+function getMonthTotalForMonth(d,y,m){
+  let c=0;
+  Object.keys(d.completions||{}).forEach(k=>{if(k.startsWith(`${y}-${String(m+1).padStart(2,'0')}`))c+=Object.values(d.completions[k]).filter(Boolean).length;});
+  return c;
+}
+function getMonthCompletionRate(d){
+  const n=new Date(),m=n.getMonth(),y=n.getFullYear();
+  const activeHabits=(d.habits||[]).filter(h=>!h.archived);
+  if(!activeHabits.length)return 0;
+  const daysElapsed=n.getDate();
+  const possible=activeHabits.length*daysElapsed;
+  if(!possible)return 0;
+  return Math.round(getMonthTotal(d)/possible*100);
+}
+function getMonthCompletionRateForMonth(d,y,m){
+  const activeHabits=(d.habits||[]).filter(h=>!h.archived);
+  if(!activeHabits.length)return 0;
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  const now=new Date();
+  const isCurrentMonth=now.getFullYear()===y&&now.getMonth()===m;
+  const days=isCurrentMonth?now.getDate():daysInMonth;
+  const possible=activeHabits.length*days;
+  if(!possible)return 0;
+  return Math.round(getMonthTotalForMonth(d,y,m)/possible*100);
+}
+function totalAllTimeXP(d){
+  let total=0;
+  const comps=d.completions||{};
+  const habits=d.habits||[];
+  Object.values(comps).forEach(day=>{
+    Object.entries(day).forEach(([id,done])=>{
+      if(done){const h=habits.find(x=>String(x.id)===String(id));if(h)total+=h.xp||0;}
+    });
+  });
+  return total+(d.xpFromArchivedHabits||0);
 }
 
 function selectClient(id){
   curClientId=id;
-  document.getElementById('client-sel').value=id;
+  document.getElementById('client-dropdown').value=id;
   const c=allClients.find(x=>x.id===id);
+  viewMonth=new Date().getMonth();viewYear=new Date().getFullYear();
+  renderRoster();
   if(!c){document.getElementById('client-detail').style.display='none';return;}
   renderClientDetail(c);
-  renderOverviewGrid();
 }
 
 function renderClientDetail(c){
   const d=c.data||{};
   document.getElementById('client-detail').style.display='block';
-  document.getElementById('detail-sectit').textContent='CLIENT: '+c.name.toUpperCase();
   document.getElementById('cd-name').textContent=c.name;
   const ch=d.prestigeCount||0;
-  const chRoman=['I','II','III'][Math.min(ch,2)]||'I';
+  const chR=ROMAN[Math.min(ch,2)]||'I';
+  const startDate=c.start_date?new Date(c.start_date):null;
+  const dayNum=startDate?Math.floor((new Date()-startDate)/(24*3600*1000))+1:null;
   document.getElementById('cd-meta').textContent=
-    'START: '+(c.start_date?new Date(c.start_date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'NOT SET')+
-    ' · LEVEL '+getLevel(d.xp||0)+' // '+getLvlName(d.xp||0)+
-    (ch>0?' · CHAPTER '+chRoman:'');
+    (c.start_date?'Started '+new Date(c.start_date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'No start date')+
+    ' · Level '+getLevel(d.xp||0)+' '+getLvlName(d.xp||0)+
+    (ch>0?' · Chapter '+chR:'');
   const clientUrl=window.location.origin+window.location.pathname.replace('coach.html','')+'client.html?id='+c.pin;
   document.getElementById('cd-link').textContent=clientUrl;
   document.getElementById('cd-xp').textContent=d.xp||0;
+  document.getElementById('cd-alltime-xp').textContent=(totalAllTimeXP(d)).toLocaleString()+' all-time XP';
   document.getElementById('cd-streak').textContent=d.bestStreak||0;
-  document.getElementById('cd-completions').textContent=totalChecks(d);
-  document.getElementById('cd-level').textContent=getLevel(d.xp||0);
-  document.getElementById('cd-levelname').textContent=getLvlName(d.xp||0);
+  document.getElementById('cd-month').textContent=getMonthTotal(d);
+  document.getElementById('cd-day').textContent=dayNum?dayNum:'—';
+  document.getElementById('cd-day-sub').textContent=dayNum?'of journey':'';
+  const lvl=getLevel(d.xp||0);const lvlName=getLvlName(d.xp||0);
+  document.getElementById('cd-level-name').textContent='Level '+lvl+' — '+lvlName;
+  document.getElementById('cd-chapter-badge').textContent='Chapter '+(ch<3?chR:'III');
+  const prog=getXpProg(d.xp||0);
+  document.getElementById('cd-xp-txt').textContent=prog.curr+' / '+prog.total+' XP to next level';
+  document.getElementById('cd-level-bar').style.width=prog.pct+'%';
+  const chPct=Math.min(100,Math.round((d.xp||0)/PRESTIGE_XP*100));
+  document.getElementById('cd-chapter-bar').style.width=chPct+'%';
+  document.getElementById('cd-chapter-txt').textContent=(d.xp||0).toLocaleString()+' / '+PRESTIGE_XP.toLocaleString()+' XP to prestige'+(ch>=3?' (max)':'');
+  document.getElementById('coach-message').value=d.coachMessage||'';
+  document.getElementById('coach-notes').value=d.coachNotes||'';
+  renderSlotControls(c);
+  renderMonthNav();
+  renderSummaryRow(c);
+  renderHabitTable();
+}
+
+function renderSlotControls(c){
   const slots=getSlotsUnlocked(c);
   const days=getDaysUntilNextUnlock(c);
-  document.getElementById('sc-slots').textContent=slots+' / '+MAX_SLOTS;
-  document.getElementById('sc-next').textContent=slots>=MAX_SLOTS?'MAX REACHED':(days!==null?days+' DAYS TO NEXT UNLOCK':'');
-  renderHabitTable(c);
+  const d=c.data||{};
+  const extraUnlocks=d.extraUnlocks||0;
+  let html='';
+  for(let i=1;i<=MAX_SLOTS;i++){
+    const isUnlocked=i<=slots;
+    const isForced=i>getSlotsNatural(c)&&i<=slots;
+    let status='',btn='';
+    if(isUnlocked){
+      status=isForced?'<span class="sc-slot-status forced">Force-unlocked</span>':'<span class="sc-slot-status unlocked">Unlocked</span>';
+      if(isForced)btn=`<button class="sc-btn undo" onclick="reverseForceUnlock()">Undo</button>`;
+    }else{
+      const isNext=i===slots+1;
+      status=`<span class="sc-slot-status locked">${isNext&&days!==null?days+' days':'Locked'}</span>`;
+      if(isNext&&slots<MAX_SLOTS)btn=`<button class="sc-btn" onclick="forceUnlock()">Unlock Early</button>`;
+    }
+    html+=`<div class="sc-slot"><div class="sc-slot-num">Slot ${i}</div>${status}${btn}</div>`;
+  }
+  document.getElementById('sc-slots-display').innerHTML=html;
 }
 
-function renderHabitTable(c){
-  const habits=(c.data?.habits)||[];
-  const tbody=document.getElementById('habit-tbody');
-  if(!habits.length){tbody.innerHTML='<tr><td colspan="6" style="font-family:var(--mono);font-size:9px;color:var(--td);letter-spacing:1px;padding:16px">NO HABITS YET</td></tr>';return;}
-  tbody.innerHTML=habits.map(h=>{
-    const streak=getStreakForHabit(c,h.id);
-    return`<tr>
-      <td><span style="margin-right:6px">${h.icon}</span>${h.name}</td>
-      <td><span class="habit-slot-tag">${(h.slot||'morning').toUpperCase()}</span></td>
-      <td><span class="habit-cat-tag cat-${h.cat||h.category}">${h.cat||h.category}</span></td>
-      <td style="font-family:var(--mono);font-size:10px;color:var(--nc)">+${h.xp}</td>
-      <td style="font-family:var(--mono);font-size:10px;color:var(--na)">${streak>0?streak+'D':'-'}</td>
-      <td><button class="htbl-del" onclick="openDeleteHabit(${h.id})">✕</button></td>
-    </tr>`;
-  }).join('');
-}
-
-function getSlotsUnlocked(c){
+function getSlotsNatural(c){
   if(!c.start_date)return 1;
   const start=new Date(c.start_date),now=new Date();
   const weeks=Math.floor((now-start)/(7*24*3600*1000));
-  const natural=Math.min(MAX_SLOTS,1+Math.floor(weeks/SLOT_WEEKS));
-  return Math.min(MAX_SLOTS,natural+((c.data?.extraUnlocks)||0));
+  return Math.min(MAX_SLOTS,1+Math.floor(weeks/SLOT_WEEKS));
+}
+function getSlotsUnlocked(c){
+  return Math.min(MAX_SLOTS,getSlotsNatural(c)+((c.data?.extraUnlocks)||0));
 }
 function getDaysUntilNextUnlock(c){
   if(!c.start_date)return 0;
-  const slots=getSlotsUnlocked(c);
-  if(slots>=MAX_SLOTS)return null;
+  const slots=getSlotsUnlocked(c);if(slots>=MAX_SLOTS)return null;
   const start=new Date(c.start_date),now=new Date();
   const unlockDate=new Date(start.getTime()+SLOT_WEEKS*slots*7*24*3600*1000);
   return Math.max(0,Math.ceil((unlockDate-now)/(24*3600*1000)));
 }
-function getLevel(xp){let l=1;for(let i=LEVELS.length-1;i>=0;i--){if(xp>=LEVELS[i].min){l=i+1;break;}}return l;}
-function getLvlName(xp){let n=LEVELS[0].name;for(let i=LEVELS.length-1;i>=0;i--){if(xp>=LEVELS[i].min){n=LEVELS[i].name;break;}}return n;}
-function totalChecks(d){let c=0;Object.values(d.completions||{}).forEach(day=>{c+=Object.values(day).filter(Boolean).length;});return c;}
-function getStreakForHabit(c,id){
-  let s=0,d=new Date();
-  const comps=(c.data?.completions)||{};
-  while(true){
-    const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    if(comps[k]&&comps[k][id]){s++;d.setDate(d.getDate()-1);}else break;
-  }return s;
+
+async function forceUnlock(){
+  const c=allClients.find(x=>x.id===curClientId);if(!c)return;
+  if(getSlotsUnlocked(c)>=MAX_SLOTS){showToast('Already at max slots');return;}
+  const d={...c.data,extraUnlocks:((c.data?.extraUnlocks)||0)+1};
+  await saveClientData(curClientId,d);showToast('Slot unlocked early');
+}
+async function reverseForceUnlock(){
+  const c=allClients.find(x=>x.id===curClientId);if(!c)return;
+  const extra=(c.data?.extraUnlocks)||0;
+  if(extra<=0){showToast('No force unlocks to reverse');return;}
+  const newSlots=getSlotsUnlocked(c)-1;
+  const activeHabitsInSlot=(c.data?.habits||[]).filter(h=>!h.archived&&getHabitSlotIndex(c,h)>=newSlots);
+  const d={...c.data,extraUnlocks:extra-1};
+  if(activeHabitsInSlot.length){
+    let xpLost=0;
+    d.habits=d.habits.map(h=>{
+      if(!h.archived&&getHabitSlotIndex(c,h)>=newSlots){
+        xpLost+=getHabitXpEarned(d,h.id);
+        return{...h,archived:true,archivedAt:new Date().toISOString(),masteryScore:getMasteryScore(d,h.id)};
+      }return h;
+    });
+    d.xpFromArchivedHabits=(d.xpFromArchivedHabits||0)+xpLost;
+  }
+  await saveClientData(curClientId,d);
+  showToast('Force unlock reversed'+(activeHabitsInSlot.length?' · '+activeHabitsInSlot.length+' habit(s) archived':''));
+}
+function getHabitSlotIndex(c,habit){
+  const slot=habit.slot||'morning';
+  const habitsInSlot=(c.data?.habits||[]).filter(h=>!h.archived&&(h.slot||'morning')===slot);
+  return habitsInSlot.findIndex(h=>h.id===habit.id);
+}
+function getHabitXpEarned(d,id){
+  let total=0;
+  Object.values(d.completions||{}).forEach(day=>{if(day[id]){const h=(d.habits||[]).find(x=>String(x.id)===String(id));if(h)total+=h.xp||0;}});
+  return total;
+}
+function getMasteryScore(d,id){
+  const h=(d.habits||[]).find(x=>String(x.id)===String(id));
+  if(!h)return 0;
+  const comps=Object.values(d.completions||{}).filter(day=>day[id]).length;
+  const startDate=h.createdAt?new Date(h.createdAt):new Date(id);
+  const days=Math.max(1,Math.floor((new Date()-startDate)/(24*3600*1000)));
+  const rate=Math.min(100,Math.round(comps/days*100));
+  return Math.round((comps*0.6)+(rate*0.4));
 }
 
-function openNewClient(){
-  document.getElementById('nc-name').value='';
-  document.getElementById('nc-start').value=new Date().toISOString().split('T')[0];
-  openOverlay('newclient-overlay');
+function renderMonthNav(){
+  const sel=document.getElementById('month-sel');
+  const now=new Date();
+  let opts='';
+  for(let y=now.getFullYear()-1;y<=now.getFullYear()+1;y++){
+    for(let m=0;m<12;m++){
+      const selected=y===viewYear&&m===viewMonth?'selected':'';
+      opts+=`<option value="${y}-${m}" ${selected}>${MONTHS_SHORT[m]} ${y}</option>`;
+    }
+  }
+  sel.innerHTML=opts;
+  const c=allClients.find(x=>x.id===curClientId);
+  if(c){
+    const rate=getMonthCompletionRateForMonth(c.data||{},viewYear,viewMonth);
+    const total=getMonthTotalForMonth(c.data||{},viewYear,viewMonth);
+    document.getElementById('month-completion-stat').textContent=`${total} completions · ${rate}% completion rate`;
+  }
+}
+function changeViewMonth(dir){
+  viewMonth+=dir;
+  if(viewMonth<0){viewMonth=11;viewYear--;}
+  if(viewMonth>11){viewMonth=0;viewYear++;}
+  document.getElementById('month-sel').value=`${viewYear}-${viewMonth}`;
+  renderMonthNav();renderHabitTable();
+}
+function onMonthSelChange(){
+  const val=document.getElementById('month-sel').value.split('-');
+  viewYear=parseInt(val[0]);viewMonth=parseInt(val[1]);
+  renderMonthNav();renderHabitTable();
 }
 
+function renderSummaryRow(c){
+  const d=c.data||{};
+  const active=(d.habits||[]).filter(h=>!h.archived).length;
+  const archived=(d.habits||[]).filter(h=>h.archived).length;
+  const rate=getMonthCompletionRate(d);
+  const allTime=Object.values(d.completions||{}).reduce((acc,day)=>acc+Object.values(day).filter(Boolean).length,0);
+  document.getElementById('summary-row').innerHTML=
+    `<div class="sr-item"><strong>${active}</strong> active habits</div>
+     <div class="sr-item"><strong>${archived}</strong> archived</div>
+     <div class="sr-item"><strong>${rate}%</strong> completion rate this month</div>
+     <div class="sr-item"><strong>${allTime.toLocaleString()}</strong> total completions all-time</div>`;
+}
+
+function renderHabitTable(){
+  const c=allClients.find(x=>x.id===curClientId);if(!c)return;
+  const d=c.data||{};
+  const slotFilter=document.getElementById('f-slot').value;
+  const catFilter=document.getElementById('f-cat').value;
+  const sortBy=document.getElementById('f-sort').value;
+  let habits=(d.habits||[]).filter(h=>{
+    if(!showArchived&&h.archived)return false;
+    if(showArchived&&!h.archived)return false;
+    if(slotFilter&&(h.slot||'morning')!==slotFilter)return false;
+    if(catFilter&&(h.cat||h.category)!==catFilter)return false;
+    return true;
+  });
+  if(sortBy==='streak')habits.sort((a,b)=>getHabitStreak(d,b.id)-getHabitStreak(d,a.id));
+  else if(sortBy==='rate')habits.sort((a,b)=>getHabitMonthRate(d,b.id,viewYear,viewMonth)-getHabitMonthRate(d,a.id,viewYear,viewMonth));
+  else if(sortBy==='xp')habits.sort((a,b)=>(b.xp||0)-(a.xp||0));
+  else habits.sort((a,b)=>a.name.localeCompare(b.name));
+  const tbody=document.getElementById('habit-tbody');
+  if(!habits.length){tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:16px;font-size:12px;color:var(--text3);font-style:italic">${showArchived?'No archived habits':'No active habits — add one below'}</td></tr>`;return;}
+  tbody.innerHTML=habits.map(h=>{
+    const streak=getHabitStreak(d,h.id);
+    const rate=getHabitMonthRate(d,h.id,viewYear,viewMonth);
+    const catClass='cat-'+(h.cat||h.category||'MOVEMENT');
+    const slotLabel=(h.slot||'morning').charAt(0).toUpperCase()+(h.slot||'morning').slice(1);
+    return`<tr>
+      <td><span style="margin-right:6px">${h.icon||'⭐'}</span>${h.name}</td>
+      <td><span class="slot-tag">${slotLabel}</span></td>
+      <td><span class="cat-tag ${catClass}">${h.cat||h.category}</span></td>
+      <td style="color:var(--text2)">+${h.xp}</td>
+      <td style="color:var(--text2)">${streak>0?streak+'d':'—'}</td>
+      <td><div style="font-size:11px;color:var(--text2)">${rate}%</div><div class="rate-bar"><div class="rate-fill" style="width:${rate}%"></div></div></td>
+      <td>${h.archived?`<span class="archived-tag">Archived</span>`:''}</td>
+      <td>
+        ${h.archived
+          ?`<button class="tbl-btn" onclick="reactivateHabit(${h.id})" title="Reactivate">↺</button>`
+          :`<button class="tbl-btn danger" onclick="openArchiveHabit(${h.id})" title="Archive">⊖</button>`}
+      </td>
+    </tr>`;
+  }).join('');
+}
+function getHabitStreak(d,id){
+  let s=0,dt=new Date();
+  while(true){const k=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;if(d.completions?.[k]?.[id]){s++;dt.setDate(dt.getDate()-1);}else break;}
+  return s;
+}
+function getHabitMonthRate(d,id,y,m){
+  const now=new Date();const isCurrentMonth=now.getFullYear()===y&&now.getMonth()===m;
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  const days=isCurrentMonth?now.getDate():daysInMonth;
+  if(!days)return 0;
+  let c=0;
+  for(let i=1;i<=days;i++){const k=`${y}-${String(m+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;if(d.completions?.[k]?.[id])c++;}
+  return Math.round(c/days*100);
+}
+function toggleArchivedFilter(){
+  showArchived=!showArchived;
+  const btn=document.getElementById('f-archived');
+  btn.classList.toggle('active',showArchived);
+  btn.textContent=showArchived?'Hide Archived':'Show Archived';
+  renderHabitTable();
+}
+function openArchiveHabit(id){
+  archiveTargetId=id;
+  const c=allClients.find(x=>x.id===curClientId);
+  const h=(c?.data?.habits||[]).find(x=>x.id===id);
+  document.getElementById('del-habit-msg').textContent=`Archive "${h?.name}"? All completion data is preserved. You can reactivate it anytime.`;
+  openOverlay('del-habit-overlay');
+}
+async function confirmArchiveHabit(){
+  const c=allClients.find(x=>x.id===curClientId);if(!c)return;
+  const d={...c.data};
+  const xpLost=getHabitXpEarned(d,archiveTargetId);
+  d.habits=d.habits.map(h=>String(h.id)===String(archiveTargetId)?{...h,archived:true,archivedAt:new Date().toISOString(),masteryScore:getMasteryScore(d,h.id)}:h);
+  d.xpFromArchivedHabits=(d.xpFromArchivedHabits||0)+xpLost;
+  closeOverlay('del-habit-overlay');
+  await saveClientData(curClientId,d);showToast('Habit archived');
+}
+async function reactivateHabit(id){
+  const c=allClients.find(x=>x.id===curClientId);if(!c)return;
+  const d={...c.data};
+  const h=d.habits.find(x=>String(x.id)===String(id));if(!h)return;
+  const slot=h.slot||'morning';
+  const slotsUnlocked=getSlotsUnlocked(c);
+  const activeInSlot=(d.habits||[]).filter(x=>!x.archived&&(x.slot||'morning')===slot).length;
+  if(activeInSlot>=slotsUnlocked){showToast('Slot full — unlock more slots first');return;}
+  d.habits=d.habits.map(x=>String(x.id)===String(id)?{...x,archived:false,archivedAt:null}:x);
+  await saveClientData(curClientId,d);showToast('Habit reactivated');
+}
+
+async function saveCoachMessage(){
+  const c=allClients.find(x=>x.id===curClientId);if(!c)return;
+  const msg=document.getElementById('coach-message').value;
+  const d={...c.data,coachMessage:msg};
+  await saveClientData(curClientId,d);
+  const el=document.getElementById('msg-saved');el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2000);
+}
+async function saveNotes(){
+  const c=allClients.find(x=>x.id===curClientId);if(!c)return;
+  const notes=document.getElementById('coach-notes').value;
+  const d={...c.data,coachNotes:notes};
+  await saveClientData(curClientId,d);
+  const el=document.getElementById('notes-saved');el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2000);
+}
+
+async function saveClientData(id,data){
+  const{error}=await sb.from('clients').update({data}).eq('id',id);
+  if(error){showToast('Error saving');return;}
+  await loadClients();
+  const c=allClients.find(x=>x.id===id);
+  if(c)renderClientDetail(c);
+}
+
+function openNewClient(){document.getElementById('nc-name').value='';document.getElementById('nc-start').value=new Date().toISOString().split('T')[0];openOverlay('newclient-overlay');}
 async function createClient(){
   const name=document.getElementById('nc-name').value.trim();
   const start=document.getElementById('nc-start').value;
-  if(!name){showToast('! NAME REQUIRED');return;}
+  if(!name){showToast('Name required');return;}
   const pin=generatePin();
-  const{data,error}=await sb.from('clients').insert({name,pin,start_date:start||null,data:{xp:0,bestStreak:0,hadPerfectDay:false,habits:[],completions:{},unlockedBadges:[],completedQuests:[],prestigeCount:0,extraUnlocks:0}}).select().single();
-  if(error){showToast('! ERROR: '+error.message);return;}
-  closeOverlay('newclient-overlay');
-  await loadClients();
-  selectClient(data.id);
-  showToast('CLIENT CREATED: '+name.toUpperCase());
+  const fresh={xp:0,allTimeXp:0,bestStreak:0,hadPerfectDay:false,habits:[],completions:{},unlockedBadges:[],completedQuests:[],prestigeCount:0,extraUnlocks:0,coachNotes:'',coachMessage:'',theme:'warm',xpFromArchivedHabits:0};
+  const{data,error}=await sb.from('clients').insert({name,pin,start_date:start||null,data:fresh}).select().single();
+  if(error){showToast('Error: '+error.message);return;}
+  closeOverlay('newclient-overlay');await loadClients();selectClient(data.id);showToast('Client created: '+name);
 }
-
-function generatePin(){
-  const chars='abcdefghijklmnopqrstuvwxyz0123456789';
-  let pin='';for(let i=0;i<8;i++)pin+=chars[Math.floor(Math.random()*chars.length)];
-  return pin;
-}
-
+function generatePin(){const c='abcdefghijklmnopqrstuvwxyz0123456789';let p='';for(let i=0;i<8;i++)p+=c[Math.floor(Math.random()*c.length)];return p;}
 async function regenerateLink(){
   if(!curClientId)return;
   const pin=generatePin();
   const{error}=await sb.from('clients').update({pin}).eq('id',curClientId);
-  if(error){showToast('! ERROR GENERATING LINK');return;}
-  await loadClients();
-  const c=allClients.find(x=>x.id===curClientId);
-  if(c)renderClientDetail(c);
-  showToast('NEW LINK GENERATED');
+  if(error){showToast('Error');return;}
+  await loadClients();const c=allClients.find(x=>x.id===curClientId);if(c)renderClientDetail(c);showToast('New link generated');
 }
-
 function copyClientLink(){
-  const c=allClients.find(x=>x.id===curClientId);
-  if(!c)return;
-  const url=window.location.origin+window.location.pathname.replace('coach.html','')+'client.html?id='+c.pin;
-  navigator.clipboard.writeText(url).then(()=>showToast('LINK COPIED')).catch(()=>showToast('! COPY FAILED'));
-}
-
-async function forceUnlock(){
-  if(!curClientId)return;
   const c=allClients.find(x=>x.id===curClientId);if(!c)return;
-  if(getSlotsUnlocked(c)>=MAX_SLOTS){showToast('ALREADY AT MAX SLOTS');return;}
-  const d={...c.data,extraUnlocks:((c.data?.extraUnlocks)||0)+1};
-  const{error}=await sb.from('clients').update({data:d}).eq('id',curClientId);
-  if(error){showToast('! ERROR');return;}
-  await loadClients();
-  const updated=allClients.find(x=>x.id===curClientId);
-  if(updated)renderClientDetail(updated);
-  showToast('⚡ SLOT UNLOCKED');
+  const url=window.location.origin+window.location.pathname.replace('coach.html','')+'client.html?id='+c.pin;
+  navigator.clipboard.writeText(url).then(()=>showToast('Link copied')).catch(()=>showToast('Copy failed'));
 }
-
 function openDeleteClient(){
-  const c=allClients.find(x=>x.id===curClientId);
-  if(!c)return;
-  document.getElementById('del-client-msg').textContent=`Remove "${c.name}"? All habit data will be permanently deleted.`;
+  if(!curClientId){showToast('Select a client first');return;}
+  const c=allClients.find(x=>x.id===curClientId);if(!c)return;
+  document.getElementById('del-client-msg').textContent=`Remove "${c.name}"? All data will be permanently deleted.`;
   openOverlay('del-client-overlay');
 }
 async function confirmDeleteClient(){
   const{error}=await sb.from('clients').delete().eq('id',curClientId);
-  if(error){showToast('! ERROR DELETING');return;}
-  curClientId=null;
-  document.getElementById('client-detail').style.display='none';
-  closeOverlay('del-client-overlay');
-  await loadClients();
-  showToast('CLIENT REMOVED');
+  if(error){showToast('Error');return;}
+  curClientId=null;document.getElementById('client-detail').style.display='none';
+  closeOverlay('del-client-overlay');await loadClients();showToast('Client removed');
 }
 
 function openAddHabit(){
-  if(!curClientId){showToast('! SELECT A CLIENT FIRST');return;}
+  if(!curClientId){showToast('Select a client first');return;}
   document.getElementById('h-name').value='';document.getElementById('h-icon').value='';
-  document.getElementById('habit-preview').innerHTML='<div class="hp-empty">← SELECT FROM LIBRARY<br>TO PREVIEW</div>';
-  setLibCat('movement',document.querySelector('.libtab'));
+  document.getElementById('habit-preview').innerHTML='<div class="preview-empty">Select a habit from the library to preview details and Life Time app resources</div>';
+  setLibCat('movement',document.querySelector('#add-habit-overlay .libtab'));
   openOverlay('add-habit-overlay');
 }
-
 function setLibCat(cat,btn){
-  document.querySelectorAll('.libtab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('#add-habit-overlay .libtab').forEach(x=>x.classList.remove('active'));
   if(btn)btn.classList.add('active');
   const items=HABIT_LIBRARY[cat]||[];
   document.getElementById('lib-list').innerHTML=items.map((item,i)=>{
     const dC=['','diff-1','diff-2','diff-3'][item.diff]||'diff-1';
-    const dL=['','EASY','MED','HARD'][item.diff]||'EASY';
+    const dL=['','Easy','Medium','Hard'][item.diff]||'Easy';
     return`<div class="lib-item" onclick="selectLibItem(${i},'${cat}')" id="li-${cat}-${i}">
       <div class="lib-iname">${item.icon} ${item.name}<span class="lib-diff ${dC}">${dL}</span></div>
-      <div class="lib-imeta">${(item.tags||[]).join(' · ')}</div>
+      <div class="lib-imeta">${(item.tags||[cat]).slice(0,2).join(' · ')}</div>
     </div>`;
   }).join('');
 }
-
 let selLibItem=null;
 function selectLibItem(i,cat){
   selLibItem={...HABIT_LIBRARY[cat][i]};
   document.querySelectorAll('.lib-item').forEach(x=>x.classList.remove('sel'));
-  const el=document.getElementById(`li-${cat}-${i}`);if(el)el.classList.add('sel');
+  document.getElementById(`li-${cat}-${i}`)?.classList.add('sel');
   document.getElementById('h-name').value=selLibItem.name;
   document.getElementById('h-icon').value=selLibItem.icon;
   document.getElementById('h-cat').value=selLibItem.cat;
-  const dL=['','EASY','MEDIUM','HARD'][selLibItem.diff]||'';
+  const dL=['','Easy','Medium','Hard'][selLibItem.diff]||'';
   document.getElementById('habit-preview').innerHTML=`
-    <div class="hp-name">${selLibItem.icon} ${selLibItem.name}</div>
-    <div class="hp-cat">${selLibItem.cat} · ${dL}</div>
-    <div class="hp-st">WHY THIS HABIT</div><div class="hp-body">${selLibItem.why}</div>
-    <div class="hp-st">HOW TO DO IT</div><div class="hp-body">${selLibItem.how}</div>
-    <div class="hp-st">COACHING TIP</div><div class="hp-body">${selLibItem.tip}</div>
-    <div class="hp-tags">${(selLibItem.tags||[]).map(t=>`<span class="hp-tag">${t}</span>`).join('')}</div>`;
+    <div class="prev-name">${selLibItem.icon} ${selLibItem.name}</div>
+    <div class="prev-cat">${selLibItem.cat} · ${dL}</div>
+    <div class="prev-st">Why this habit</div><div class="prev-body">${selLibItem.why}</div>
+    <div class="prev-st">How to do it</div><div class="prev-body">${selLibItem.how}</div>
+    <div class="prev-st">Coaching tip</div><div class="prev-body">${selLibItem.tip}</div>
+    <div class="prev-st">Life Time app resource</div><div class="prev-body">${selLibItem.resource}</div>`;
 }
 function clearLibSel(){selLibItem=null;document.querySelectorAll('.lib-item').forEach(x=>x.classList.remove('sel'));}
 function pickColor(el){document.querySelectorAll('.copt').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');selColor=el.dataset.c;}
-
 async function addHabit(){
   const name=(document.getElementById('h-name').value||'').trim();
-  if(!name){showToast('! NAME REQUIRED');return;}
+  if(!name){showToast('Name required');return;}
   const c=allClients.find(x=>x.id===curClientId);if(!c)return;
-  const slots=getSlotsUnlocked(c);
   const slot=document.getElementById('h-slot').value;
-  const habitsInSlot=(c.data?.habits||[]).filter(h=>(h.slot||'morning')===slot).length;
-  if(habitsInSlot>=slots){showToast('! SLOT FULL — UNLOCK MORE FIRST');return;}
+  const slotsUnlocked=getSlotsUnlocked(c);
+  const activeInSlot=(c.data?.habits||[]).filter(h=>!h.archived&&(h.slot||'morning')===slot).length;
+  if(activeInSlot>=slotsUnlocked){showToast('Slot full — unlock more slots first');return;}
   const icon=document.getElementById('h-icon').value.trim()||'⭐';
   const cat=document.getElementById('h-cat').value;
   const xp=parseInt(document.getElementById('h-xp').value);
   const id=Date.now();
-  const habits=[...(c.data?.habits||[]),{id,name,cat,icon,color:selColor,xp,slot}];
-  const{error}=await sb.from('clients').update({data:{...c.data,habits}}).eq('id',curClientId);
-  if(error){showToast('! ERROR SAVING');return;}
+  const habits=[...(c.data?.habits||[]),{id,name,cat,icon,color:selColor,xp,slot,archived:false,createdAt:new Date().toISOString()}];
+  const d={...c.data,habits};
   closeOverlay('add-habit-overlay');
-  await loadClients();
-  const updated=allClients.find(x=>x.id===curClientId);
-  if(updated)renderClientDetail(updated);
-  showToast('HABIT ADDED: '+name.toUpperCase());
+  await saveClientData(curClientId,d);showToast('Habit added: '+name);
 }
 
-function openDeleteHabit(id){
-  delHabitId=id;
-  const c=allClients.find(x=>x.id===curClientId);
-  const h=(c?.data?.habits||[]).find(x=>x.id===id);
-  document.getElementById('del-habit-msg').textContent=`Delete "${h?.name||'this habit'}"? All completion data will be removed.`;
-  openOverlay('del-habit-overlay');
-}
-async function confirmDeleteHabit(){
-  const c=allClients.find(x=>x.id===curClientId);if(!c)return;
-  const h=(c.data?.habits||[]).find(x=>x.id===delHabitId);
-  const habits=(c.data?.habits||[]).filter(x=>x.id!==delHabitId);
-  const completions={...c.data?.completions};
-  Object.keys(completions).forEach(k=>{if(completions[k][delHabitId])delete completions[k][delHabitId];});
-  let xp=(c.data?.xp||0);
-  Object.values(completions).forEach(()=>{});
-  const newData={...c.data,habits,completions};
-  const{error}=await sb.from('clients').update({data:newData}).eq('id',curClientId);
-  if(error){showToast('! ERROR');return;}
-  closeOverlay('del-habit-overlay');
-  await loadClients();
-  const updated=allClients.find(x=>x.id===curClientId);
-  if(updated)renderClientDetail(updated);
-  showToast('HABIT DELETED');
-}
+function getLevel(xp){let l=1;for(let i=LEVELS.length-1;i>=0;i--){if(xp>=LEVELS[i].min){l=i+1;break;}}return l;}
+function getLvlName(xp){let n=LEVELS[0].name;for(let i=LEVELS.length-1;i>=0;i--){if(xp>=LEVELS[i].min){n=LEVELS[i].name;break;}}return n;}
+function getXpProg(xp){for(let i=0;i<LEVELS.length-1;i++){if(xp>=LEVELS[i].min&&xp<LEVELS[i+1].min){return{pct:Math.round((xp-LEVELS[i].min)/(LEVELS[i+1].min-LEVELS[i].min)*100),curr:xp-LEVELS[i].min,total:LEVELS[i+1].min-LEVELS[i].min};}}return{pct:100,curr:xp,total:xp};}
 
 function openOverlay(id){document.getElementById(id).classList.add('open');}
 function closeOverlay(id){document.getElementById(id).classList.remove('open');}
-
 let toastTimer;
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2800);}
 

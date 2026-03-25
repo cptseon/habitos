@@ -1,17 +1,11 @@
 {
-  "name": "HABIT_OS // LIFE TIME",
-  "short_name": "HABIT_OS",
-  "description": "Life Time habit tracking and coaching platform",
-  "start_url": "/habitos/client.html",
+  "name": "Habit OS // Life Time",
+  "short_name": "Habit OS",
+  "description": "Life Time habit coaching platform",
+  "start_url": "./client.html",
   "display": "standalone",
-  "background_color": "#050810",
-  "theme_color": "#050810",
+  "background_color": "#FAF8F5",
+  "theme_color": "#FAF8F5",
   "orientation": "portrait-primary",
-  "icons": [
-    {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%23050810'/><text x='96' y='130' font-size='100' text-anchor='middle' fill='%2300f5ff' font-family='monospace'>H</text></svg>",
-      "sizes": "192x192",
-      "type": "image/svg+xml"
-    }
-  ]
+  "icons": [{"src":"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%23FAF8F5'/><text x='96' y='130' font-size='100' text-anchor='middle' fill='%23C4623A' font-family='serif'>H</text></svg>","sizes":"192x192","type":"image/svg+xml"}]
 }
