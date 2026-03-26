@@ -678,8 +678,10 @@ window.addEventListener('offline',()=>{document.getElementById('offline-pill').c
 
 async function init(){
   const params=new URLSearchParams(window.location.search);
-  const pin=params.get('id');
-  if(!pin){showError('No client ID found.<br><br>Please use the personal link your coach sent you.');return;}
+  let pin=params.get('id');
+  if(pin){localStorage.setItem('habitos_pin',pin);}
+  else{pin=localStorage.getItem('habitos_pin');}
+  if(!pin){showError('No client ID found.<br><br>Please use the personal link your coach sent you. Once opened from your coach link, the home screen icon will work automatically.');return;}
   const{data,error}=await sb.from('clients').select('*').eq('pin',pin).single();
   if(error||!data){showError('Client not found.<br><br>This link may be invalid. Contact your coach for a new link.');return;}
   clientRecord=data;
