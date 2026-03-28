@@ -3,21 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#FAF8F5">
 <title>Habit OS — Coach</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#FAF8F5;--bgc:#F0EDE8;--bgs:#FFFFFF;--border:#EDE9E4;--border2:#DDD8D0;
-  --text:#1A1A1A;--text2:#6B6560;--text3:#9A8F86;--text4:#C8C0B8;
-  --acc:#C4623A;--acc2:#7A9E7E;--acc3:#8B7355;
-  --serif:'DM Serif Display',serif;--sans:'DM Sans',sans-serif;
-}
+:root{--bg:#FAF8F5;--bgc:#F0EDE8;--bgs:#FFFFFF;--border:#EDE9E4;--border2:#DDD8D0;--text:#1A1A1A;--text2:#6B6560;--text3:#9A8F86;--text4:#C8C0B8;--acc:#C4623A;--acc2:#7A9E7E;--acc3:#8B7355;--serif:'DM Serif Display',serif;--sans:'DM Sans',sans-serif}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh}
 .wrap{max-width:1100px;margin:0 auto;padding:20px 16px}
-
-/* LOGIN */
 .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
 .login-box{background:var(--bgs);border:1px solid var(--border);border-radius:16px;padding:36px;width:340px;max-width:100%}
 .login-logo{font-family:var(--serif);font-size:24px;color:var(--text);text-align:center;margin-bottom:4px}
@@ -29,20 +21,42 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .lbtn{width:100%;padding:12px;border-radius:8px;font-family:var(--sans);font-size:12px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;border:none;background:var(--text);color:var(--bg);margin-top:4px}
 .lbtn:hover{background:var(--acc)}
 .lbtn:disabled{opacity:0.4;cursor:not-allowed}
-.lerr{font-size:11px;color:#C4623A;text-align:center;min-height:16px;margin-top:8px}
-
-/* APP */
+.lerr{font-size:11px;color:var(--acc);text-align:center;min-height:16px;margin-top:8px}
 #app{display:none}
 .hdr{display:flex;align-items:center;justify-content:space-between;padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:20px;flex-wrap:wrap;gap:8px}
 .logo{font-family:var(--serif);font-size:22px;color:var(--text)}
 .logo-sub{font-size:10px;color:var(--acc);letter-spacing:0.08em;text-transform:uppercase;margin-top:2px}
 .hdr-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.coach-email-disp{font-size:11px;color:var(--text3)}
+.hdr-info{font-size:11px;color:var(--text3)}
 .hbtn{font-size:10px;letter-spacing:0.06em;text-transform:uppercase;padding:6px 12px;border-radius:6px;border:1px solid var(--border2);color:var(--text2);background:transparent;cursor:pointer;transition:all 0.2s}
 .hbtn:hover{border-color:var(--acc);color:var(--acc)}
-.hbtn.danger:hover{border-color:#C4623A;color:#C4623A}
 
-/* ROSTER BAR */
+/* LEADS SECTION */
+.leads-section{background:var(--bgs);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:20px}
+.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.section-title{font-size:13px;font-weight:500;color:var(--text);letter-spacing:0.02em}
+.section-badge{font-size:9px;padding:2px 8px;border-radius:10px;background:var(--bgc);color:var(--text3);letter-spacing:0.04em;margin-left:6px}
+.section-badge.new{background:rgba(196,98,58,0.1);color:var(--acc)}
+.leads-table{width:100%;border-collapse:collapse}
+.leads-table th{font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);padding:6px 10px;border-bottom:1px solid var(--border);text-align:left;font-weight:500}
+.leads-table td{padding:10px;border-bottom:1px solid var(--border);font-size:12px;color:var(--text);vertical-align:middle}
+.leads-table tr:last-child td{border-bottom:none}
+.leads-table tr:hover td{background:var(--bgc)}
+.status-badge{font-size:8px;padding:2px 8px;border-radius:8px;letter-spacing:0.04em;white-space:nowrap}
+.status-new{background:rgba(196,98,58,0.1);color:var(--acc)}
+.status-contacted{background:rgba(139,115,85,0.1);color:var(--acc3)}
+.status-converted{background:rgba(122,158,126,0.1);color:var(--acc2)}
+.status-notfit{background:var(--bgc);color:var(--text3)}
+.lead-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.la-btn{font-size:9px;padding:4px 10px;border-radius:5px;border:1px solid var(--border2);color:var(--text2);background:transparent;cursor:pointer;transition:all 0.2s;white-space:nowrap;letter-spacing:0.04em}
+.la-btn:hover{border-color:var(--acc);color:var(--acc)}
+.la-btn.convert{background:var(--text);color:var(--bg);border-color:var(--text)}
+.la-btn.convert:hover{background:var(--acc);border-color:var(--acc)}
+.la-btn.del:hover{border-color:#C4623A;color:#C4623A}
+.status-sel{font-size:10px;padding:4px 8px;background:var(--bgc);border:1px solid var(--border2);border-radius:5px;color:var(--text);font-family:var(--sans);outline:none;cursor:pointer}
+.leads-empty{text-align:center;padding:20px;font-size:12px;color:var(--text3);font-style:italic}
+
+/* ROSTER */
 .roster-bar{background:var(--bgs);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:20px}
 .roster-top{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
 .roster-label{font-size:10px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap}
@@ -54,35 +68,35 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .rbtn.primary{background:var(--text);color:var(--bg);border-color:var(--text)}
 .rbtn.primary:hover{background:var(--acc);border-color:var(--acc)}
 .rbtn.danger:hover{border-color:#C4623A;color:#C4623A}
-
-/* ROSTER TABLE */
 .roster-table{width:100%;border-collapse:collapse}
 .roster-table th{font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);padding:6px 10px;border-bottom:1px solid var(--border);text-align:left;font-weight:500}
-.roster-table td{padding:10px 10px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text);vertical-align:middle}
+.roster-table td{padding:10px;border-bottom:1px solid var(--border);font-size:12px;color:var(--text);vertical-align:middle}
 .roster-table tr:last-child td{border-bottom:none}
 .roster-table tr{cursor:pointer;transition:background 0.15s}
 .roster-table tr:hover td{background:var(--bgc)}
 .roster-table tr.active-row td{background:#FAF0EC}
-.rt-name{font-weight:500;color:var(--text)}
-.rt-badge{display:inline-block;font-size:8px;padding:2px 7px;border-radius:10px;background:var(--bgc);color:var(--text3);letter-spacing:0.04em;margin-left:6px;vertical-align:middle}
-.rt-badge.active{background:#EFF5EF;color:var(--acc2)}
-.rt-stat{font-size:12px;color:var(--text2)}
-.rt-last{font-size:11px;color:var(--text3)}
+.rt-name{font-weight:500}
 .rt-empty{text-align:center;padding:24px;font-size:12px;color:var(--text3);font-style:italic}
+.notif-badge{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--acc);color:#fff;font-size:8px;font-weight:500;margin-left:5px;vertical-align:middle}
 
 /* CLIENT DETAIL */
 #client-detail{display:none}
 .cd-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
 .cd-title{font-family:var(--serif);font-size:24px;color:var(--text)}
 .cd-meta{font-size:11px;color:var(--text3);margin-top:3px;letter-spacing:0.04em}
-.cd-actions{display:flex;gap:6px;flex-wrap:wrap}
-
-/* CLIENT LINK BOX */
+.cd-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .link-box{background:var(--bgs);border:1px solid var(--border);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
 .link-label{font-size:9px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap}
 .link-url{font-size:11px;color:var(--acc);flex:1;word-break:break-all}
 .link-copy{font-size:9px;padding:4px 10px;border-radius:5px;border:1px solid var(--acc);color:var(--acc);background:transparent;cursor:pointer;transition:all 0.2s;white-space:nowrap}
 .link-copy:hover{background:rgba(196,98,58,0.08)}
+.contact-bar{background:var(--bgs);border:1px solid var(--border);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+.contact-item{display:flex;align-items:center;gap:6px}
+.contact-label{font-size:9px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase}
+.contact-val{font-size:12px;color:var(--text)}
+.contact-btn{font-size:9px;padding:3px 8px;border-radius:5px;border:1px solid var(--border2);color:var(--text2);background:transparent;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.contact-btn:hover{border-color:var(--acc);color:var(--acc)}
+.contact-divider{width:1px;height:20px;background:var(--border)}
 
 /* STAT CARDS */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
@@ -95,30 +109,43 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .sl{font-size:9px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
 .sv{font-size:24px;font-weight:500;color:var(--text);line-height:1.1}
 .sv-sub{font-size:10px;color:var(--text3);margin-top:2px}
-.ssub{font-size:10px;color:var(--text3);margin-top:2px}
 
-/* XP SECTION */
+/* XP */
 .xp-section{background:var(--bgs);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:16px}
 .xp-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px}
 .xp-level{font-size:12px;font-weight:500;color:var(--text);letter-spacing:0.04em}
 .xp-chapter-badge{font-size:10px;color:var(--acc);background:rgba(196,98,58,0.08);padding:2px 8px;border-radius:10px;border:1px solid rgba(196,98,58,0.2)}
 .xp-right{font-size:11px;color:var(--text3)}
-.xp-bar-wrap{margin-bottom:6px}
 .xp-bar-label{font-size:9px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:3px}
 .xp-bar-bg{height:7px;background:var(--bgc);border-radius:4px;overflow:hidden}
 .xp-bar-fill{height:100%;border-radius:4px;background:var(--acc);transition:width 0.8s cubic-bezier(0.4,0,0.2,1)}
 .xp-bar-bg.thin{height:4px;margin-top:4px}
 .xp-bar-fill.chapter{background:var(--acc3)}
+.xp-footer{font-size:10px;color:var(--text3);text-align:right;margin-top:4px}
+
+/* SLOT CONTROLS */
+.slot-controls{background:var(--bgs);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:14px}
+.sc-title{font-size:10px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px}
+.sc-slots{display:flex;gap:8px;flex-wrap:wrap}
+.sc-slot{display:flex;align-items:center;gap:8px;background:var(--bgc);border-radius:8px;padding:8px 12px;flex:1;min-width:140px}
+.sc-slot-num{font-size:11px;font-weight:500;color:var(--text2)}
+.sc-slot-status{font-size:10px;flex:1}
+.sc-slot-status.unlocked{color:var(--acc2)}
+.sc-slot-status.locked{color:var(--text3)}
+.sc-slot-status.forced{color:var(--acc)}
+.sc-btn{font-size:8px;padding:3px 8px;border-radius:4px;border:1px solid var(--border2);color:var(--text2);background:transparent;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.sc-btn:hover{border-color:var(--acc);color:var(--acc)}
+.sc-btn.undo:hover{border-color:#C4623A;color:#C4623A}
 
 /* MONTH NAV */
 .month-nav-bar{display:flex;align-items:center;gap:10px;margin-bottom:14px;background:var(--bgs);border:1px solid var(--border);border-radius:10px;padding:10px 14px;flex-wrap:wrap}
 .month-nav-label{font-size:10px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap}
 .month-sel{padding:6px 10px;background:var(--bgc);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:var(--sans);font-size:12px;outline:none;cursor:pointer}
-.month-sel:focus{border-color:var(--acc)}
 .month-nav-btn{padding:5px 10px;background:transparent;border:1px solid var(--border2);border-radius:6px;color:var(--text2);font-size:12px;cursor:pointer;transition:all 0.15s}
 .month-nav-btn:hover{border-color:var(--acc);color:var(--acc)}
+.month-stat{font-size:10px;color:var(--text3)}
 
-/* SUMMARY ROW */
+/* SUMMARY */
 .summary-row{display:flex;gap:16px;margin-bottom:14px;flex-wrap:wrap}
 .sr-item{font-size:12px;color:var(--text2)}
 .sr-item strong{color:var(--text);font-weight:500}
@@ -127,7 +154,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
 .filter-label{font-size:9px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap}
 .fsel{padding:5px 10px;background:var(--bgc);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:var(--sans);font-size:11px;outline:none;cursor:pointer}
-.fsel:focus{border-color:var(--acc)}
 .ftoggle{padding:5px 10px;background:transparent;border:1px solid var(--border2);border-radius:6px;color:var(--text2);font-size:11px;cursor:pointer;transition:all 0.15s}
 .ftoggle.active{background:var(--bgc);border-color:var(--acc);color:var(--acc)}
 
@@ -151,20 +177,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .tbl-btn.danger:hover{color:#C4623A}
 .add-habit-btn{width:100%;padding:10px;background:transparent;border:1px dashed var(--border2);border-radius:8px;color:var(--text3);font-family:var(--sans);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;margin-top:4px}
 .add-habit-btn:hover{border-color:var(--acc);color:var(--acc);background:rgba(196,98,58,0.04)}
-
-/* SLOT CONTROLS */
-.slot-controls{background:var(--bgs);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:14px}
-.sc-title{font-size:10px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px}
-.sc-slots{display:flex;gap:8px;flex-wrap:wrap}
-.sc-slot{display:flex;align-items:center;gap:8px;background:var(--bgc);border-radius:8px;padding:8px 12px;flex:1;min-width:140px}
-.sc-slot-num{font-size:11px;font-weight:500;color:var(--text2)}
-.sc-slot-status{font-size:10px;flex:1}
-.sc-slot-status.unlocked{color:var(--acc2)}
-.sc-slot-status.locked{color:var(--text3)}
-.sc-slot-status.forced{color:var(--acc)}
-.sc-btn{font-size:8px;padding:3px 8px;border-radius:4px;border:1px solid var(--border2);color:var(--text2);background:transparent;cursor:pointer;transition:all 0.2s;white-space:nowrap}
-.sc-btn:hover{border-color:var(--acc);color:var(--acc)}
-.sc-btn.undo:hover{border-color:#C4623A;color:#C4623A}
+.sectit{font-size:10px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sectit::after{content:'';flex:1;height:1px;background:var(--border)}
 
 /* NOTES */
 .notes-section{background:var(--bgs);border:1px solid var(--border);border-radius:12px;padding:14px;margin-top:14px}
@@ -176,22 +190,30 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .notes-saved{font-size:10px;color:var(--acc2);margin-left:8px;opacity:0;transition:opacity 0.3s}
 .notes-saved.show{opacity:1}
 
-/* SECTION TITLE */
-.sectit{font-size:10px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.sectit::after{content:'';flex:1;height:1px;background:var(--border)}
-
 /* OVERLAYS */
 .overlay{position:fixed;inset:0;background:rgba(26,26,26,0.7);display:none;align-items:flex-start;justify-content:center;z-index:1000;padding:20px;padding-top:40px;overflow-y:auto}
 .overlay.open{display:flex}
 .modal{background:var(--bgs);border:1px solid var(--border);border-radius:16px;padding:24px;width:420px;max-width:100%;max-height:85vh;overflow-y:auto}
 .modal.wide{width:760px}
-.modal.narrow{width:340px}
+.session-card{background:var(--bgc);border-radius:8px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.session-card:last-child{margin-bottom:0}
+.session-left{display:flex;align-items:center;gap:10px}
+.session-type-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.session-type-dot.in-person{background:var(--acc)}
+.session-type-dot.virtual{background:var(--acc2)}
+.session-date{font-size:12px;font-weight:500;color:var(--text)}
+.session-time{font-size:11px;color:var(--text3)}
+.session-type-label{font-size:9px;padding:2px 7px;border-radius:5px;letter-spacing:0.04em}
+.session-type-label.in-person{background:rgba(196,98,58,0.1);color:var(--acc)}
+.session-type-label.virtual{background:rgba(122,158,126,0.1);color:var(--acc2)}
+.session-notes-txt{font-size:11px;color:var(--text3);margin-top:2px}
+.sessions-empty{font-size:11px;color:var(--text4);font-style:italic;padding:8px 0}
+.modal.narrow{width:360px}
 .mtit{font-family:var(--serif);font-size:20px;color:var(--text);margin-bottom:20px}
 .mfg{margin-bottom:14px}
 .mfl{font-size:10px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:5px;display:block}
 .mfi,.mfsel{width:100%;padding:10px 12px;background:var(--bgc);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:13px;outline:none;transition:border-color 0.2s}
 .mfi:focus,.mfsel:focus{border-color:var(--acc)}
-.mfsel option{background:var(--bgs)}
 .mact{display:flex;gap:8px;margin-top:18px}
 .mcnl,.mcrt{flex:1;padding:10px;border-radius:8px;font-family:var(--sans);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s}
 .mcnl{background:transparent;border:1px solid var(--border2);color:var(--text2)}
@@ -246,7 +268,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="login-screen" class="login-screen">
   <div class="login-box">
     <div class="login-logo">Habit OS</div>
@@ -258,20 +279,33 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
   </div>
 </div>
 
-<!-- APP -->
 <div id="app">
 <div class="wrap">
 
 <div class="hdr">
   <div><div class="logo">Habit OS</div><div class="logo-sub">Coach Dashboard</div></div>
   <div class="hdr-right">
-    <div class="coach-email-disp" id="coach-email-disp"></div>
-    <div class="coach-email-disp" id="hdr-date"></div>
-    <button class="hbtn danger" onclick="coachLogout()">Sign Out</button>
+    <div class="hdr-info" id="coach-email-disp"></div>
+    <div class="hdr-info" id="hdr-date"></div>
+    <button class="hbtn" onclick="coachLogout()">Sign Out</button>
   </div>
 </div>
 
-<!-- ROSTER BAR -->
+<!-- LEADS -->
+<div class="leads-section">
+  <div class="section-hdr">
+    <div style="display:flex;align-items:center">
+      <div class="section-title">Leads</div>
+      <span class="section-badge new" id="leads-badge"></span>
+    </div>
+  </div>
+  <table class="leads-table">
+    <thead><tr><th>Name</th><th>Contact</th><th>Location</th><th>Applied</th><th>Status</th><th></th></tr></thead>
+    <tbody id="leads-tbody"><tr><td colspan="6" class="leads-empty">No leads yet — applications from your landing page will appear here</td></tr></tbody>
+  </table>
+</div>
+
+<!-- ROSTER -->
 <div class="roster-bar">
   <div class="roster-top">
     <div class="roster-label">Client</div>
@@ -283,22 +317,20 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
       <button class="rbtn danger" onclick="openDeleteClient()">Remove</button>
     </div>
   </div>
-  <table class="roster-table" id="roster-table">
+  <table class="roster-table">
     <thead><tr><th>Client</th><th>Streak</th><th>Last Check-in</th><th>This Month</th><th>Completion Rate</th></tr></thead>
-    <tbody id="roster-tbody"><tr><td colspan="5" class="rt-empty">No clients yet — create your first client</td></tr></tbody>
+    <tbody id="roster-tbody"><tr><td colspan="5" class="rt-empty">No clients yet</td></tr></tbody>
   </table>
 </div>
 
 <!-- CLIENT DETAIL -->
 <div id="client-detail">
   <div class="cd-header">
-    <div>
-      <div class="cd-title" id="cd-name"></div>
-      <div class="cd-meta" id="cd-meta"></div>
-    </div>
+    <div><div class="cd-title" id="cd-name"></div><div class="cd-meta" id="cd-meta"></div></div>
     <div class="cd-actions">
       <button class="rbtn" onclick="regenerateLink()">↻ New Link</button>
       <button class="rbtn" onclick="copyClientLink()">⎘ Copy Link</button>
+      <button class="rbtn danger" onclick="resetOnboarding()">Reset Onboarding</button>
     </div>
   </div>
 
@@ -308,23 +340,42 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
     <button class="link-copy" onclick="copyClientLink()">Copy</button>
   </div>
 
-  <!-- COACH MESSAGE -->
+  <div class="contact-bar" id="contact-bar" style="display:none">
+    <div class="contact-item">
+      <div class="contact-label">Email</div>
+      <div class="contact-val" id="cd-email">—</div>
+    </div>
+    <div class="contact-divider"></div>
+    <div class="contact-item" style="gap:4px">
+      <button class="contact-btn" id="cd-email-btn" onclick="contactEmail()">✉ Email</button>
+      <button class="contact-btn" onclick="copyEmail()">Copy</button>
+    </div>
+    <div class="contact-divider"></div>
+    <div class="contact-item">
+      <div class="contact-label">Phone</div>
+      <div class="contact-val" id="cd-phone">—</div>
+    </div>
+    <div class="contact-divider"></div>
+    <div class="contact-item" style="gap:4px">
+      <button class="contact-btn" id="cd-sms-btn" onclick="contactSMS()">✉ Text</button>
+      <button class="contact-btn" onclick="copyPhone()">Copy</button>
+    </div>
+  </div>
+
   <div class="notes-section" style="margin-top:0;margin-bottom:16px">
-    <div class="notes-title">Client Message <span style="font-size:9px;color:var(--text4);font-weight:400;text-transform:none;letter-spacing:0">(shown on client dashboard)</span></div>
-    <textarea class="notes-area" id="coach-message" placeholder="e.g. Hi Sarah — we're focusing on movement and sleep this month. Check in daily and I'll see your progress at our next session." rows="2"></textarea>
+    <div class="notes-title">Client Message <span style="font-size:9px;color:var(--text4);font-weight:400;text-transform:none;letter-spacing:0">(shown on their dashboard)</span></div>
+    <textarea class="notes-area" id="coach-message" placeholder="e.g. Focus on morning habits this week — consistency over intensity." rows="2"></textarea>
     <button class="notes-save" onclick="saveCoachMessage()">Save Message</button>
     <span class="notes-saved" id="msg-saved">Saved</span>
   </div>
 
-  <!-- STAT CARDS -->
   <div class="stats">
     <div class="sc"><div class="sl">Chapter XP</div><div class="sv" id="cd-xp">0</div><div class="sv-sub" id="cd-alltime-xp">0 all-time</div></div>
-    <div class="sc green"><div class="sl">Best Streak</div><div class="sv" id="cd-streak">0</div><div class="ssub">days</div></div>
-    <div class="sc brown"><div class="sl">This Month</div><div class="sv" id="cd-month">0</div><div class="ssub">completions</div></div>
-    <div class="sc dark"><div class="sl">Journey</div><div class="sv" id="cd-day">—</div><div class="ssub" id="cd-day-sub">day</div></div>
+    <div class="sc green"><div class="sl">Best Streak</div><div class="sv" id="cd-streak">0</div><div class="sv-sub">days</div></div>
+    <div class="sc brown"><div class="sl">This Month</div><div class="sv" id="cd-month">0</div><div class="sv-sub">completions</div></div>
+    <div class="sc dark"><div class="sl">Journey</div><div class="sv" id="cd-day">—</div><div class="sv-sub" id="cd-day-sub">day</div></div>
   </div>
 
-  <!-- XP BAR -->
   <div class="xp-section">
     <div class="xp-top">
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
@@ -333,37 +384,29 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
       </div>
       <div class="xp-right" id="cd-xp-txt">0 / 300 XP to next level</div>
     </div>
-    <div class="xp-bar-wrap">
-      <div class="xp-bar-label">Level Progress</div>
-      <div class="xp-bar-bg"><div class="xp-bar-fill" id="cd-level-bar" style="width:0%"></div></div>
-    </div>
-    <div class="xp-bar-wrap">
-      <div class="xp-bar-label">Chapter Progress</div>
-      <div class="xp-bar-bg thin"><div class="xp-bar-fill chapter" id="cd-chapter-bar" style="width:0%"></div></div>
-    </div>
-    <div style="font-size:10px;color:var(--text3);text-align:right;margin-top:4px" id="cd-chapter-txt">0 / 11,000 XP to prestige</div>
+    <div class="xp-bar-label">Level Progress</div>
+    <div class="xp-bar-bg"><div class="xp-bar-fill" id="cd-level-bar" style="width:0%"></div></div>
+    <div class="xp-bar-label" style="margin-top:6px">Chapter Progress</div>
+    <div class="xp-bar-bg thin"><div class="xp-bar-fill chapter" id="cd-chapter-bar" style="width:0%"></div></div>
+    <div class="xp-footer" id="cd-chapter-txt">0 / 11,000 XP to prestige</div>
   </div>
 
-  <!-- SLOT CONTROLS -->
   <div class="slot-controls">
     <div class="sc-title">Habit Slot Progression</div>
     <div class="sc-slots" id="sc-slots-display"></div>
   </div>
 
-  <!-- MONTH NAV -->
   <div class="month-nav-bar">
     <div class="month-nav-label">Viewing</div>
     <button class="month-nav-btn" onclick="changeViewMonth(-1)">◀</button>
     <select class="month-sel" id="month-sel" onchange="onMonthSelChange()"></select>
     <button class="month-nav-btn" onclick="changeViewMonth(1)">▶</button>
     <div style="flex:1"></div>
-    <div style="font-size:10px;color:var(--text3)" id="month-completion-stat"></div>
+    <div class="month-stat" id="month-completion-stat"></div>
   </div>
 
-  <!-- SUMMARY ROW -->
   <div class="summary-row" id="summary-row"></div>
 
-  <!-- HABITS SECTION -->
   <div class="sectit">Habits</div>
   <div class="filter-bar">
     <div class="filter-label">Filter</div>
@@ -373,34 +416,52 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
     <button class="ftoggle" id="f-archived" onclick="toggleArchivedFilter()">Show Archived</button>
   </div>
   <table class="habit-table">
-    <thead><tr><th>Habit</th><th>Slot</th><th>Category</th><th>XP</th><th>Streak</th><th>Rate (Month)</th><th>Status</th><th></th></tr></thead>
+    <thead><tr><th>Habit</th><th>Slot</th><th>Category</th><th>XP</th><th>Streak</th><th>Rate</th><th>Status</th><th></th></tr></thead>
     <tbody id="habit-tbody"></tbody>
   </table>
-  <button class="add-habit-btn" onclick="openAddHabit()">+ Add Habit for This Client</button>
+  <button class="add-habit-btn" onclick="openAddHabit()">+ Add Habit</button>
 
-  <!-- COACH NOTES -->
+  <div class="notes-section" style="margin-top:14px">
+    <div class="notes-title" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <span>Training Sessions</span>
+      <button class="rbtn primary" style="font-size:9px;padding:5px 12px" onclick="openAddSession()">+ Schedule Session</button>
+    </div>
+    <div id="sessions-list" style="margin-top:10px"></div>
+  </div>
+
   <div class="notes-section">
     <div class="notes-title">Private Coach Notes <span style="font-size:9px;color:var(--text4);font-weight:400;text-transform:none;letter-spacing:0">(never shown to client)</span></div>
     <textarea class="notes-area" id="coach-notes" placeholder="Session notes, observations, goals for next session..."></textarea>
     <button class="notes-save" onclick="saveNotes()">Save Notes</button>
     <span class="notes-saved" id="notes-saved">Saved</span>
   </div>
+</div>
+</div>
+</div>
 
-</div><!-- /client-detail -->
-</div><!-- /wrap -->
-</div><!-- /app -->
-
-<!-- NEW CLIENT OVERLAY -->
+<!-- NEW CLIENT -->
 <div class="overlay" id="newclient-overlay">
   <div class="modal narrow">
     <div class="mtit">New Client</div>
-    <div class="mfg"><label class="mfl">Full Name</label><input class="mfi" id="nc-name" type="text" placeholder="e.g. Sarah Johnson"></div>
+    <div class="mfg"><label class="mfl">Full Name</label><input class="mfi" id="nc-name" type="text" placeholder="Sarah Johnson"></div>
     <div class="mfg"><label class="mfl">Start Date</label><input class="mfi" id="nc-start" type="date"></div>
-    <div class="mact"><button class="mcnl" onclick="closeOverlay('newclient-overlay')">Cancel</button><button class="mcrt" onclick="createClient()">Create & Generate Link</button></div>
+    <div class="mact"><button class="mcnl" onclick="closeOverlay('newclient-overlay')">Cancel</button><button class="mcrt" onclick="createClient()">Create Client</button></div>
   </div>
 </div>
 
-<!-- ADD HABIT OVERLAY -->
+<!-- CONVERT LEAD TO CLIENT -->
+<div class="overlay" id="convert-overlay">
+  <div class="modal narrow">
+    <div class="mtit">Convert to Client</div>
+    <div class="mfg"><label class="mfl">Full Name</label><input class="mfi" id="conv-name" type="text" readonly></div>
+    <div class="mfg"><label class="mfl">Email</label><input class="mfi" id="conv-email" type="text" readonly></div>
+    <div class="mfg"><label class="mfl">Phone</label><input class="mfi" id="conv-phone" type="text" readonly></div>
+    <div class="mfg"><label class="mfl">Start Date</label><input class="mfi" id="conv-start" type="date"></div>
+    <div class="mact"><button class="mcnl" onclick="closeOverlay('convert-overlay')">Cancel</button><button class="mcrt" onclick="confirmConvertLead()">Create Client</button></div>
+  </div>
+</div>
+
+<!-- ADD HABIT -->
 <div class="overlay" id="add-habit-overlay">
   <div class="modal wide">
     <div class="mtit">Add Habit</div>
@@ -440,13 +501,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
       </div>
       <div>
         <label class="mfl" style="margin-bottom:8px">Preview</label>
-        <div class="preview-box" id="habit-preview"><div class="preview-empty">Select a habit from the library to preview details and Life Time app resources</div></div>
+        <div class="preview-box" id="habit-preview"><div class="preview-empty">Select a habit from the library to preview details</div></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- DELETE CLIENT OVERLAY -->
+<!-- DELETE CLIENT -->
 <div class="overlay" id="del-client-overlay">
   <div class="del-modal">
     <div class="del-title">Remove Client</div>
@@ -455,12 +516,47 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
   </div>
 </div>
 
-<!-- DELETE HABIT OVERLAY -->
+<!-- DELETE HABIT -->
 <div class="overlay" id="del-habit-overlay">
   <div class="del-modal">
     <div class="del-title">Archive Habit</div>
     <div class="del-msg" id="del-habit-msg">Archive this habit?</div>
     <div class="del-act"><button class="bkeep" onclick="closeOverlay('del-habit-overlay')">Keep</button><button class="bdel" onclick="confirmArchiveHabit()">Archive</button></div>
+  </div>
+</div>
+
+<!-- ADD SESSION -->
+<div class="overlay" id="add-session-overlay">
+  <div class="modal narrow">
+    <div class="mtit">Schedule Session</div>
+    <div class="mfg"><label class="mfl">Date</label><input class="mfi" id="sess-date" type="date"></div>
+    <div class="mfg"><label class="mfl">Time</label><input class="mfi" id="sess-time" type="time"></div>
+    <div class="mfg"><label class="mfl">Type</label>
+      <select class="mfsel" id="sess-type">
+        <option value="in-person">In-person</option>
+        <option value="virtual">Virtual</option>
+      </select>
+    </div>
+    <div class="mfg"><label class="mfl">Notes (optional)</label><input class="mfi" id="sess-notes" type="text" placeholder="e.g. Bring resistance bands"></div>
+    <div class="mact"><button class="mcnl" onclick="closeOverlay('add-session-overlay')">Cancel</button><button class="mcrt" onclick="confirmAddSession()">Schedule</button></div>
+  </div>
+</div>
+
+<!-- DELETE SESSION -->
+<div class="overlay" id="del-session-overlay">
+  <div class="del-modal">
+    <div class="del-title">Remove Session</div>
+    <div class="del-msg" id="del-session-msg">Remove this session?</div>
+    <div class="del-act"><button class="bkeep" onclick="closeOverlay('del-session-overlay')">Cancel</button><button class="bdel" onclick="confirmDeleteSession()">Remove</button></div>
+  </div>
+</div>
+
+<!-- DELETE LEAD -->
+<div class="overlay" id="del-lead-overlay">
+  <div class="del-modal">
+    <div class="del-title">Delete Lead</div>
+    <div class="del-msg" id="del-lead-msg">Delete this lead?</div>
+    <div class="del-act"><button class="bkeep" onclick="closeOverlay('del-lead-overlay')">Cancel</button><button class="bdel" onclick="confirmDeleteLead()">Delete</button></div>
   </div>
 </div>
 
@@ -471,60 +567,55 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 const SUPABASE_URL='https://iwzzkxnzqyszjoielblo.supabase.co';
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml3enpreG56cXlzempvaWVsYmxvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzMTUyMDQsImV4cCI6MjA4OTg5MTIwNH0.CMJNkZNgRqrrEJojiARbFeUuU5-C6L_ms56pZ5csW1s';
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-
-const MAX_SLOTS=4,SLOT_WEEKS=4,PRESTIGE_XP=11000;
+const MAX_SLOTS=4,SLOT_WEEKS=6,PRESTIGE_XP=11000;
 const MONTHS_SHORT=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const ROMAN=['I','II','III'];
-const LEVELS=[
-  {min:0,name:'Newcomer'},{min:300,name:'Mover'},{min:700,name:'Builder'},
-  {min:1400,name:'Athlete'},{min:2500,name:'Performer'},{min:4000,name:'Competitor'},
-  {min:6000,name:'Champion'},{min:8500,name:'Elite'},{min:11000,name:'Icon'}
-];
+const LEVELS=[{min:0,name:'Newcomer'},{min:300,name:'Mover'},{min:700,name:'Builder'},{min:1400,name:'Athlete'},{min:2500,name:'Performer'},{min:4000,name:'Competitor'},{min:6000,name:'Champion'},{min:8500,name:'Elite'},{min:11000,name:'Icon'}];
 
 const HABIT_LIBRARY={
   movement:[
-    {name:'Morning Walk',icon:'🚶',cat:'MOVEMENT',xp:10,diff:1,why:'Low-intensity movement first thing activates metabolism, improves mood through endorphin release, and sets a positive behavioral tone for the day.',how:'Walk at a conversational pace for 10–20 min within 30 min of waking. Go outside when possible.',tip:'Pair with morning sunlight for circadian rhythm benefits. Even cloudy light is 10x brighter than indoors.',resource:'Ask L•AI•C in the Life Time app for a personalized walking program. Sync Apple Health or Garmin for automatic step tracking.'},
-    {name:'Strength Training',icon:'🏋️',cat:'MOVEMENT',xp:35,diff:3,why:'Preserves lean muscle, improves insulin sensitivity, strengthens bones, and elevates resting metabolic rate.',how:'30–60 min compound movements (squat, hinge, push, pull) with progressive overload. Log lifts every session.',tip:'Progressive overload — not maximum soreness — is the goal. Consistency over months beats intensity.',resource:'Use L•AI•C in the Life Time app to build a custom strength program. On-demand strength classes available under Classes.'},
-    {name:'Mobility Flow',icon:'🧘',cat:'MOVEMENT',xp:15,diff:1,why:'Addresses the root cause of chronic pain and movement dysfunction. Improves joint range of motion and reduces injury risk.',how:'10–15 min controlled range-of-motion work. Focus on hips, thoracic spine, and shoulders.',tip:'Use before workout as dynamic prep or after as cooldown.',resource:'Book a Dynamic Stretch session with a Life Time Stretch Specialist. Find flexibility articles at experiencelife.lifetime.life/category/fitness/flexibility-mobility/'},
-    {name:'Zone 2 Cardio',icon:'🚴',cat:'MOVEMENT',xp:30,diff:2,why:'Trains mitochondria to burn fat, improves VO2 max, builds the aerobic base all other fitness sits on.',how:'30–45 min at conversational pace (60–70% max HR). Bike, jog, row, or incline walk.',tip:'If you cannot speak in full sentences, slow down. Most people go too hard for Zone 2.',resource:'Use the Life Time app\'s on-demand cardio classes for guided Zone 2 sessions. Ask L•AI•C to build a cardio program.'},
-    {name:'10,000 Steps',icon:'👟',cat:'MOVEMENT',xp:20,diff:2,why:'Non-exercise activity thermogenesis (NEAT) accounts for 15–30% of daily calorie burn.',how:'Distribute steps throughout the day. Take stairs, park farther, walk during calls.',tip:'Start with 7,500 if 10k feels daunting. Consistency beats perfection.',resource:'Sync Apple Health or Garmin with the Life Time app for automatic step tracking. Ask L•AI•C for NEAT strategies.'},
-    {name:'Sprint Intervals',icon:'⚡',cat:'MOVEMENT',xp:35,diff:3,why:'HIIT elevates afterburn, improves insulin sensitivity, and stimulates fast-twitch fibers Zone 2 does not reach.',how:'6–8 rounds of 20–30s all-out effort with 90–120s recovery after warm-up.',tip:'Limit to 1–2x per week. More is not better for this stimulus.',resource:'Find HIIT classes in the Life Time app under Classes. Ask L•AI•C for a custom interval program.'},
-    {name:'Yoga Session',icon:'🌀',cat:'MOVEMENT',xp:20,diff:2,why:'Integrates movement, breath, and mindfulness while activating the parasympathetic nervous system.',how:'20–60 min practice. Vinyasa for intensity, Yin for recovery, Hatha for balance.',tip:'Check the Life Time group fitness schedule for live yoga classes.',resource:'Book a live yoga class through the Life Time app. On-demand yoga classes also available under Classes.'},
-    {name:'Stretch Routine',icon:'🤸',cat:'MOVEMENT',xp:10,diff:1,why:'Maintains tissue length, reduces post-workout soreness, and improves posture over time.',how:'10 min holding major muscle groups 30–60 seconds. Focus on hip flexors and hamstrings.',tip:'Static stretching is best post-workout or in the evening, not before lifting.',resource:'Find the stretching and mobility workout at experiencelife.lifetime.life. Book a Dynamic Stretch session at the club.'},
+    {name:'Morning Walk',icon:'🚶',cat:'MOVEMENT',xp:10,diff:1,why:'Low-intensity movement first thing activates metabolism, improves mood through endorphin release, and sets a positive behavioral tone for the day.',how:'Walk at a conversational pace for 10–20 min within 30 min of waking. Go outside when possible.',tip:'Pair with morning sunlight for circadian rhythm benefits.'},
+    {name:'Strength Training',icon:'🏋️',cat:'MOVEMENT',xp:35,diff:3,why:'Preserves lean muscle, improves insulin sensitivity, strengthens bones, and elevates resting metabolic rate.',how:'30–60 min compound movements with progressive overload. Log lifts every session.',tip:'Progressive overload — not maximum soreness — is the goal.'},
+    {name:'Mobility Flow',icon:'🧘',cat:'MOVEMENT',xp:15,diff:1,why:'Addresses the root cause of chronic pain and movement dysfunction.',how:'10–15 min controlled range-of-motion work. Focus on hips, thoracic spine, and shoulders.',tip:'Use before workout as dynamic prep or after as cooldown.'},
+    {name:'Zone 2 Cardio',icon:'🚴',cat:'MOVEMENT',xp:30,diff:2,why:'Trains mitochondria to burn fat, improves VO2 max, builds the aerobic base.',how:'30–45 min at conversational pace (60–70% max HR).',tip:'If you cannot speak in full sentences, slow down.'},
+    {name:'10,000 Steps',icon:'👟',cat:'MOVEMENT',xp:20,diff:2,why:'Non-exercise activity thermogenesis accounts for 15–30% of daily calorie burn.',how:'Distribute steps throughout the day. Take stairs, park farther, walk during calls.',tip:'Start with 7,500 if 10k feels daunting.'},
+    {name:'Sprint Intervals',icon:'⚡',cat:'MOVEMENT',xp:35,diff:3,why:'HIIT elevates afterburn, improves insulin sensitivity.',how:'6–8 rounds of 20–30s all-out effort with 90–120s recovery.',tip:'Limit to 1–2x per week.'},
+    {name:'Yoga Session',icon:'🌀',cat:'MOVEMENT',xp:20,diff:2,why:'Integrates movement, breath, and mindfulness while activating the parasympathetic nervous system.',how:'20–60 min practice.',tip:'Check your schedule for live yoga classes.'},
+    {name:'Stretch Routine',icon:'🤸',cat:'MOVEMENT',xp:10,diff:1,why:'Maintains tissue length, reduces post-workout soreness, and improves posture.',how:'10 min holding major muscle groups 30–60 seconds.',tip:'Static stretching is best post-workout or in the evening.'},
   ],
   nutrition:[
-    {name:'Eat Slowly',icon:'🍽️',cat:'NUTRITION',xp:15,diff:1,why:'PN Level 1 foundational habit. Satiety hormones take 15–20 min — slow eaters consume 10–15% fewer calories with higher satisfaction.',how:'Put fork down between bites. 20 min minimum per meal. No screens while eating.',tip:'This single habit consistently produces more body composition change than any complex diet plan.',resource:'Ask L•AI•C for mindful eating strategies. Read nutrition tips at experiencelife.lifetime.life/category/nutrition/nutrition-tips/'},
-    {name:'80% Full Rule',icon:'🥗',cat:'NUTRITION',xp:20,diff:2,why:'Practiced by the longest-lived populations. Prevents chronic low-grade overeating without restriction.',how:'Before last few bites: am I satisfied? Stop when satisfied but could eat more.',tip:'Pairs powerfully with eating slowly. Together they form the core of PN Level 1.',resource:'Ask L•AI•C for personalized appetite regulation strategies. Life Time RD consultations available through the app.'},
-    {name:'Protein at Every Meal',icon:'🥩',cat:'NUTRITION',xp:15,diff:1,why:'Most satiating macronutrient. Distributing protein maximizes muscle-building stimulus throughout the day.',how:'Palm-sized serving (20–40g) every meal. Chicken, fish, eggs, Greek yogurt, tofu, legumes.',tip:'Most clients eat 60–70% of optimal protein without realizing it. Track for 3 days.',resource:'Explore LTH protein supplements in LT Shop. Read about protein goals at experiencelife.lifetime.life/category/nutrition/nutrition-tips/'},
-    {name:'Drink 3L Water',icon:'💧',cat:'NUTRITION',xp:10,diff:1,why:'Even 1–2% dehydration impairs cognition, energy, and exercise capacity.',how:'Half bodyweight in ounces daily. Large glass before coffee every morning.',tip:'Add electrolytes if training hard.',resource:'LTH electrolyte supplements available in LT Shop in the Life Time app. Ask L•AI•C for hydration guidance.'},
-    {name:'Veggies Each Meal',icon:'🥦',cat:'NUTRITION',xp:15,diff:1,why:'Fiber, micronutrients, and phytocompounds largely absent from processed foods.',how:'Fist-sized serving every meal. Frozen is as nutritious as fresh.',tip:'Rotate colors — green, orange, red, purple — for a broad phytonutrient spectrum.',resource:'Find healthy recipes at experiencelife.lifetime.life/recipes/ — many are vegetable-forward and dietitian-crafted.'},
-    {name:'No Liquid Calories',icon:'🚫',cat:'NUTRITION',xp:20,diff:2,why:'Liquid calories bypass satiety signals. Can add 300–600 hidden calories daily.',how:'Water, black coffee, plain tea only. Check labels on "healthy" drinks.',tip:'A daily latte plus afternoon juice can be 400+ calories — often the highest-leverage change.',resource:'Ask L•AI•C for beverage guidance. Life Time RD consultations available through the app for personalized nutrition coaching.'},
-    {name:'Meal Prep Sunday',icon:'📦',cat:'NUTRITION',xp:35,diff:2,why:'Environment design beats willpower. Ready-to-eat healthy food leads to automatic better choices.',how:'Batch cook 2–3 proteins, vegetables, and a grain on Sunday.',tip:'Just prep ingredients — cooked chicken, roasted veg, hard-boiled eggs. No full meals needed.',resource:'Explore the 1-2-12 nutrition system at experiencelife.lifetime.life. Find meal prep guides at experiencelife.lifetime.life/category/nutrition/meal-prep/'},
-    {name:'Nutrient Timing',icon:'⏱️',cat:'NUTRITION',xp:20,diff:3,why:'PN Level 2: eating carbs and protein around training windows improves performance and recovery.',how:'20–40g protein + fast carbs within 1–2 hours post-workout.',tip:'Only matters meaningfully once foundational habits are solid. A true Level 2 detail.',resource:'Ask L•AI•C for pre and post-workout nutrition guidance. LTH supplements available in LT Shop for workout nutrition.'},
+    {name:'Eat Slowly',icon:'🍽️',cat:'NUTRITION',xp:15,diff:1,why:'PN Level 1 foundational skill. Satiety hormones take 15–20 min — slow eaters consume fewer calories with higher satisfaction.',how:'Put fork down between bites. 20 min minimum per meal. No screens.',tip:'This single skill consistently produces more body composition change than any complex diet plan.'},
+    {name:'80% Full Rule',icon:'🥗',cat:'NUTRITION',xp:20,diff:2,why:'Practiced by the longest-lived populations. Prevents chronic low-grade overeating.',how:'Before last few bites: am I satisfied? Stop when satisfied but could eat more.',tip:'Pairs powerfully with eating slowly.'},
+    {name:'Protein at Every Meal',icon:'🥩',cat:'NUTRITION',xp:15,diff:1,why:'Most satiating macronutrient. Distributing protein maximizes muscle-building stimulus.',how:'Palm-sized serving (20–40g) every meal.',tip:'Most clients eat 60–70% of optimal protein without realizing it.'},
+    {name:'Drink 3L Water',icon:'💧',cat:'NUTRITION',xp:10,diff:1,why:'Even 1–2% dehydration impairs cognition, energy, and exercise capacity.',how:'Half bodyweight in ounces daily. Large glass before coffee every morning.',tip:'Add electrolytes if training hard.'},
+    {name:'Veggies Each Meal',icon:'🥦',cat:'NUTRITION',xp:15,diff:1,why:'Fiber, micronutrients, and phytocompounds largely absent from processed foods.',how:'Fist-sized serving every meal.',tip:'Rotate colors for a broad phytonutrient spectrum.'},
+    {name:'No Liquid Calories',icon:'🚫',cat:'NUTRITION',xp:20,diff:2,why:'Liquid calories bypass satiety signals. Can add 300–600 hidden calories daily.',how:'Water, black coffee, plain tea only.',tip:'A daily latte plus afternoon juice can be 400+ calories.'},
+    {name:'Meal Prep Sunday',icon:'📦',cat:'NUTRITION',xp:35,diff:2,why:'Environment design beats willpower. Ready-to-eat healthy food leads to automatic better choices.',how:'Batch cook proteins, vegetables, and a grain on Sunday.',tip:'Just prep ingredients — no full meals needed.'},
+    {name:'Nutrient Timing',icon:'⏱️',cat:'NUTRITION',xp:20,diff:3,why:'PN Level 2: eating around training windows improves performance and recovery.',how:'20–40g protein + fast carbs within 1–2 hours post-workout.',tip:'Only matters once foundational skills are solid.'},
   ],
   regeneration:[
-    {name:'Sleep by 10pm',icon:'🌙',cat:'REGENERATION',xp:20,diff:2,why:'Hours before midnight yield disproportionately more deep sleep and growth hormone release.',how:'Wind-down at 9:15pm. Dim lights, 65–67°F, no screens. In bed by 10pm.',tip:'Phone in another room. Blue light suppresses melatonin production significantly.',resource:'Access guided sleep meditations in the Life Time app under Mind & Body. Ask L•AI•C for sleep improvement tips.'},
-    {name:'7–9 Hours Sleep',icon:'😴',cat:'REGENERATION',xp:20,diff:2,why:'The master recovery variable. Under 7 hours impairs muscle protein synthesis and dysregulates appetite hormones.',how:'Work backward from wake time to set bedtime. Protect it like a non-negotiable appointment.',tip:'Try 8+ hours for 2 weeks and observe the difference in energy and performance.',resource:'Access on-demand sleep support meditations in the Life Time app. Ask L•AI•C: "How do I get better sleep?"'},
-    {name:'No Screens 1hr Before Bed',icon:'📵',cat:'REGENERATION',xp:15,diff:2,why:'Blue light suppresses melatonin by up to 50%, delaying sleep onset and reducing quality.',how:'Set phone alarm 1 hour before bed. Plug phone across the room.',tip:'Physical separation is more effective than blue-light blocking glasses.',resource:'Replace screen time with the Life Time app\'s guided meditations or breathwork sessions under Mind & Body.'},
-    {name:'Cold Shower',icon:'🧊',cat:'REGENERATION',xp:25,diff:3,why:'Releases norepinephrine up to 300%, builds stress resilience, and improves mood and alertness.',how:'End shower with 1–3 min cold. Start with 30 seconds and build.',tip:'The psychological benefit often exceeds the physiological one. Voluntary discomfort builds resilience.',resource:'Book a cold plunge session at Life Time through the app. Ask L•AI•C for cold exposure guidance.'},
-    {name:'Breathwork',icon:'🌬️',cat:'REGENERATION',xp:15,diff:1,why:'Directly shifts the autonomic nervous system from sympathetic to parasympathetic state in minutes.',how:'Box breathing: 4 in, 4 hold, 4 out, 4 hold. 5–10 min before bed or after stress.',tip:'Daily practice rewires your nervous system baseline tone over weeks.',resource:'Access on-demand breathwork sessions in the Life Time app under Mind & Body Wellness Tools.'},
-    {name:'Sauna Session',icon:'🔥',cat:'REGENERATION',xp:20,diff:2,why:'Regular sauna use associated with reduced cardiovascular disease risk and improved growth hormone release.',how:'15–20 min at 80–100°C. Hydrate before and after.',tip:'Pair with cold exposure for an amplified hormetic stress response.',resource:'Book sauna and steam sessions through the Life Time app at your club. Ask L•AI•C for heat therapy guidance.'},
-    {name:'HRV Check-in',icon:'💓',cat:'REGENERATION',xp:10,diff:1,why:'The most sensitive real-time indicator of recovery status and nervous system health.',how:'Measure first thing in the morning using a wearable or Elite HRV app. Log and note subjective feel.',tip:'Your personal trend matters, not comparison to others. 3-day suppression signals need to reduce training load.',resource:'Sync your wearable with the Life Time app for activity and recovery data. Ask L•AI•C for recovery interpretation.'},
-    {name:'Stress Journal',icon:'📓',cat:'REGENERATION',xp:15,diff:1,why:'Unprocessed psychological stress drives cortisol elevation that undermines sleep and body composition.',how:'5 min before bed: write stressors, one action step, one thing to release.',tip:'This is a cortisol management tool, not a diary. Externalizing worry reduces its mental occupancy.',resource:'Listen to the Life Time Talks podcast episode on recovery at experiencelife.lifetime.life/podcast/why-recovery/'},
+    {name:'Sleep by 10pm',icon:'🌙',cat:'REGENERATION',xp:20,diff:2,why:'Hours before midnight yield disproportionately more deep sleep and growth hormone release.',how:'Wind-down at 9:15pm. Dim lights, no screens. In bed by 10pm.',tip:'Phone in another room.'},
+    {name:'7–9 Hours Sleep',icon:'😴',cat:'REGENERATION',xp:20,diff:2,why:'The master recovery variable.',how:'Work backward from wake time to set bedtime.',tip:'Try 8+ hours for 2 weeks and observe the difference.'},
+    {name:'No Screens Before Bed',icon:'📵',cat:'REGENERATION',xp:15,diff:2,why:'Blue light suppresses melatonin by up to 50%.',how:'Set phone alarm 1 hour before bed. Plug phone across the room.',tip:'Physical separation is more effective than blue-light glasses.'},
+    {name:'Cold Shower',icon:'🧊',cat:'REGENERATION',xp:25,diff:3,why:'Releases norepinephrine up to 300%, builds stress resilience.',how:'End shower with 1–3 min cold.',tip:'The psychological benefit often exceeds the physiological one.'},
+    {name:'Breathwork',icon:'🌬️',cat:'REGENERATION',xp:15,diff:1,why:'Directly shifts the autonomic nervous system to parasympathetic state.',how:'Box breathing: 4 in, 4 hold, 4 out, 4 hold. 5–10 min before bed.',tip:'Daily practice rewires your nervous system baseline over weeks.'},
+    {name:'Sauna Session',icon:'🔥',cat:'REGENERATION',xp:20,diff:2,why:'Regular sauna use associated with reduced cardiovascular disease risk.',how:'15–20 min at 80–100°C. Hydrate before and after.',tip:'Pair with cold exposure for an amplified response.'},
+    {name:'HRV Check-in',icon:'💓',cat:'REGENERATION',xp:10,diff:1,why:'The most sensitive real-time indicator of recovery status.',how:'Measure first thing in the morning using a wearable.',tip:'Your personal trend matters, not comparison to others.'},
+    {name:'Stress Journal',icon:'📓',cat:'REGENERATION',xp:15,diff:1,why:'Unprocessed psychological stress drives cortisol elevation.',how:'5 min before bed: write stressors, one action step, one thing to release.',tip:'This is a cortisol management tool, not a diary.'},
   ],
   mindset:[
-    {name:'Gratitude Log',icon:'🙏',cat:'MINDSET',xp:10,diff:1,why:'Reduces cortisol, increases dopamine baseline, and shifts attentional bias toward opportunity.',how:'Write 3 specific things you\'re grateful for each morning. Specificity creates the neurological benefit.',tip:'Pair with morning coffee via habit stacking — an existing routine anchors the new one.',resource:'Access guided gratitude meditations in the Life Time app under Mind & Body. Ask L•AI•C for mindset strategies.'},
-    {name:'Meditation',icon:'🧠',cat:'MINDSET',xp:15,diff:1,why:'Reduces amygdala reactivity, improves prefrontal cortex function, and builds metacognitive awareness.',how:'10 min: focus on breath, return attention when it wanders.',tip:'The goal is not to stop thinking — it\'s to notice you\'re thinking and return to the present.',resource:'Access on-demand guided meditation sessions in the Life Time app under Mind & Body Wellness Tools.'},
-    {name:'Visualization',icon:'🎯',cat:'MINDSET',xp:15,diff:1,why:'Mental rehearsal activates the same neural pathways as physical practice.',how:'5 min daily: vividly imagine having already achieved your goal. Engage all senses.',tip:'PN Level 2 emphasizes identity as the root of sustainable behavior change.',resource:'Access guided visualization sessions in the Life Time app. Ask L•AI•C for mindset and goal-setting guidance.'},
-    {name:'Read 20 Pages',icon:'📖',cat:'MINDSET',xp:20,diff:1,why:'20 pages daily compounds to 12–15 books per year. Builds knowledge that compounds over time.',how:'Physical book, Kindle, or audiobook. Same time daily makes it automatic.',tip:'Reading before bed significantly improves sleep onset vs phone use.',resource:'Explore expert health and wellness content at experiencelife.lifetime.life — Life Time\'s award-winning magazine.'},
-    {name:'Daily Intention',icon:'✨',cat:'MINDSET',xp:10,diff:1,why:'Shifts brain from reactive to proactive mode. Creates a filter for all daily decisions.',how:'Each morning: "Today I will ___." Behavioral, specific, achievable in one day.',tip:'This is directional — it guides your energy, not just your task list.',resource:'Ask L•AI•C for daily intention prompts. Life Time Talks podcast features mindset experts at experiencelife.lifetime.life'},
-    {name:'Evening Review',icon:'🔍',cat:'MINDSET',xp:10,diff:1,why:'Structured reflection accelerates learning and builds self-awareness.',how:'5 min: What went well? What would I change? What am I looking forward to tomorrow?',tip:'Ending on anticipation primes the brain positively and improves sleep quality.',resource:'Listen to Life Time Talks podcast for expert insights on reflection and behavior change.'},
-    {name:'Identity Journaling',icon:'📝',cat:'MINDSET',xp:15,diff:2,why:'PN Level 2: identity-based motivation dramatically outlasts outcome-based motivation in research.',how:'10 min: write as your future self. Present tense: "I prioritize recovery because I value performance."',tip:'The discomfort is your current identity resisting change. It lessens over weeks.',resource:'Read behavior change articles at experiencelife.lifetime.life. Ask L•AI•C for identity coaching guidance.'},
-    {name:'Digital Detox',icon:'🌿',cat:'MINDSET',xp:20,diff:2,why:'Social media chronically activates threat-detection and comparison systems, elevating cortisol.',how:'1 hour per day with no social media or news. Replace with any analog activity.',tip:'The resistance when putting the phone down is exactly why this habit matters.',resource:'Replace screen time with Life Time app\'s guided meditation or breathwork sessions.'},
+    {name:'Gratitude Log',icon:'🙏',cat:'MINDSET',xp:10,diff:1,why:'Reduces cortisol, increases dopamine baseline.',how:'Write 3 specific things you\'re grateful for each morning.',tip:'Pair with morning coffee via habit stacking.'},
+    {name:'Meditation',icon:'🧠',cat:'MINDSET',xp:15,diff:1,why:'Reduces amygdala reactivity, improves prefrontal cortex function.',how:'10 min: focus on breath, return attention when it wanders.',tip:'The goal is not to stop thinking — it\'s to notice and return.'},
+    {name:'Visualization',icon:'🎯',cat:'MINDSET',xp:15,diff:1,why:'Mental rehearsal activates the same neural pathways as physical practice.',how:'5 min daily: vividly imagine having already achieved your goal.',tip:'PN Level 2 emphasizes identity as the root of sustainable change.'},
+    {name:'Read 20 Pages',icon:'📖',cat:'MINDSET',xp:20,diff:1,why:'20 pages daily compounds to 12–15 books per year.',how:'Physical book, Kindle, or audiobook. Same time daily.',tip:'Reading before bed significantly improves sleep onset.'},
+    {name:'Daily Intention',icon:'✨',cat:'MINDSET',xp:10,diff:1,why:'Shifts brain from reactive to proactive mode.',how:'Each morning: "Today I will ___." Behavioral, specific, achievable today.',tip:'This is directional — it guides your energy.'},
+    {name:'Evening Review',icon:'🔍',cat:'MINDSET',xp:10,diff:1,why:'Structured reflection accelerates learning and builds self-awareness.',how:'5 min: What went well? What would I change? What am I looking forward to?',tip:'Ending on anticipation primes the brain positively.'},
+    {name:'Identity Journaling',icon:'📝',cat:'MINDSET',xp:15,diff:2,why:'PN Level 2: identity-based motivation dramatically outlasts outcome-based motivation.',how:'10 min: write as your future self. Present tense.',tip:'The discomfort is your current identity resisting change.'},
+    {name:'Digital Detox',icon:'🌿',cat:'MINDSET',xp:20,diff:2,why:'Social media chronically activates threat-detection and comparison systems.',how:'1 hour per day with no social media or news.',tip:'The resistance when putting the phone down is why this habit matters.'},
   ]
 };
 
-let allClients=[],curClientId=null,selColor='#C4623A',selLibItem=null,archiveTargetId=null;
+let allClients=[],allLeads=[],curClientId=null,selColor='#C4623A',selLibItem=null,archiveTargetId=null,deleteLeadId=null,convertLeadData=null;
 let showArchived=false,viewMonth=new Date().getMonth(),viewYear=new Date().getFullYear();
 
 async function coachLogin(){
@@ -545,8 +636,9 @@ async function showApp(){
   const{data:{user}}=await sb.auth.getUser();
   document.getElementById('coach-email-disp').textContent=user?.email||'';
   document.getElementById('hdr-date').textContent=new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
-  await loadClients();
+  await loadAll();
 }
+async function loadAll(){await Promise.all([loadClients(),loadLeads()]);}
 async function loadClients(){
   const{data,error}=await sb.from('clients').select('*').order('name');
   if(error){showToast('Error loading clients');return;}
@@ -554,6 +646,83 @@ async function loadClients(){
   renderDropdown();renderRoster();
   if(curClientId){const c=allClients.find(x=>x.id===curClientId);if(c)renderClientDetail(c);}
 }
+async function loadLeads(){
+  const{data,error}=await sb.from('leads').select('*').order('created_at',{ascending:false});
+  if(error)return;
+  allLeads=data||[];
+  renderLeads();
+}
+function renderLeads(){
+  const tbody=document.getElementById('leads-tbody');
+  const newCount=allLeads.filter(l=>l.status==='new').length;
+  const badge=document.getElementById('leads-badge');
+  badge.textContent=newCount>0?newCount+' new':'';
+  badge.style.display=newCount>0?'inline':'none';
+  if(!allLeads.length){tbody.innerHTML='<tr><td colspan="6" class="leads-empty">No leads yet — applications from your landing page will appear here</td></tr>';return;}
+  tbody.innerHTML=allLeads.map(l=>{
+    const date=new Date(l.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    const statusClass={'new':'status-new','contacted':'status-contacted','converted':'status-converted','not a fit':'status-notfit'}[l.status]||'status-new';
+    return`<tr>
+      <td style="font-weight:500">${l.name||'—'}</td>
+      <td>
+        <div style="font-size:11px;color:var(--acc)">${l.email||'—'}</div>
+        <div style="font-size:11px;color:var(--text3)">${l.phone||'—'}</div>
+      </td>
+      <td style="font-size:11px;color:var(--text2)">${l.location||'—'}</td>
+      <td style="font-size:11px;color:var(--text3)">${date}</td>
+      <td>
+        <select class="status-sel" onchange="updateLeadStatus('${l.id}',this.value)">
+          <option value="new" ${l.status==='new'?'selected':''}>New</option>
+          <option value="contacted" ${l.status==='contacted'?'selected':''}>Contacted</option>
+          <option value="converted" ${l.status==='converted'?'selected':''}>Converted</option>
+          <option value="not a fit" ${l.status==='not a fit'?'selected':''}>Not a fit</option>
+        </select>
+      </td>
+      <td>
+        <div class="lead-actions">
+          ${l.status!=='converted'?`<button class="la-btn convert" onclick="openConvertLead('${l.id}')">Convert</button>`:''}
+          <button class="la-btn" onclick="openEmailLead('${l.email}')">Email</button>
+          <button class="la-btn del" onclick="openDeleteLead('${l.id}','${(l.name||'').replace(/'/g,"\\'")}')">Delete</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+async function updateLeadStatus(id,status){
+  await sb.from('leads').update({status}).eq('id',id);
+  await loadLeads();
+}
+function openEmailLead(email){if(email)window.location.href='mailto:'+email;}
+function openDeleteLead(id,name){
+  deleteLeadId=id;
+  document.getElementById('del-lead-msg').textContent=`Delete lead "${name}"? This cannot be undone.`;
+  openOverlay('del-lead-overlay');
+}
+async function confirmDeleteLead(){
+  if(!deleteLeadId)return;
+  await sb.from('leads').delete().eq('id',deleteLeadId);
+  closeOverlay('del-lead-overlay');await loadLeads();showToast('Lead deleted');
+}
+function openConvertLead(id){
+  const l=allLeads.find(x=>x.id===id);if(!l)return;
+  convertLeadData=l;
+  document.getElementById('conv-name').value=l.name||'';
+  document.getElementById('conv-email').value=l.email||'';
+  document.getElementById('conv-phone').value=l.phone||'';
+  document.getElementById('conv-start').value=new Date().toISOString().split('T')[0];
+  openOverlay('convert-overlay');
+}
+async function confirmConvertLead(){
+  if(!convertLeadData)return;
+  const start=document.getElementById('conv-start').value;
+  const pin=generatePin();
+  const fresh={xp:0,allTimeXp:0,bestStreak:0,perfectDays:0,habits:[],completions:{},unlockedBadges:{},completedQuests:[],prestigeCount:0,extraUnlocks:0,coachMessage:'',coachNotes:'',theme:'warm',onboardingComplete:false,journeyStartedAt:null,xpFromArchivedHabits:0,sessions:[],classLogs:[],email:convertLeadData.email||'',phone:convertLeadData.phone||''};
+  const{data,error}=await sb.from('clients').insert({name:convertLeadData.name,pin,start_date:start||null,data:fresh}).select().single();
+  if(error){showToast('Error: '+error.message);return;}
+  await sb.from('leads').update({status:'converted'}).eq('id',convertLeadData.id);
+  closeOverlay('convert-overlay');await loadAll();selectClient(data.id);showToast('Client created: '+convertLeadData.name);
+}
+
 function renderDropdown(){
   const sel=document.getElementById('client-dropdown');
   const prev=sel.value;
@@ -565,19 +734,18 @@ function renderDropdown(){
 }
 function renderRoster(){
   const tbody=document.getElementById('roster-tbody');
-  if(!allClients.length){tbody.innerHTML='<tr><td colspan="5" class="rt-empty">No clients yet — create your first client</td></tr>';return;}
+  if(!allClients.length){tbody.innerHTML='<tr><td colspan="5" class="rt-empty">No clients yet</td></tr>';return;}
   tbody.innerHTML=allClients.map(c=>{
     const d=c.data||{};
     const streak=d.bestStreak||0;
     const lastCI=getLastCheckin(d);
     const rate=getMonthCompletionRate(d);
-    const ch=d.prestigeCount||0;
     return`<tr class="${c.id===curClientId?'active-row':''}" onclick="selectClient('${c.id}')">
-      <td><span class="rt-name">${c.name}</span>${ch>0?`<span class="rt-badge active">Ch. ${ROMAN[Math.min(ch-1,2)]}</span>`:''}</td>
-      <td><span class="rt-stat">${streak}d</span></td>
-      <td><span class="rt-last">${lastCI||'—'}</span></td>
-      <td><span class="rt-stat">${getMonthTotal(d)}</span></td>
-      <td><span class="rt-stat">${rate}%</span></td>
+      <td><span class="rt-name">${c.name}</span></td>
+      <td>${streak}d</td>
+      <td style="font-size:11px;color:var(--text3)">${lastCI||'—'}</td>
+      <td>${getMonthTotal(d)}</td>
+      <td>${rate}%</td>
     </tr>`;
   }).join('');
 }
@@ -588,23 +756,18 @@ function getLastCheckin(d){
 }
 function getMonthTotal(d){
   const n=new Date(),m=n.getMonth(),y=n.getFullYear();
-  let c=0;
-  Object.keys(d.completions||{}).forEach(k=>{if(k.startsWith(`${y}-${String(m+1).padStart(2,'0')}`))c+=Object.values(d.completions[k]).filter(Boolean).length;});
+  let c=0;Object.keys(d.completions||{}).forEach(k=>{if(k.startsWith(`${y}-${String(m+1).padStart(2,'0')}`))c+=Object.values(d.completions[k]).filter(Boolean).length;});
   return c;
 }
 function getMonthTotalForMonth(d,y,m){
-  let c=0;
-  Object.keys(d.completions||{}).forEach(k=>{if(k.startsWith(`${y}-${String(m+1).padStart(2,'0')}`))c+=Object.values(d.completions[k]).filter(Boolean).length;});
+  let c=0;Object.keys(d.completions||{}).forEach(k=>{if(k.startsWith(`${y}-${String(m+1).padStart(2,'0')}`))c+=Object.values(d.completions[k]).filter(Boolean).length;});
   return c;
 }
 function getMonthCompletionRate(d){
-  const n=new Date(),m=n.getMonth(),y=n.getFullYear();
+  const n=new Date(),m=n.getMonth(),y=n.getFullYear(),days=n.getDate();
   const activeHabits=(d.habits||[]).filter(h=>!h.archived);
-  if(!activeHabits.length)return 0;
-  const daysElapsed=n.getDate();
-  const possible=activeHabits.length*daysElapsed;
-  if(!possible)return 0;
-  return Math.round(getMonthTotal(d)/possible*100);
+  if(!activeHabits.length||!days)return 0;
+  return Math.round(getMonthTotal(d)/( activeHabits.length*days)*100);
 }
 function getMonthCompletionRateForMonth(d,y,m){
   const activeHabits=(d.habits||[]).filter(h=>!h.archived);
@@ -613,22 +776,14 @@ function getMonthCompletionRateForMonth(d,y,m){
   const now=new Date();
   const isCurrentMonth=now.getFullYear()===y&&now.getMonth()===m;
   const days=isCurrentMonth?now.getDate():daysInMonth;
-  const possible=activeHabits.length*days;
-  if(!possible)return 0;
-  return Math.round(getMonthTotalForMonth(d,y,m)/possible*100);
+  if(!days)return 0;
+  return Math.round(getMonthTotalForMonth(d,y,m)/(activeHabits.length*days)*100);
 }
 function totalAllTimeXP(d){
-  let total=0;
-  const comps=d.completions||{};
-  const habits=d.habits||[];
-  Object.values(comps).forEach(day=>{
-    Object.entries(day).forEach(([id,done])=>{
-      if(done){const h=habits.find(x=>String(x.id)===String(id));if(h)total+=h.xp||0;}
-    });
-  });
+  let total=0;const comps=d.completions||{};const habits=d.habits||[];
+  Object.values(comps).forEach(day=>{Object.entries(day).forEach(([id,done])=>{if(done){const h=habits.find(x=>String(x.id)===String(id));if(h)total+=h.xp||0;}});});
   return total+(d.xpFromArchivedHabits||0);
 }
-
 function selectClient(id){
   curClientId=id;
   document.getElementById('client-dropdown').value=id;
@@ -638,7 +793,6 @@ function selectClient(id){
   if(!c){document.getElementById('client-detail').style.display='none';return;}
   renderClientDetail(c);
 }
-
 function renderClientDetail(c){
   const d=c.data||{};
   document.getElementById('client-detail').style.display='block';
@@ -646,18 +800,30 @@ function renderClientDetail(c){
   const ch=d.prestigeCount||0;
   const chR=ROMAN[Math.min(ch,2)]||'I';
   const startDate=c.start_date?new Date(c.start_date):null;
-  const dayNum=startDate?Math.floor((new Date()-startDate)/(24*3600*1000))+1:null;
-  document.getElementById('cd-meta').textContent=
-    (c.start_date?'Started '+new Date(c.start_date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'No start date')+
-    ' · Level '+getLevel(d.xp||0)+' '+getLvlName(d.xp||0)+
-    (ch>0?' · Chapter '+chR:'');
+  const journeyStart=d.journeyStartedAt?new Date(d.journeyStartedAt):null;
+  let dayNum=null;
+  if(journeyStart){
+    const today=new Date();today.setHours(0,0,0,0);
+    const start=new Date(journeyStart);start.setHours(0,0,0,0);
+    dayNum=Math.floor((today-start)/(24*3600*1000))+1;
+  }
+  document.getElementById('cd-meta').textContent=(c.start_date?'Started '+new Date(c.start_date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'No start date')+' · Level '+getLevel(d.xp||0)+' '+getLvlName(d.xp||0)+(ch>0?' · Chapter '+chR:'');
   const clientUrl=window.location.origin+window.location.pathname.replace('coach.html','')+'client.html?id='+c.pin;
   document.getElementById('cd-link').textContent=clientUrl;
-  document.getElementById('cd-xp').textContent=d.xp||0;
-  document.getElementById('cd-alltime-xp').textContent=(totalAllTimeXP(d)).toLocaleString()+' all-time XP';
+
+  // contact bar
+  const email=d.email||'';const phone=d.phone||'';
+  if(email||phone){
+    document.getElementById('contact-bar').style.display='flex';
+    document.getElementById('cd-email').textContent=email||'—';
+    document.getElementById('cd-phone').textContent=phone||'—';
+  }else{document.getElementById('contact-bar').style.display='none';}
+
+  document.getElementById('cd-xp').textContent=(d.xp||0).toLocaleString();
+  document.getElementById('cd-alltime-xp').textContent=totalAllTimeXP(d).toLocaleString()+' all-time';
   document.getElementById('cd-streak').textContent=d.bestStreak||0;
   document.getElementById('cd-month').textContent=getMonthTotal(d);
-  document.getElementById('cd-day').textContent=dayNum?dayNum:'—';
+  document.getElementById('cd-day').textContent=dayNum||'—';
   document.getElementById('cd-day-sub').textContent=dayNum?'of journey':'';
   const lvl=getLevel(d.xp||0);const lvlName=getLvlName(d.xp||0);
   document.getElementById('cd-level-name').textContent='Level '+lvl+' — '+lvlName;
@@ -670,17 +836,16 @@ function renderClientDetail(c){
   document.getElementById('cd-chapter-txt').textContent=(d.xp||0).toLocaleString()+' / '+PRESTIGE_XP.toLocaleString()+' XP to prestige'+(ch>=3?' (max)':'');
   document.getElementById('coach-message').value=d.coachMessage||'';
   document.getElementById('coach-notes').value=d.coachNotes||'';
-  renderSlotControls(c);
-  renderMonthNav();
-  renderSummaryRow(c);
-  renderHabitTable();
+  renderSlotControls(c);renderMonthNav();renderSummaryRow(c);renderHabitTable();renderSessions(c);
 }
+function contactEmail(){const c=allClients.find(x=>x.id===curClientId);const email=c?.data?.email;if(email)window.location.href='mailto:'+email;else showToast('No email on file');}
+function contactSMS(){const c=allClients.find(x=>x.id===curClientId);const phone=c?.data?.phone;if(phone)window.location.href='sms:'+phone;else showToast('No phone on file');}
+function copyEmail(){const c=allClients.find(x=>x.id===curClientId);const email=c?.data?.email;if(email)navigator.clipboard.writeText(email).then(()=>showToast('Email copied'));else showToast('No email on file');}
+function copyPhone(){const c=allClients.find(x=>x.id===curClientId);const phone=c?.data?.phone;if(phone)navigator.clipboard.writeText(phone).then(()=>showToast('Phone copied'));else showToast('No phone on file');}
 
 function renderSlotControls(c){
   const slots=getSlotsUnlocked(c);
   const days=getDaysUntilNextUnlock(c);
-  const d=c.data||{};
-  const extraUnlocks=d.extraUnlocks||0;
   let html='';
   for(let i=1;i<=MAX_SLOTS;i++){
     const isUnlocked=i<=slots;
@@ -698,16 +863,13 @@ function renderSlotControls(c){
   }
   document.getElementById('sc-slots-display').innerHTML=html;
 }
-
 function getSlotsNatural(c){
   if(!c.start_date)return 1;
   const start=new Date(c.start_date),now=new Date();
   const weeks=Math.floor((now-start)/(7*24*3600*1000));
   return Math.min(MAX_SLOTS,1+Math.floor(weeks/SLOT_WEEKS));
 }
-function getSlotsUnlocked(c){
-  return Math.min(MAX_SLOTS,getSlotsNatural(c)+((c.data?.extraUnlocks)||0));
-}
+function getSlotsUnlocked(c){return Math.min(MAX_SLOTS,getSlotsNatural(c)+((c.data?.extraUnlocks)||0));}
 function getDaysUntilNextUnlock(c){
   if(!c.start_date)return 0;
   const slots=getSlotsUnlocked(c);if(slots>=MAX_SLOTS)return null;
@@ -715,7 +877,6 @@ function getDaysUntilNextUnlock(c){
   const unlockDate=new Date(start.getTime()+SLOT_WEEKS*slots*7*24*3600*1000);
   return Math.max(0,Math.ceil((unlockDate-now)/(24*3600*1000)));
 }
-
 async function forceUnlock(){
   const c=allClients.find(x=>x.id===curClientId);if(!c)return;
   if(getSlotsUnlocked(c)>=MAX_SLOTS){showToast('Already at max slots');return;}
@@ -727,20 +888,17 @@ async function reverseForceUnlock(){
   const extra=(c.data?.extraUnlocks)||0;
   if(extra<=0){showToast('No force unlocks to reverse');return;}
   const newSlots=getSlotsUnlocked(c)-1;
-  const activeHabitsInSlot=(c.data?.habits||[]).filter(h=>!h.archived&&getHabitSlotIndex(c,h)>=newSlots);
   const d={...c.data,extraUnlocks:extra-1};
-  if(activeHabitsInSlot.length){
+  const overCap=(c.data?.habits||[]).filter(h=>!h.archived&&getHabitSlotIndex(c,h)>=newSlots);
+  if(overCap.length){
     let xpLost=0;
     d.habits=d.habits.map(h=>{
-      if(!h.archived&&getHabitSlotIndex(c,h)>=newSlots){
-        xpLost+=getHabitXpEarned(d,h.id);
-        return{...h,archived:true,archivedAt:new Date().toISOString(),masteryScore:getMasteryScore(d,h.id)};
-      }return h;
+      if(!h.archived&&getHabitSlotIndex(c,h)>=newSlots){xpLost+=getHabitXpEarned(d,h.id);return{...h,archived:true,archivedAt:new Date().toISOString(),masteryScore:getMasteryScore(d,h.id)};}
+      return h;
     });
     d.xpFromArchivedHabits=(d.xpFromArchivedHabits||0)+xpLost;
   }
-  await saveClientData(curClientId,d);
-  showToast('Force unlock reversed'+(activeHabitsInSlot.length?' · '+activeHabitsInSlot.length+' habit(s) archived':''));
+  await saveClientData(curClientId,d);showToast('Force unlock reversed'+(overCap.length?' · '+overCap.length+' habit(s) archived':''));
 }
 function getHabitSlotIndex(c,habit){
   const slot=habit.slot||'morning';
@@ -748,20 +906,17 @@ function getHabitSlotIndex(c,habit){
   return habitsInSlot.findIndex(h=>h.id===habit.id);
 }
 function getHabitXpEarned(d,id){
-  let total=0;
-  Object.values(d.completions||{}).forEach(day=>{if(day[id]){const h=(d.habits||[]).find(x=>String(x.id)===String(id));if(h)total+=h.xp||0;}});
+  let total=0;Object.values(d.completions||{}).forEach(day=>{if(day[id]){const h=(d.habits||[]).find(x=>String(x.id)===String(id));if(h)total+=h.xp||0;}});
   return total;
 }
 function getMasteryScore(d,id){
-  const h=(d.habits||[]).find(x=>String(x.id)===String(id));
-  if(!h)return 0;
+  const h=(d.habits||[]).find(x=>String(x.id)===String(id));if(!h)return 0;
   const comps=Object.values(d.completions||{}).filter(day=>day[id]).length;
   const startDate=h.createdAt?new Date(h.createdAt):new Date(id);
   const days=Math.max(1,Math.floor((new Date()-startDate)/(24*3600*1000)));
   const rate=Math.min(100,Math.round(comps/days*100));
   return Math.round((comps*0.6)+(rate*0.4));
 }
-
 function renderMonthNav(){
   const sel=document.getElementById('month-sel');
   const now=new Date();
@@ -777,13 +932,12 @@ function renderMonthNav(){
   if(c){
     const rate=getMonthCompletionRateForMonth(c.data||{},viewYear,viewMonth);
     const total=getMonthTotalForMonth(c.data||{},viewYear,viewMonth);
-    document.getElementById('month-completion-stat').textContent=`${total} completions · ${rate}% completion rate`;
+    document.getElementById('month-completion-stat').textContent=`${total} completions · ${rate}% rate`;
   }
 }
 function changeViewMonth(dir){
   viewMonth+=dir;
-  if(viewMonth<0){viewMonth=11;viewYear--;}
-  if(viewMonth>11){viewMonth=0;viewYear++;}
+  if(viewMonth<0){viewMonth=11;viewYear--;}if(viewMonth>11){viewMonth=0;viewYear++;}
   document.getElementById('month-sel').value=`${viewYear}-${viewMonth}`;
   renderMonthNav();renderHabitTable();
 }
@@ -792,20 +946,14 @@ function onMonthSelChange(){
   viewYear=parseInt(val[0]);viewMonth=parseInt(val[1]);
   renderMonthNav();renderHabitTable();
 }
-
 function renderSummaryRow(c){
   const d=c.data||{};
   const active=(d.habits||[]).filter(h=>!h.archived).length;
   const archived=(d.habits||[]).filter(h=>h.archived).length;
   const rate=getMonthCompletionRate(d);
   const allTime=Object.values(d.completions||{}).reduce((acc,day)=>acc+Object.values(day).filter(Boolean).length,0);
-  document.getElementById('summary-row').innerHTML=
-    `<div class="sr-item"><strong>${active}</strong> active habits</div>
-     <div class="sr-item"><strong>${archived}</strong> archived</div>
-     <div class="sr-item"><strong>${rate}%</strong> completion rate this month</div>
-     <div class="sr-item"><strong>${allTime.toLocaleString()}</strong> total completions all-time</div>`;
+  document.getElementById('summary-row').innerHTML=`<div class="sr-item"><strong>${active}</strong> active</div><div class="sr-item"><strong>${archived}</strong> archived</div><div class="sr-item"><strong>${rate}%</strong> completion rate</div><div class="sr-item"><strong>${allTime.toLocaleString()}</strong> all-time completions</div>`;
 }
-
 function renderHabitTable(){
   const c=allClients.find(x=>x.id===curClientId);if(!c)return;
   const d=c.data||{};
@@ -838,40 +986,29 @@ function renderHabitTable(){
       <td style="color:var(--text2)">${streak>0?streak+'d':'—'}</td>
       <td><div style="font-size:11px;color:var(--text2)">${rate}%</div><div class="rate-bar"><div class="rate-fill" style="width:${rate}%"></div></div></td>
       <td>${h.archived?`<span class="archived-tag">Archived</span>`:''}</td>
-      <td>
-        ${h.archived
-          ?`<button class="tbl-btn" onclick="reactivateHabit(${h.id})" title="Reactivate">↺</button>`
-          :`<button class="tbl-btn danger" onclick="openArchiveHabit(${h.id})" title="Archive">⊖</button>`}
-      </td>
+      <td>${h.archived?`<button class="tbl-btn" onclick="reactivateHabit(${h.id})" title="Reactivate">↺</button>`:`<button class="tbl-btn danger" onclick="openArchiveHabit(${h.id})" title="Archive">⊖</button>`}</td>
     </tr>`;
   }).join('');
 }
-function getHabitStreak(d,id){
-  let s=0,dt=new Date();
-  while(true){const k=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;if(d.completions?.[k]?.[id]){s++;dt.setDate(dt.getDate()-1);}else break;}
-  return s;
-}
+function getHabitStreak(d,id){let s=0,dt=new Date();while(true){const k=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;if(d.completions?.[k]?.[id]){s++;dt.setDate(dt.getDate()-1);}else break;}return s;}
 function getHabitMonthRate(d,id,y,m){
   const now=new Date();const isCurrentMonth=now.getFullYear()===y&&now.getMonth()===m;
-  const daysInMonth=new Date(y,m+1,0).getDate();
-  const days=isCurrentMonth?now.getDate():daysInMonth;
-  if(!days)return 0;
-  let c=0;
+  const daysInMonth=new Date(y,m+1,0).getDate();const days=isCurrentMonth?now.getDate():daysInMonth;
+  if(!days)return 0;let c=0;
   for(let i=1;i<=days;i++){const k=`${y}-${String(m+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;if(d.completions?.[k]?.[id])c++;}
   return Math.round(c/days*100);
 }
 function toggleArchivedFilter(){
   showArchived=!showArchived;
   const btn=document.getElementById('f-archived');
-  btn.classList.toggle('active',showArchived);
-  btn.textContent=showArchived?'Hide Archived':'Show Archived';
+  btn.classList.toggle('active',showArchived);btn.textContent=showArchived?'Hide Archived':'Show Archived';
   renderHabitTable();
 }
 function openArchiveHabit(id){
   archiveTargetId=id;
   const c=allClients.find(x=>x.id===curClientId);
   const h=(c?.data?.habits||[]).find(x=>x.id===id);
-  document.getElementById('del-habit-msg').textContent=`Archive "${h?.name}"? All completion data is preserved. You can reactivate it anytime.`;
+  document.getElementById('del-habit-msg').textContent=`Archive "${h?.name}"? All data is preserved. You can reactivate it anytime.`;
   openOverlay('del-habit-overlay');
 }
 async function confirmArchiveHabit(){
@@ -880,8 +1017,7 @@ async function confirmArchiveHabit(){
   const xpLost=getHabitXpEarned(d,archiveTargetId);
   d.habits=d.habits.map(h=>String(h.id)===String(archiveTargetId)?{...h,archived:true,archivedAt:new Date().toISOString(),masteryScore:getMasteryScore(d,h.id)}:h);
   d.xpFromArchivedHabits=(d.xpFromArchivedHabits||0)+xpLost;
-  closeOverlay('del-habit-overlay');
-  await saveClientData(curClientId,d);showToast('Habit archived');
+  closeOverlay('del-habit-overlay');await saveClientData(curClientId,d);showToast('Habit archived');
 }
 async function reactivateHabit(id){
   const c=allClients.find(x=>x.id===curClientId);if(!c)return;
@@ -894,7 +1030,6 @@ async function reactivateHabit(id){
   d.habits=d.habits.map(x=>String(x.id)===String(id)?{...x,archived:false,archivedAt:null}:x);
   await saveClientData(curClientId,d);showToast('Habit reactivated');
 }
-
 async function saveCoachMessage(){
   const c=allClients.find(x=>x.id===curClientId);if(!c)return;
   const msg=document.getElementById('coach-message').value;
@@ -910,29 +1045,102 @@ async function saveNotes(){
   const el=document.getElementById('notes-saved');el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2000);
 }
 
+// SESSION SCHEDULING
+let deleteSessionId=null;
+function openAddSession(){
+  if(!curClientId){showToast('Select a client first');return;}
+  document.getElementById('sess-date').value=new Date().toISOString().split('T')[0];
+  document.getElementById('sess-time').value='09:00';
+  document.getElementById('sess-type').value='in-person';
+  document.getElementById('sess-notes').value='';
+  openOverlay('add-session-overlay');
+}
+async function confirmAddSession(){
+  const date=document.getElementById('sess-date').value;
+  const time=document.getElementById('sess-time').value;
+  const type=document.getElementById('sess-type').value;
+  const notes=document.getElementById('sess-notes').value.trim();
+  if(!date||!time){showToast('Date and time required');return;}
+  const c=allClients.find(x=>x.id===curClientId);if(!c)return;
+  const session={id:Date.now(),date,time,type,notes,createdAt:new Date().toISOString()};
+  const d={...c.data,sessions:[...(c.data.sessions||[]),session]};
+  d.sessions.sort((a,b)=>new Date(a.date+'T'+a.time)-new Date(b.date+'T'+b.time));
+  closeOverlay('add-session-overlay');
+  await saveClientData(curClientId,d);showToast('Session scheduled');
+}
+function openDeleteSession(id){
+  deleteSessionId=id;
+  const c=allClients.find(x=>x.id===curClientId);
+  const sess=(c?.data?.sessions||[]).find(s=>s.id===id);
+  if(!sess)return;
+  const label=formatSessionDate(sess.date)+' at '+formatTime(sess.time);
+  document.getElementById('del-session-msg').textContent=`Remove session on ${label}?`;
+  openOverlay('del-session-overlay');
+}
+async function confirmDeleteSession(){
+  const c=allClients.find(x=>x.id===curClientId);if(!c)return;
+  const d={...c.data,sessions:(c.data.sessions||[]).filter(s=>s.id!==deleteSessionId)};
+  closeOverlay('del-session-overlay');
+  await saveClientData(curClientId,d);showToast('Session removed');
+}
+function renderSessions(c){
+  const sessions=(c.data?.sessions||[]);
+  const el=document.getElementById('sessions-list');
+  if(!sessions.length){el.innerHTML='<div class="sessions-empty">No sessions scheduled yet</div>';return;}
+  const now=new Date();
+  el.innerHTML=sessions.map(s=>{
+    const sessionDt=new Date(s.date+'T'+s.time);
+    const isPast=sessionDt<now;
+    const typeClass=s.type==='in-person'?'in-person':'virtual';
+    const typeLabel=s.type==='in-person'?'In-person':'Virtual';
+    return`<div class="session-card" style="${isPast?'opacity:0.55':''}">
+      <div class="session-left">
+        <div class="session-type-dot ${typeClass}"></div>
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <div class="session-date">${formatSessionDate(s.date)}</div>
+            <div class="session-time">${formatTime(s.time)}</div>
+            <span class="session-type-label ${typeClass}">${typeLabel}</span>
+            ${isPast?'<span style="font-size:8px;color:var(--text4);letter-spacing:0.04em">Past</span>':''}
+          </div>
+          ${s.notes?`<div class="session-notes-txt">${s.notes}</div>`:''}
+        </div>
+      </div>
+      <button class="tbl-btn danger" onclick="openDeleteSession(${s.id})" title="Remove">⊖</button>
+    </div>`;
+  }).join('');
+}
+function formatSessionDate(dateStr){
+  const d=new Date(dateStr+'T12:00:00');
+  return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+}
+function formatTime(timeStr){
+  const[h,m]=timeStr.split(':');const hr=parseInt(h);
+  return(hr===0?12:hr>12?hr-12:hr)+':'+(m||'00')+(hr>=12?'pm':'am');
+}
+async function resetOnboarding(){
+  const c=allClients.find(x=>x.id===curClientId);if(!c)return;
+  const d={...c.data,onboardingComplete:false,journeyStartedAt:null};
+  await saveClientData(curClientId,d);showToast('Onboarding reset — client will see intro screens on next visit');
+}
 async function saveClientData(id,data){
   const{error}=await sb.from('clients').update({data}).eq('id',id);
   if(error){showToast('Error saving');return;}
-  await loadClients();
-  const c=allClients.find(x=>x.id===id);
-  if(c)renderClientDetail(c);
+  await loadClients();const c=allClients.find(x=>x.id===id);if(c)renderClientDetail(c);
 }
-
 function openNewClient(){document.getElementById('nc-name').value='';document.getElementById('nc-start').value=new Date().toISOString().split('T')[0];openOverlay('newclient-overlay');}
 async function createClient(){
-  const name=document.getElementById('nc-name').value.trim();
-  const start=document.getElementById('nc-start').value;
+  const name=document.getElementById('nc-name').value.trim();const start=document.getElementById('nc-start').value;
   if(!name){showToast('Name required');return;}
   const pin=generatePin();
-  const fresh={xp:0,allTimeXp:0,bestStreak:0,hadPerfectDay:false,habits:[],completions:{},unlockedBadges:[],completedQuests:[],prestigeCount:0,extraUnlocks:0,coachNotes:'',coachMessage:'',theme:'warm',xpFromArchivedHabits:0};
+  const fresh={xp:0,allTimeXp:0,bestStreak:0,perfectDays:0,habits:[],completions:{},unlockedBadges:{},completedQuests:[],prestigeCount:0,extraUnlocks:0,coachMessage:'',coachNotes:'',theme:'warm',onboardingComplete:false,journeyStartedAt:null,xpFromArchivedHabits:0,sessions:[],classLogs:[]};
   const{data,error}=await sb.from('clients').insert({name,pin,start_date:start||null,data:fresh}).select().single();
   if(error){showToast('Error: '+error.message);return;}
   closeOverlay('newclient-overlay');await loadClients();selectClient(data.id);showToast('Client created: '+name);
 }
 function generatePin(){const c='abcdefghijklmnopqrstuvwxyz0123456789';let p='';for(let i=0;i<8;i++)p+=c[Math.floor(Math.random()*c.length)];return p;}
 async function regenerateLink(){
-  if(!curClientId)return;
-  const pin=generatePin();
+  if(!curClientId)return;const pin=generatePin();
   const{error}=await sb.from('clients').update({pin}).eq('id',curClientId);
   if(error){showToast('Error');return;}
   await loadClients();const c=allClients.find(x=>x.id===curClientId);if(c)renderClientDetail(c);showToast('New link generated');
@@ -954,11 +1162,10 @@ async function confirmDeleteClient(){
   curClientId=null;document.getElementById('client-detail').style.display='none';
   closeOverlay('del-client-overlay');await loadClients();showToast('Client removed');
 }
-
 function openAddHabit(){
   if(!curClientId){showToast('Select a client first');return;}
-  document.getElementById('h-name').value='';document.getElementById('h-icon').value='';
-  document.getElementById('habit-preview').innerHTML='<div class="preview-empty">Select a habit from the library to preview details and Life Time app resources</div>';
+  document.getElementById('h-name').value='';document.getElementById('h-icon').value='';selLibItem=null;
+  document.getElementById('habit-preview').innerHTML='<div class="preview-empty">Select a habit from the library to preview details</div>';
   setLibCat('movement',document.querySelector('#add-habit-overlay .libtab'));
   openOverlay('add-habit-overlay');
 }
@@ -971,7 +1178,7 @@ function setLibCat(cat,btn){
     const dL=['','Easy','Medium','Hard'][item.diff]||'Easy';
     return`<div class="lib-item" onclick="selectLibItem(${i},'${cat}')" id="li-${cat}-${i}">
       <div class="lib-iname">${item.icon} ${item.name}<span class="lib-diff ${dC}">${dL}</span></div>
-      <div class="lib-imeta">${(item.tags||[cat]).slice(0,2).join(' · ')}</div>
+      <div class="lib-imeta">${item.cat}</div>
     </div>`;
   }).join('');
 }
@@ -988,38 +1195,31 @@ function selectLibItem(i,cat){
     <div class="prev-cat">${selLibItem.cat} · ${dL}</div>
     <div class="prev-st">Why this habit</div><div class="prev-body">${selLibItem.why}</div>
     <div class="prev-st">How to do it</div><div class="prev-body">${selLibItem.how}</div>
-    <div class="prev-st">Coaching tip</div><div class="prev-body">${selLibItem.tip}</div>
-    <div class="prev-st">Life Time app resource</div><div class="prev-body">${selLibItem.resource}</div>`;
+    <div class="prev-st">Coaching tip</div><div class="prev-body">${selLibItem.tip}</div>`;
 }
 function clearLibSel(){selLibItem=null;document.querySelectorAll('.lib-item').forEach(x=>x.classList.remove('sel'));}
 function pickColor(el){document.querySelectorAll('.copt').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');selColor=el.dataset.c;}
 async function addHabit(){
-  const name=(document.getElementById('h-name').value||'').trim();
-  if(!name){showToast('Name required');return;}
+  const name=(document.getElementById('h-name').value||'').trim();if(!name){showToast('Name required');return;}
   const c=allClients.find(x=>x.id===curClientId);if(!c)return;
   const slot=document.getElementById('h-slot').value;
   const slotsUnlocked=getSlotsUnlocked(c);
   const activeInSlot=(c.data?.habits||[]).filter(h=>!h.archived&&(h.slot||'morning')===slot).length;
   if(activeInSlot>=slotsUnlocked){showToast('Slot full — unlock more slots first');return;}
   const icon=document.getElementById('h-icon').value.trim()||'⭐';
-  const cat=document.getElementById('h-cat').value;
-  const xp=parseInt(document.getElementById('h-xp').value);
+  const cat=document.getElementById('h-cat').value;const xp=parseInt(document.getElementById('h-xp').value);
   const id=Date.now();
   const habits=[...(c.data?.habits||[]),{id,name,cat,icon,color:selColor,xp,slot,archived:false,createdAt:new Date().toISOString()}];
   const d={...c.data,habits};
-  closeOverlay('add-habit-overlay');
-  await saveClientData(curClientId,d);showToast('Habit added: '+name);
+  closeOverlay('add-habit-overlay');await saveClientData(curClientId,d);showToast('Habit added: '+name);
 }
-
 function getLevel(xp){let l=1;for(let i=LEVELS.length-1;i>=0;i--){if(xp>=LEVELS[i].min){l=i+1;break;}}return l;}
 function getLvlName(xp){let n=LEVELS[0].name;for(let i=LEVELS.length-1;i>=0;i--){if(xp>=LEVELS[i].min){n=LEVELS[i].name;break;}}return n;}
 function getXpProg(xp){for(let i=0;i<LEVELS.length-1;i++){if(xp>=LEVELS[i].min&&xp<LEVELS[i+1].min){return{pct:Math.round((xp-LEVELS[i].min)/(LEVELS[i+1].min-LEVELS[i].min)*100),curr:xp-LEVELS[i].min,total:LEVELS[i+1].min-LEVELS[i].min};}}return{pct:100,curr:xp,total:xp};}
-
 function openOverlay(id){document.getElementById(id).classList.add('open');}
 function closeOverlay(id){document.getElementById(id).classList.remove('open');}
 let toastTimer;
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2800);}
-
 sb.auth.getSession().then(({data:{session}})=>{if(session)showApp();});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>

@@ -1,7 +1,7 @@
 {
-  "name": "Habit OS // Life Time",
+  "name": "Habit OS",
   "short_name": "Habit OS",
-  "description": "Life Time habit coaching platform",
+  "description": "Habit coaching platform",
   "start_url": "./client.html",
   "display": "standalone",
   "background_color": "#FAF8F5",
