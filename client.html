@@ -175,8 +175,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .ov-seg.e-done{background:var(--acc);opacity:0.35}
 .ov-dc .ov-num{position:absolute;bottom:1px;left:0;right:0;text-align:center;font-size:6px;color:var(--text4);z-index:1}
 .ov-dc.today .ov-num{color:var(--acc)}
-.ov-session-dot{position:absolute;top:2px;right:2px;width:5px;height:5px;border-radius:50%;background:#5A8AA0;z-index:2}
-.ov-class-dot{position:absolute;top:2px;left:2px;width:5px;height:5px;border-radius:50%;background:var(--acc2);z-index:2}
+.ov-session-dot{position:absolute;top:2px;right:2px;width:7px;height:7px;border-radius:50%;background:#5A8AA0;z-index:2}
+.ov-class-dot{position:absolute;top:2px;left:2px;width:7px;height:7px;border-radius:50%;background:var(--acc2);z-index:2}
 .habit-filter{display:flex;flex-direction:column;gap:4px;min-width:86px}
 .hf-label{font-size:9px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
 .hf-item{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:7px;cursor:pointer;border:1px solid transparent;transition:all 0.15s}
@@ -538,10 +538,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
         </div>
       </div>
       <div><div class="habit-filter" id="habit-filter"></div></div>
-    </div>
-    <div class="ov-cards-section">
-      <div class="sectit">Sessions &amp; Classes</div>
-      <div class="ov-cards-grid" id="ov-cards"></div>
     </div>
   </div>
 
@@ -1119,7 +1115,6 @@ function renderOverview(){
   fHtml+=`<div class="hf-item ${ovFilter==='all'?'active':''}" onclick="setOvFilter('all')"><div class="hf-dot" style="background:var(--text3)"></div><div class="hf-name">All</div></div>`;
   activeHabits.forEach(h=>{const a=String(ovFilter)===String(h.id);fHtml+=`<div class="hf-item ${a?'active':''}" onclick="setOvFilter(${h.id})"><div class="hf-dot" style="background:${h.color||'var(--acc)'}"></div><div class="hf-name">${h.name}</div></div>`;});
   document.getElementById('habit-filter').innerHTML=fHtml;
-  renderOvCards(sessions,classLogs);
 }
 function renderOvCards(sessions,classLogs){
   const all=[
@@ -1401,7 +1396,8 @@ function buildQuitCard(q){
     const isFut=new Date(cs.y,cs.m,day)>new Date(tY,tM,tD);
     const isBeforeStart=q.startDate&&new Date(cs.y,cs.m,day)<new Date(q.startDate);
     let cls='qdc';let label='';
-    if(isFut||isBeforeStart){cls+=' emp';}
+    if(isFut){cls+=' fut';}
+    else if(isBeforeStart){/* plain visible cell — fills the grid */}
     else{
       const count=getQuitDayCount(q,k);label=count>0?String(count):'';
       if(isToday)cls+=' today-q';
