@@ -175,8 +175,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .ov-seg.e-done{background:var(--acc);opacity:0.35}
 .ov-dc .ov-num{position:absolute;bottom:1px;left:0;right:0;text-align:center;font-size:6px;color:var(--text4);z-index:1}
 .ov-dc.today .ov-num{color:var(--acc)}
-.ov-session-dot{position:absolute;top:2px;right:2px;width:7px;height:7px;border-radius:50%;background:#5A8AA0;z-index:2}
-.ov-class-dot{position:absolute;top:2px;left:2px;width:7px;height:7px;border-radius:50%;background:var(--acc2);z-index:2}
+.ov-ev-strip{position:absolute;bottom:0;left:0;right:0;height:4px;display:flex;z-index:2}
+.ov-ev-sess{flex:1;background:#5A8AA0}
+.ov-ev-cls{flex:1;background:#C4914A}
 .habit-filter{display:flex;flex-direction:column;gap:4px;min-width:86px}
 .hf-label{font-size:9px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
 .hf-item{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:7px;cursor:pointer;border:1px solid transparent;transition:all 0.15s}
@@ -515,10 +516,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
   <!-- OVERVIEW PANEL -->
   <div class="panel" id="panel-overview">
     <div class="ov-hdr">
-      <div class="ov-month-nav">
-        <button class="ov-month-btn" onclick="changeOvMonth(-1)">◀</button>
-        <div class="ov-month-label" id="ov-month-label"></div>
-        <button class="ov-month-btn" onclick="changeOvMonth(1)">▶</button>
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <div class="ov-month-nav">
+          <button class="ov-month-btn" onclick="changeOvMonth(-1)">◀</button>
+          <div class="ov-month-label" id="ov-month-label"></div>
+          <button class="ov-month-btn" onclick="changeOvMonth(1)">▶</button>
+        </div>
+        <div id="ov-month-stats" style="font-size:11px;color:var(--text3);display:flex;gap:10px;flex-wrap:wrap"></div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <button class="add-session-btn" onclick="openOverlay('add-session-overlay')">+ Schedule Session</button>
@@ -533,8 +537,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
           <div class="ov-leg-item"><div class="ov-leg-dot" style="background:var(--acc)"></div>Morning habit</div>
           <div class="ov-leg-item"><div class="ov-leg-dot" style="background:var(--acc);opacity:0.65"></div>Midday habit</div>
           <div class="ov-leg-item"><div class="ov-leg-dot" style="background:var(--acc);opacity:0.35"></div>Evening habit</div>
-          <div class="ov-leg-item"><div class="ov-leg-dot" style="background:#5A8AA0"></div>Training session</div>
-          <div class="ov-leg-item"><div class="ov-leg-dot" style="background:var(--acc2)"></div>Group class</div>
+          <div class="ov-leg-item"><div style="width:14px;height:4px;border-radius:1px;background:#5A8AA0;flex-shrink:0"></div>Training session</div>
+          <div class="ov-leg-item"><div style="width:14px;height:4px;border-radius:1px;background:#C4914A;flex-shrink:0"></div>Group class</div>
         </div>
       </div>
       <div><div class="habit-filter" id="habit-filter"></div></div>
@@ -1102,15 +1106,24 @@ function renderOverview(){
     const mDone=mH.some(h=>dc[h.id]);const dDone=dH.some(h=>dc[h.id]);const eDone=eH.some(h=>dc[h.id]);
     const hasSess=sessions.some(s=>s.date===k);const hasCls=classLogs.some(c=>c.date===k);
     cells+=`<div class="ov-dc ${isToday?'today':''} ${isFut?'fut':''}">
-      ${hasSess?'<div class="ov-session-dot"></div>':''}
-      ${hasCls?'<div class="ov-class-dot"></div>':''}
       <div class="ov-seg ${mDone?'m-done':''}"></div><div class="ov-seg-div"></div>
       <div class="ov-seg ${dDone?'d-done':''}"></div><div class="ov-seg-div"></div>
       <div class="ov-seg ${eDone?'e-done':''}"></div>
       <div class="ov-num">${day}</div>
+      ${(hasSess||hasCls)?`<div class="ov-ev-strip">${hasCls?'<div class="ov-ev-cls"></div>':''}${hasSess?'<div class="ov-ev-sess"></div>':''}</div>`:''}
     </div>`;
   }
   document.getElementById('ov-grid').innerHTML=cells;
+  const monthKey=`${ovYear}-${String(ovMonth+1).padStart(2,'0')}`;
+  const mSess=sessions.filter(s=>s.date.startsWith(monthKey)).length;
+  const mCls=classLogs.filter(c=>c.date.startsWith(monthKey)).length;
+  const statsEl=document.getElementById('ov-month-stats');
+  if(statsEl){
+    let sp='';
+    if(mSess)sp+=`<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:3px;border-radius:1px;background:#5A8AA0;display:inline-block"></span>${mSess} session${mSess!==1?'s':''}</span>`;
+    if(mCls)sp+=`<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:3px;border-radius:1px;background:#C4914A;display:inline-block"></span>${mCls} class${mCls!==1?'es':''}</span>`;
+    statsEl.innerHTML=sp;
+  }
   let fHtml='<div class="hf-label">Filter</div>';
   fHtml+=`<div class="hf-item ${ovFilter==='all'?'active':''}" onclick="setOvFilter('all')"><div class="hf-dot" style="background:var(--text3)"></div><div class="hf-name">All</div></div>`;
   activeHabits.forEach(h=>{const a=String(ovFilter)===String(h.id);fHtml+=`<div class="hf-item ${a?'active':''}" onclick="setOvFilter(${h.id})"><div class="hf-dot" style="background:${h.color||'var(--acc)'}"></div><div class="hf-name">${h.name}</div></div>`;});
@@ -1411,7 +1424,7 @@ function buildQuitCard(q){
       }
     }
     const click=(isFut||isBeforeStart)?'':` onclick="viewDayLogs('${q.id}','${k}')"`;
-    cells+=`<div class="${cls}"${click}>${label}</div>`;
+    cells+=`<div class="${cls}"${click}>${day}</div>`;
   }
   const weekAvg=q.phase==='reduction'?getQuitWeekAvg(q,getQuitCurrentWeek(q)):null;
   const bestDay=getBestDayThisWeek(q);
