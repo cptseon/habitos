@@ -325,119 +325,136 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 
 <!-- CLIENT DETAIL -->
 <div id="client-detail">
-  <div class="cd-header">
-    <div><div class="cd-title" id="cd-name"></div><div class="cd-meta" id="cd-meta"></div></div>
-    <div class="cd-actions">
-      <button class="rbtn" onclick="regenerateLink()">↻ New Link</button>
-      <button class="rbtn" onclick="copyClientLink()">⎘ Copy Link</button>
-      <button class="rbtn danger" onclick="resetOnboarding()">Reset Onboarding</button>
-    </div>
-  </div>
-
-  <div class="link-box">
-    <div class="link-label">Client Link</div>
-    <div class="link-url" id="cd-link"></div>
-    <button class="link-copy" onclick="copyClientLink()">Copy</button>
-  </div>
-
-  <div class="contact-bar" id="contact-bar" style="display:none">
-    <div class="contact-item">
-      <div class="contact-label">Email</div>
-      <div class="contact-val" id="cd-email">—</div>
-    </div>
-    <div class="contact-divider"></div>
-    <div class="contact-item" style="gap:4px">
-      <button class="contact-btn" id="cd-email-btn" onclick="contactEmail()">✉ Email</button>
-      <button class="contact-btn" onclick="copyEmail()">Copy</button>
-    </div>
-    <div class="contact-divider"></div>
-    <div class="contact-item">
-      <div class="contact-label">Phone</div>
-      <div class="contact-val" id="cd-phone">—</div>
-    </div>
-    <div class="contact-divider"></div>
-    <div class="contact-item" style="gap:4px">
-      <button class="contact-btn" id="cd-sms-btn" onclick="contactSMS()">✉ Text</button>
-      <button class="contact-btn" onclick="copyPhone()">Copy</button>
-    </div>
-  </div>
-
-  <div class="notes-section" style="margin-top:0;margin-bottom:16px">
-    <div class="notes-title">Client Message <span style="font-size:9px;color:var(--text4);font-weight:400;text-transform:none;letter-spacing:0">(shown on their dashboard)</span></div>
-    <textarea class="notes-area" id="coach-message" placeholder="e.g. Focus on morning habits this week — consistency over intensity." rows="2"></textarea>
-    <button class="notes-save" onclick="saveCoachMessage()">Save Message</button>
-    <span class="notes-saved" id="msg-saved">Saved</span>
-  </div>
-
-  <div class="stats">
-    <div class="sc"><div class="sl">Chapter XP</div><div class="sv" id="cd-xp">0</div><div class="sv-sub" id="cd-alltime-xp">0 all-time</div></div>
-    <div class="sc green"><div class="sl">Best Streak</div><div class="sv" id="cd-streak">0</div><div class="sv-sub">days</div></div>
-    <div class="sc brown"><div class="sl">This Month</div><div class="sv" id="cd-month">0</div><div class="sv-sub">completions</div></div>
-    <div class="sc dark"><div class="sl">Journey</div><div class="sv" id="cd-day">—</div><div class="sv-sub" id="cd-day-sub">day</div></div>
-  </div>
-
-  <div class="xp-section">
-    <div class="xp-top">
-      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <div class="xp-level" id="cd-level-name">Level 1 — Newcomer</div>
-        <div class="xp-chapter-badge" id="cd-chapter-badge">Chapter I</div>
+  <!-- COACH TOOLBAR — sits above the mirrored dashboard -->
+  <div style="background:var(--bgs);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:16px">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+      <div>
+        <div class="cd-title" id="cd-name"></div>
+        <div class="cd-meta" id="cd-meta"></div>
       </div>
-      <div class="xp-right" id="cd-xp-txt">0 / 300 XP to next level</div>
+      <div class="cd-actions">
+        <button class="rbtn" onclick="copyClientLink()">⎘ Copy Link</button>
+        <button class="rbtn" onclick="regenerateLink()">↻ New Link</button>
+        <button class="rbtn danger" onclick="resetOnboarding()">Reset Onboarding</button>
+      </div>
     </div>
-    <div class="xp-bar-label">Level Progress</div>
-    <div class="xp-bar-bg"><div class="xp-bar-fill" id="cd-level-bar" style="width:0%"></div></div>
-    <div class="xp-bar-label" style="margin-top:6px">Chapter Progress</div>
-    <div class="xp-bar-bg thin"><div class="xp-bar-fill chapter" id="cd-chapter-bar" style="width:0%"></div></div>
-    <div class="xp-footer" id="cd-chapter-txt">0 / 11,000 XP to prestige</div>
-  </div>
-
-  <div class="slot-controls">
-    <div class="sc-title">Habit Slot Progression</div>
-    <div class="sc-slots" id="sc-slots-display"></div>
-  </div>
-
-  <div class="month-nav-bar">
-    <div class="month-nav-label">Viewing</div>
-    <button class="month-nav-btn" onclick="changeViewMonth(-1)">◀</button>
-    <select class="month-sel" id="month-sel" onchange="onMonthSelChange()"></select>
-    <button class="month-nav-btn" onclick="changeViewMonth(1)">▶</button>
-    <div style="flex:1"></div>
-    <div class="month-stat" id="month-completion-stat"></div>
-  </div>
-
-  <div class="summary-row" id="summary-row"></div>
-
-  <div class="sectit">Habits</div>
-  <div class="filter-bar">
-    <div class="filter-label">Filter</div>
-    <select class="fsel" id="f-slot" onchange="renderHabitTable()"><option value="">All Slots</option><option value="morning">Morning</option><option value="midday">Midday</option><option value="evening">Evening</option></select>
-    <select class="fsel" id="f-cat" onchange="renderHabitTable()"><option value="">All Categories</option><option value="MOVEMENT">Movement</option><option value="NUTRITION">Nutrition</option><option value="REGENERATION">Regeneration</option><option value="MINDSET">Mindset</option></select>
-    <select class="fsel" id="f-sort" onchange="renderHabitTable()"><option value="name">Name</option><option value="streak">Streak</option><option value="rate">Completion Rate</option><option value="xp">XP Value</option></select>
-    <button class="ftoggle" id="f-archived" onclick="toggleArchivedFilter()">Show Archived</button>
-  </div>
-  <table class="habit-table">
-    <thead><tr><th>Habit</th><th>Slot</th><th>Category</th><th>XP</th><th>Streak</th><th>Rate</th><th>Status</th><th></th></tr></thead>
-    <tbody id="habit-tbody"></tbody>
-  </table>
-  <button class="add-habit-btn" onclick="openAddHabit()">+ Add Habit</button>
-
-  <div class="notes-section" style="margin-top:14px">
-    <div class="notes-title" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
-      <span>Training Sessions</span>
-      <button class="rbtn primary" style="font-size:9px;padding:5px 12px" onclick="openAddSession()">+ Schedule Session</button>
+    <div class="link-box" style="margin-bottom:10px">
+      <div class="link-label">Client Link</div>
+      <div class="link-url" id="cd-link"></div>
+      <button class="link-copy" onclick="copyClientLink()">Copy</button>
     </div>
-    <div id="sessions-list" style="margin-top:10px"></div>
+    <div class="contact-bar" id="contact-bar" style="display:none;margin-bottom:10px">
+      <div class="contact-item"><div class="contact-label">Email</div><div class="contact-val" id="cd-email">—</div></div>
+      <div class="contact-divider"></div>
+      <div class="contact-item" style="gap:4px">
+        <button class="contact-btn" onclick="contactEmail()">✉ Email</button>
+        <button class="contact-btn" onclick="copyEmail()">Copy</button>
+      </div>
+      <div class="contact-divider"></div>
+      <div class="contact-item"><div class="contact-label">Phone</div><div class="contact-val" id="cd-phone">—</div></div>
+      <div class="contact-divider"></div>
+      <div class="contact-item" style="gap:4px">
+        <button class="contact-btn" onclick="contactSMS()">✉ Text</button>
+        <button class="contact-btn" onclick="copyPhone()">Copy</button>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:9px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:5px">Coach Message <span style="font-size:9px;color:var(--text4);font-weight:400;text-transform:none;letter-spacing:0">(shown on their dashboard)</span></div>
+      <textarea class="notes-area" id="coach-message" placeholder="e.g. Focus on morning habits this week — consistency over intensity." rows="2"></textarea>
+      <button class="notes-save" onclick="saveCoachMessage()">Save Message</button>
+      <span class="notes-saved" id="msg-saved">Saved</span>
+    </div>
   </div>
 
-  <div class="notes-section">
-    <div class="notes-title">Private Coach Notes <span style="font-size:9px;color:var(--text4);font-weight:400;text-transform:none;letter-spacing:0">(never shown to client)</span></div>
-    <textarea class="notes-area" id="coach-notes" placeholder="Session notes, observations, goals for next session..."></textarea>
-    <button class="notes-save" onclick="saveNotes()">Save Notes</button>
-    <span class="notes-saved" id="notes-saved">Saved</span>
+  <!-- MIRRORED CLIENT DASHBOARD -->
+  <div id="mirror-dashboard">
+    <!-- Hero card -->
+    <div style="background:var(--bgs);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px">
+      <div style="padding:16px 16px 12px">
+        <div style="font-family:var(--serif);font-size:26px;color:var(--text);margin-bottom:5px" id="m-name"></div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <div style="font-size:12px;color:var(--acc);font-weight:500" id="m-day"></div>
+          <div id="m-sep" style="display:none;font-size:11px;color:var(--border2)">·</div>
+          <div style="font-size:10px;padding:2px 9px;border-radius:8px;background:rgba(196,98,58,0.08);color:var(--acc);border:1px solid rgba(196,98,58,0.2);display:none" id="m-chapter"></div>
+        </div>
+      </div>
+      <div id="m-msg-strip" style="display:none;padding:12px 16px;background:var(--bgc);border-top:1px solid var(--border);display:flex;align-items:flex-start;gap:8px">
+        <div style="width:6px;height:6px;border-radius:50%;background:var(--acc);flex-shrink:0;margin-top:5px"></div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.6;font-style:italic" id="m-msg-txt"></div>
+      </div>
+    </div>
+    <!-- XP + Stats -->
+    <div style="background:var(--bgs);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <div style="font-size:13px;font-weight:500;color:var(--text)" id="m-level">Level 1 — Foundation</div>
+          <div style="font-size:10px;color:var(--acc);background:rgba(196,98,58,0.08);padding:2px 8px;border-radius:8px;border:1px solid rgba(196,98,58,0.2)" id="m-ch-pill">Chapter I</div>
+        </div>
+        <div style="font-size:11px;color:var(--text3)" id="m-xp-right">0 / 300 XP</div>
+      </div>
+      <div style="font-size:8px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px">Level progress</div>
+      <div style="height:7px;background:var(--bgc);border-radius:4px;overflow:hidden;margin-bottom:6px"><div style="height:100%;border-radius:4px;background:var(--acc);transition:width 0.6s" id="m-level-bar"></div></div>
+      <div style="font-size:8px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;margin-top:5px">Chapter progress</div>
+      <div style="height:3px;background:var(--bgc);border-radius:2px;overflow:hidden;margin-bottom:4px"><div style="height:100%;border-radius:2px;background:var(--acc3);transition:width 0.6s" id="m-ch-bar"></div></div>
+      <div style="font-size:10px;color:var(--text3);text-align:right;margin-top:3px" id="m-ch-footer">0 / 11,000 XP to prestige</div>
+      <div style="height:1px;background:var(--bgc);margin:12px 0"></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+        <div style="background:var(--bgc);border-radius:10px;padding:11px 8px;text-align:center"><div style="font-size:22px;font-weight:500;color:var(--text);line-height:1" id="m-s-xp">0</div><div style="font-size:9px;color:var(--text3);margin-top:2px" id="m-s-alltime">0 all-time</div><div style="font-size:7px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">Chapter XP</div></div>
+        <div style="background:var(--bgc);border-radius:10px;padding:11px 8px;text-align:center"><div style="font-size:22px;font-weight:500;color:var(--text);line-height:1" id="m-s-str">0</div><div style="font-size:9px;color:var(--text3);margin-top:2px">days</div><div style="font-size:7px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">Best Streak</div></div>
+        <div style="background:var(--bgc);border-radius:10px;padding:11px 8px;text-align:center"><div style="font-size:22px;font-weight:500;color:var(--text);line-height:1" id="m-s-mo">0</div><div style="font-size:9px;color:var(--text3);margin-top:2px">completions</div><div style="font-size:7px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">This Month</div></div>
+      </div>
+    </div>
+    <!-- Mirror Tabs -->
+    <div style="display:flex;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px">
+      <button class="mtab active" id="m-tab-habits" onclick="showMirrorTab('habits',this)" style="flex:1;font-size:11px;padding:10px 6px;background:var(--bgc);color:var(--text);cursor:pointer;border:none;border-right:1px solid var(--border);font-weight:500;font-family:var(--sans);letter-spacing:0.04em">Habits</button>
+      <button class="mtab" id="m-tab-quit" onclick="showMirrorTab('quit',this)" style="flex:1;font-size:11px;padding:10px 6px;background:transparent;color:var(--text3);cursor:pointer;border:none;border-right:1px solid var(--border);font-family:var(--sans);letter-spacing:0.04em">Quit</button>
+      <button class="mtab" id="m-tab-sessions" onclick="showMirrorTab('sessions',this)" style="flex:1;font-size:11px;padding:10px 6px;background:transparent;color:var(--text3);cursor:pointer;border:none;border-right:1px solid var(--border);font-family:var(--sans);letter-spacing:0.04em">Sessions</button>
+      <button class="mtab" id="m-tab-notes" onclick="showMirrorTab('notes',this)" style="flex:1;font-size:11px;padding:10px 6px;background:transparent;color:var(--text3);cursor:pointer;border:none;font-family:var(--sans);letter-spacing:0.04em">Notes</button>
+    </div>
+    <!-- Habits mirror panel -->
+    <div id="m-panel-habits">
+      <div style="display:flex;gap:0;margin-bottom:16px;border:1px solid var(--border);border-radius:10px;overflow:hidden">
+        <button onclick="showMirrorSlot('morning',this)" style="flex:1;padding:10px 6px;background:var(--bgc);color:var(--acc);cursor:pointer;border:none;border-right:1px solid var(--border);font-family:var(--sans);font-size:12px;font-weight:500" id="m-slot-morning">Morning</button>
+        <button onclick="showMirrorSlot('midday',this)" style="flex:1;padding:10px 6px;background:transparent;color:var(--text3);cursor:pointer;border:none;border-right:1px solid var(--border);font-family:var(--sans);font-size:12px" id="m-slot-midday">Midday</button>
+        <button onclick="showMirrorSlot('evening',this)" style="flex:1;padding:10px 6px;background:transparent;color:var(--text3);cursor:pointer;border:none;font-family:var(--sans);font-size:12px" id="m-slot-evening">Evening</button>
+      </div>
+      <div id="m-habits-morning"><div class="hgrid" id="m-hg-morning"></div></div>
+      <div id="m-habits-midday" style="display:none"><div class="hgrid" id="m-hg-midday"></div></div>
+      <div id="m-habits-evening" style="display:none"><div class="hgrid" id="m-hg-evening"></div></div>
+      <button class="add-habit-btn" onclick="openAddHabit()">+ Add Habit</button>
+    </div>
+    <!-- Quit mirror panel -->
+    <div id="m-panel-quit" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <div style="font-family:var(--serif);font-size:18px;color:var(--text)">Reduce &amp; Quit</div>
+        <button class="rbtn primary" onclick="openAddQuit()">+ Add Quit Habit</button>
+      </div>
+      <div id="m-suggest-banners"></div>
+      <div id="m-quit-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px"></div>
+      <div id="m-quit-empty" style="display:none;text-align:center;padding:24px;font-size:13px;color:var(--text3);font-style:italic">No quit habits tracked yet.</div>
+    </div>
+    <!-- Sessions panel -->
+    <div id="m-panel-sessions" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:13px;font-weight:500;color:var(--text)">Training Sessions</div>
+        <button class="rbtn primary" onclick="openAddSession()">+ Schedule Session</button>
+      </div>
+      <div id="sessions-list"></div>
+    </div>
+    <!-- Notes panel -->
+    <div id="m-panel-notes" style="display:none">
+      <div class="notes-section">
+        <div class="notes-title">Private Coach Notes <span style="font-size:9px;color:var(--text4);font-weight:400;text-transform:none;letter-spacing:0">(never shown to client)</span></div>
+        <textarea class="notes-area" id="coach-notes" placeholder="Session notes, observations, goals for next session..."></textarea>
+        <button class="notes-save" onclick="saveNotes()">Save Notes</button>
+        <span class="notes-saved" id="notes-saved">Saved</span>
+      </div>
+    </div>
   </div>
 </div>
 </div>
 </div>
+
 
 <!-- NEW CLIENT -->
 <div class="overlay" id="newclient-overlay">
@@ -562,6 +579,26 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 
 <div class="toast" id="toast"></div>
 
+<!-- ADD QUIT OVERLAY (coach) -->
+<div class="overlay" id="add-quit-overlay">
+  <div class="modal narrow">
+    <div class="mtit">Track to Reduce</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px" id="coach-quit-lib-grid">
+      <div style="background:var(--bgc);border:1px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;text-align:center;transition:all 0.2s" onclick="selectCoachQuitLib('nicotine',this)"><div style="font-size:24px;margin-bottom:6px">🚬</div><div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px">Nicotine</div><div style="font-size:10px;color:var(--acc)">25 XP / clean day</div></div>
+      <div style="background:var(--bgc);border:1px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;text-align:center;transition:all 0.2s" onclick="selectCoachQuitLib('alcohol',this)"><div style="font-size:24px;margin-bottom:6px">🍺</div><div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px">Alcohol</div><div style="font-size:10px;color:var(--acc)">20 XP / clean day</div></div>
+      <div style="background:var(--bgc);border:1px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;text-align:center;transition:all 0.2s" onclick="selectCoachQuitLib('sugar',this)"><div style="font-size:24px;margin-bottom:6px">🍬</div><div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px">Sugar / Processed</div><div style="font-size:10px;color:var(--acc)">15 XP / clean day</div></div>
+      <div style="background:var(--bgc);border:1px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;text-align:center;transition:all 0.2s" onclick="selectCoachQuitLib('screentime',this)"><div style="font-size:24px;margin-bottom:6px">📱</div><div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px">Screen time</div><div style="font-size:10px;color:var(--acc)">10 XP / clean day</div></div>
+    </div>
+    <div style="text-align:center;font-size:10px;color:var(--text4);margin:10px 0;letter-spacing:0.06em;text-transform:uppercase">or custom</div>
+    <div class="mfg"><label class="mfl">Name</label><input class="mfi" id="cq-name" type="text" placeholder="e.g. Cigarettes, Late night snacking..."></div>
+    <div style="display:flex;gap:8px">
+      <div class="mfg" style="flex:1"><label class="mfl">Icon</label><input class="mfi" id="cq-icon" type="text" placeholder="🎯" maxlength="2"></div>
+      <div class="mfg" style="flex:1"><label class="mfl">XP / clean day</label><select class="mfsel" id="cq-xp"><option value="10">10 XP</option><option value="15">15 XP</option><option value="20">20 XP</option><option value="25" selected>25 XP</option></select></div>
+    </div>
+    <div class="mact"><button class="mcnl" onclick="closeOverlay('add-quit-overlay')">Cancel</button><button class="mcrt" onclick="addCoachQuitHabit()">Start Tracking</button></div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 const SUPABASE_URL='https://iwzzkxnzqyszjoielblo.supabase.co';
@@ -570,7 +607,9 @@ const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 const MAX_SLOTS=4,SLOT_WEEKS=6,PRESTIGE_XP=11000;
 const MONTHS_SHORT=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const ROMAN=['I','II','III'];
-const LEVELS=[{min:0,name:'Newcomer'},{min:300,name:'Mover'},{min:700,name:'Builder'},{min:1400,name:'Athlete'},{min:2500,name:'Performer'},{min:4000,name:'Competitor'},{min:6000,name:'Champion'},{min:8500,name:'Elite'},{min:11000,name:'Icon'}];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const LEVELS=[{min:0,name:'Foundation'},{min:300,name:'Consistent'},{min:700,name:'Dedicated'},{min:1400,name:'Athlete'},{min:2500,name:'Performer'},{min:4000,name:'Competitor'},{min:6000,name:'Champion'},{min:8500,name:'Elite'},{min:11000,name:'Icon'}];
 
 const HABIT_LIBRARY={
   movement:[
@@ -797,47 +836,175 @@ function renderClientDetail(c){
   const d=c.data||{};
   document.getElementById('client-detail').style.display='block';
   document.getElementById('cd-name').textContent=c.name;
-  const ch=d.prestigeCount||0;
-  const chR=ROMAN[Math.min(ch,2)]||'I';
-  const startDate=c.start_date?new Date(c.start_date):null;
+  const ch=d.prestigeCount||0;const chR=ROMAN[Math.min(ch,2)]||'I';
   const journeyStart=d.journeyStartedAt?new Date(d.journeyStartedAt):null;
   let dayNum=null;
-  if(journeyStart){
-    const today=new Date();today.setHours(0,0,0,0);
-    const start=new Date(journeyStart);start.setHours(0,0,0,0);
-    dayNum=Math.floor((today-start)/(24*3600*1000))+1;
-  }
+  if(journeyStart){const today=new Date();today.setHours(0,0,0,0);const start=new Date(journeyStart);start.setHours(0,0,0,0);dayNum=Math.floor((today-start)/(24*3600*1000))+1;}
   document.getElementById('cd-meta').textContent=(c.start_date?'Started '+new Date(c.start_date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'No start date')+' · Level '+getLevel(d.xp||0)+' '+getLvlName(d.xp||0)+(ch>0?' · Chapter '+chR:'');
   const clientUrl=window.location.origin+window.location.pathname.replace('coach.html','')+'client.html?id='+c.pin;
   document.getElementById('cd-link').textContent=clientUrl;
-
-  // contact bar
   const email=d.email||'';const phone=d.phone||'';
   if(email||phone){
     document.getElementById('contact-bar').style.display='flex';
     document.getElementById('cd-email').textContent=email||'—';
     document.getElementById('cd-phone').textContent=phone||'—';
-  }else{document.getElementById('contact-bar').style.display='none';}
-
-  document.getElementById('cd-xp').textContent=(d.xp||0).toLocaleString();
-  document.getElementById('cd-alltime-xp').textContent=totalAllTimeXP(d).toLocaleString()+' all-time';
-  document.getElementById('cd-streak').textContent=d.bestStreak||0;
-  document.getElementById('cd-month').textContent=getMonthTotal(d);
-  document.getElementById('cd-day').textContent=dayNum||'—';
-  document.getElementById('cd-day-sub').textContent=dayNum?'of journey':'';
-  const lvl=getLevel(d.xp||0);const lvlName=getLvlName(d.xp||0);
-  document.getElementById('cd-level-name').textContent='Level '+lvl+' — '+lvlName;
-  document.getElementById('cd-chapter-badge').textContent='Chapter '+(ch<3?chR:'III');
-  const prog=getXpProg(d.xp||0);
-  document.getElementById('cd-xp-txt').textContent=prog.curr+' / '+prog.total+' XP to next level';
-  document.getElementById('cd-level-bar').style.width=prog.pct+'%';
-  const chPct=Math.min(100,Math.round((d.xp||0)/PRESTIGE_XP*100));
-  document.getElementById('cd-chapter-bar').style.width=chPct+'%';
-  document.getElementById('cd-chapter-txt').textContent=(d.xp||0).toLocaleString()+' / '+PRESTIGE_XP.toLocaleString()+' XP to prestige'+(ch>=3?' (max)':'');
+  }else document.getElementById('contact-bar').style.display='none';
   document.getElementById('coach-message').value=d.coachMessage||'';
   document.getElementById('coach-notes').value=d.coachNotes||'';
-  renderSlotControls(c);renderMonthNav();renderSummaryRow(c);renderHabitTable();renderSessions(c);
+  // Mirror hero
+  document.getElementById('m-name').textContent=c.name;
+  if(dayNum){document.getElementById('m-day').textContent='Day '+dayNum+' of your journey';document.getElementById('m-day').style.display='block';}else document.getElementById('m-day').style.display='none';
+  if(ch>0){document.getElementById('m-sep').style.display='block';document.getElementById('m-chapter').style.display='block';document.getElementById('m-chapter').textContent='Chapter '+chR;}else{document.getElementById('m-sep').style.display='none';document.getElementById('m-chapter').style.display='none';}
+  const msgStrip=document.getElementById('m-msg-strip');
+  if(d.coachMessage){document.getElementById('m-msg-txt').textContent=d.coachMessage;msgStrip.style.display='flex';}else msgStrip.style.display='none';
+  // Mirror XP
+  const lvl=getLevel(d.xp||0);const lvlName=getLvlName(d.xp||0);
+  document.getElementById('m-level').textContent='Level '+lvl+' — '+lvlName;
+  document.getElementById('m-ch-pill').textContent='Chapter '+(ch<3?chR:'III');
+  const prog=getXpProg(d.xp||0);
+  document.getElementById('m-xp-right').textContent=prog.curr+' / '+prog.total+' XP to next level';
+  document.getElementById('m-level-bar').style.width=prog.pct+'%';
+  const chPct=Math.min(100,Math.round((d.xp||0)/PRESTIGE_XP*100));
+  document.getElementById('m-ch-bar').style.width=chPct+'%';
+  document.getElementById('m-ch-footer').textContent=(d.xp||0).toLocaleString()+' / '+PRESTIGE_XP.toLocaleString()+' XP to prestige'+(ch>=3?' (max)':'');
+  document.getElementById('m-s-xp').textContent=(d.xp||0).toLocaleString();
+  document.getElementById('m-s-alltime').textContent=totalAllTimeXP(d).toLocaleString()+' all-time';
+  document.getElementById('m-s-str').textContent=d.bestStreak||0;
+  document.getElementById('m-s-mo').textContent=getMonthTotal(d);
+  // Mirror habits
+  renderMirrorHabits(c);
+  // Mirror quit
+  renderMirrorQuit(c);
+  // Mirror sessions
+  renderSessions(c);
 }
+function showMirrorTab(tab,btn){
+  ['habits','quit','sessions','notes'].forEach(t=>{
+    const p=document.getElementById('m-panel-'+t);if(p)p.style.display=t===tab?'block':'none';
+    const b=document.getElementById('m-tab-'+t);
+    if(b){b.style.background=t===tab?'var(--bgc)':'transparent';b.style.color=t===tab?'var(--text)':'var(--text3)';b.style.fontWeight=t===tab?'500':'400';}
+  });
+}
+function showMirrorSlot(slot,btn){
+  ['morning','midday','evening'].forEach(s=>{
+    const p=document.getElementById('m-habits-'+s);if(p)p.style.display=s===slot?'block':'none';
+    const b=document.getElementById('m-slot-'+s);
+    if(b){b.style.background=s===slot?'var(--bgc)':'transparent';b.style.color=s===slot?'var(--acc)':'var(--text3)';b.style.fontWeight=s===slot?'500':'400';}
+  });
+}
+function renderMirrorHabits(c){
+  const d=c.data||{};const slots=getSlotsUnlocked(c);
+  ['morning','midday','evening'].forEach(slot=>{
+    const grid=document.getElementById('m-hg-'+slot);if(!grid)return;
+    const habits=(d.habits||[]).filter(h=>!h.archived&&(h.slot||'morning')===slot);
+    const now=new Date();let html='';
+    habits.forEach(h=>{
+      const calKey='mc-'+c.id+'-'+h.id;
+      if(!calStates[calKey])calStates[calKey]={m:now.getMonth(),y:now.getFullYear()};
+      const cs=calStates[calKey];
+      const streak=getHabitStreak(d,h.id);const rate=getHabitMonthRate(d,h.id);
+      const firstDay=new Date(cs.y,cs.m,1).getDay();const dim=new Date(cs.y,cs.m+1,0).getDate();
+      const tY=now.getFullYear(),tM=now.getMonth(),tD=now.getDate();
+      let cells='';
+      for(let i=0;i<firstDay;i++)cells+='<div class="dc emp"></div>';
+      for(let day=1;day<=dim;day++){
+        const k=`${cs.y}-${String(cs.m+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+        const done=!!(d.completions?.[k]?.[h.id]);
+        const isToday=cs.y===tY&&cs.m===tM&&day===tD;const isFut=new Date(cs.y,cs.m,day)>new Date(tY,tM,tD);
+        const cls=['dc',done?'done':'',isToday?'today':'',isFut?'fut':''].filter(Boolean).join(' ');
+        cells+=`<div class="${cls}">${day}</div>`;
+      }
+      html+=`<div class="hcard">
+        <div class="hcard-top">
+          <div class="hcard-info"><div class="hico">${h.icon||'⭐'}</div>
+            <div style="min-width:0"><div class="hname">${h.name}</div><div class="hcat">${h.cat||h.category}</div></div>
+          </div>
+          <div class="hcard-btns">
+            <button class="hbtn" onclick="coachArchiveHabit('${c.id}',${h.id})" title="Remove" style="font-size:18px;font-weight:300" onmouseover="this.style.color='#C4623A'" onmouseout="this.style.color='var(--text4)'">−</button>
+          </div>
+        </div>
+        <div class="hmeta"><div class="hxp">+${h.xp} XP/day</div><div class="hstreak">${streak>0?streak+'d streak':'No streak'}</div></div>
+        <div class="hrate">${rate}% this month</div>
+        <div>
+          <div class="mcal-nav"><div class="mcal-lbl">${MS[cs.m]} ${cs.y}</div></div>
+          <div class="dow-row"><div class="dowc">S</div><div class="dowc">M</div><div class="dowc">T</div><div class="dowc">W</div><div class="dowc">T</div><div class="dowc">F</div><div class="dowc">S</div></div>
+          <div class="dgrid">${cells}</div>
+        </div>
+      </div>`;
+    });
+    const activeInSlot=(d.habits||[]).filter(h=>!h.archived&&(h.slot||'morning')===slot).length;
+    if(activeInSlot<slots)html+=`<button class="addbtn" onclick="openAddHabitForSlot('${slot}')">+ Add ${slot} habit</button>`;
+    grid.innerHTML=html;
+  });
+}
+function renderMirrorQuit(c){
+  const d=c.data||{};const quits=d.quitHabits||[];
+  const grid=document.getElementById('m-quit-grid');const empty=document.getElementById('m-quit-empty');const banners=document.getElementById('m-suggest-banners');
+  if(!grid)return;
+  if(!quits.length){grid.innerHTML='';if(empty)empty.style.display='block';if(banners)banners.innerHTML='';return;}
+  if(empty)empty.style.display='none';
+  const now=new Date();const tY=now.getFullYear(),tM=now.getMonth(),tD=now.getDate();
+  grid.innerHTML=quits.map(q=>{
+    const today=`${tY}-${String(tM+1).padStart(2,'0')}-${String(tD).padStart(2,'0')}`;
+    const todayLog=(q.logs||[]).find(l=>l.date===today)||{occurrences:[]};
+    const todayCount=todayLog.occurrences.length;
+    const target=q.currentTarget;
+    const days=q.startDate?Math.floor((new Date()-new Date(q.startDate))/(24*3600*1000))+1:0;
+    const firstDay=new Date(tY,tM,1).getDay();const dim=new Date(tY,tM+1,0).getDate();
+    let cells='';
+    for(let i=0;i<firstDay;i++)cells+='<div class="qdc emp"></div>';
+    for(let day=1;day<=dim;day++){
+      const k=`${tY}-${String(tM+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+      const isToday=day===tD;const isFut=day>tD;
+      const isBeforeStart=q.startDate&&new Date(tY,tM,day)<new Date(q.startDate);
+      let cls='qdc';let label='';
+      if(isFut||isBeforeStart)cls+=' emp';
+      else{const count=(q.logs||[]).find(l=>l.date===k)?.occurrences?.length||0;label=count>0?String(count):'';
+        if(isToday)cls+=' today-q';
+        if(q.phase==='awareness')cls+=count>0?' q-tracking':' q-none';
+        else{if(count===0)cls+=' q-none';else if(count<=target)cls+=' q-good';else if(count<=target+1)cls+=' q-ok';else if(count<=target+2)cls+=' q-over';else cls+=' q-bad';}
+      }
+      cells+=`<div class="${cls}">${label}</div>`;
+    }
+    return`<div class="qcard">
+      <div class="qcard-top">
+        <div class="qcard-info"><div class="qico">${q.icon||'🎯'}</div>
+          <div><div class="qname">${q.name}</div><div class="qphase">${q.phase==='awareness'?'Awareness phase':'Reduction phase · target: '+target+'/day'}</div></div>
+        </div>
+      </div>
+      <div class="quit-stats">
+        <div class="qs"><div class="qs-val">${todayCount}</div><div class="qs-sub">today</div><div class="qs-lbl">Logged</div></div>
+        <div class="qs"><div class="qs-val">${days}</div><div class="qs-sub">tracking</div><div class="qs-lbl">Days</div></div>
+        <div class="qs"><div class="qs-val">${target||'—'}</div><div class="qs-sub">target</div><div class="qs-lbl">Per day</div></div>
+      </div>
+      <div>
+        <div class="qcal-nav"><div class="qcal-lbl">${MS[tM]} ${tY}</div>
+          <button class="qcal-btn" onclick="coachSetTarget('${c.id}','${q.id}')">Edit target</button>
+        </div>
+        <div class="dow-row"><div class="dowc">S</div><div class="dowc">M</div><div class="dowc">T</div><div class="dowc">W</div><div class="dowc">T</div><div class="dowc">F</div><div class="dowc">S</div></div>
+        <div class="qdgrid">${cells}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+async function coachArchiveHabit(clientId,habitId){
+  const c=allClients.find(x=>x.id===clientId);if(!c)return;
+  if(!confirm('Remove this habit from the client?'))return;
+  const h=(c.data?.habits||[]).find(x=>x.id===habitId);if(!h)return;
+  let xpLost=0;Object.values(c.data?.completions||{}).forEach(day=>{if(day[habitId])xpLost+=h.xp||0;});
+  const newData={...c.data,habits:c.data.habits.map(x=>String(x.id)===String(habitId)?{...x,archived:true}:x),xpFromArchivedHabits:(c.data.xpFromArchivedHabits||0)+xpLost};
+  await saveClientData(clientId,newData);showToast('Habit removed');
+}
+async function coachSetTarget(clientId,quitId){
+  const c=allClients.find(x=>x.id===clientId);if(!c)return;
+  const q=(c.data?.quitHabits||[]).find(x=>String(x.id)===String(quitId));if(!q)return;
+  const val=prompt(`Set daily target for "${q.name}":`,q.currentTarget||'');
+  if(val===null)return;const num=parseInt(val);if(isNaN(num)||num<0){showToast('Invalid number');return;}
+  q.currentTarget=num;q.phase='reduction';
+  await saveClientData(clientId,c.data);showToast('Target updated to '+num);
+}
+function openAddHabitForSlot(slot){document.getElementById('h-slot').value=slot;openOverlay('add-habit-overlay');}
+
 function contactEmail(){const c=allClients.find(x=>x.id===curClientId);const email=c?.data?.email;if(email)window.location.href='mailto:'+email;else showToast('No email on file');}
 function contactSMS(){const c=allClients.find(x=>x.id===curClientId);const phone=c?.data?.phone;if(phone)window.location.href='sms:'+phone;else showToast('No phone on file');}
 function copyEmail(){const c=allClients.find(x=>x.id===curClientId);const email=c?.data?.email;if(email)navigator.clipboard.writeText(email).then(()=>showToast('Email copied'));else showToast('No email on file');}
@@ -1220,6 +1387,40 @@ function openOverlay(id){document.getElementById(id).classList.add('open');}
 function closeOverlay(id){document.getElementById(id).classList.remove('open');}
 let toastTimer;
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2800);}
+// COACH QUIT FUNCTIONS
+let coachQuitLibSel=null;
+function openAddQuit(){
+  coachQuitLibSel=null;
+  document.getElementById('cq-name').value='';
+  document.getElementById('cq-icon').value='';
+  document.querySelectorAll('#coach-quit-lib-grid div').forEach(x=>{x.style.borderColor='var(--border)';x.style.background='var(--bgc)';});
+  openOverlay('add-quit-overlay');
+}
+function selectCoachQuitLib(cat,el){
+  coachQuitLibSel=cat;
+  document.querySelectorAll('#coach-quit-lib-grid div').forEach(x=>{x.style.borderColor='var(--border)';x.style.background='var(--bgc)';});
+  el.style.borderColor='var(--acc)';el.style.background='rgba(196,98,58,0.08)';
+  const defaults={nicotine:{name:'Cigarettes',icon:'🚬',xp:25},alcohol:{name:'Alcohol',icon:'🍺',xp:20},sugar:{name:'Sugar / Processed food',icon:'🍬',xp:15},screentime:{name:'Screen time',icon:'📱',xp:10}};
+  const def=defaults[cat];
+  if(def){document.getElementById('cq-name').value=def.name;document.getElementById('cq-icon').value=def.icon;document.getElementById('cq-xp').value=def.xp;}
+}
+async function addCoachQuitHabit(){
+  if(!curClientId){showToast('Select a client first');return;}
+  const name=(document.getElementById('cq-name').value||'').trim();
+  if(!name){showToast('Name required');return;}
+  const icon=document.getElementById('cq-icon').value.trim()||'🎯';
+  const xp=parseInt(document.getElementById('cq-xp').value)||25;
+  const c=allClients.find(x=>x.id===curClientId);if(!c)return;
+  const d={...c.data};
+  if(!d.quitHabits)d.quitHabits=[];
+  const today=new Date();
+  const todayKey=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+  d.quitHabits.push({id:String(Date.now()),name,icon,category:coachQuitLibSel||'custom',xpPerDay:xp,phase:'awareness',startDate:todayKey,currentTarget:null,weeklyTargets:[],logs:[]});
+  closeOverlay('add-quit-overlay');
+  await saveClientData(curClientId,d);
+  showToast('Quit habit added: '+name);
+}
+
 sb.auth.getSession().then(({data:{session}})=>{if(session)showApp();});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
