@@ -164,10 +164,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .ov-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:3px}
 .ov-dowc{font-size:9px;color:var(--text4);text-align:center}
 .ov-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-.ov-dc{aspect-ratio:1;border-radius:5px;border:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;position:relative;cursor:default;min-width:0;background:var(--bgc)}
+.ov-dc{aspect-ratio:1;border-radius:5px;border:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;position:relative;cursor:pointer;min-width:0;background:var(--bgc)}
 .ov-dc.today{border-color:var(--acc)}
-.ov-dc.emp{border-color:transparent;background:transparent}
-.ov-dc.fut{opacity:0.3}
+.ov-dc.emp{border-color:transparent;background:transparent;cursor:default}
+.ov-dc.fut{opacity:0.3;cursor:default}
 .ov-seg{flex:1;width:100%}
 .ov-seg-div{height:1px;background:rgba(255,255,255,0.35);flex-shrink:0}
 .ov-seg.m-done{background:var(--acc)}
@@ -175,9 +175,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .ov-seg.e-done{background:var(--acc);opacity:0.35}
 .ov-dc .ov-num{position:absolute;bottom:1px;left:0;right:0;text-align:center;font-size:6px;color:var(--text4);z-index:1}
 .ov-dc.today .ov-num{color:var(--acc)}
-.ov-ev-strip{position:absolute;bottom:0;left:0;right:0;height:4px;display:flex;z-index:2}
-.ov-ev-sess{flex:1;background:#5A8AA0}
-.ov-ev-cls{flex:1;background:#C4914A}
+.ov-session-dot{position:absolute;top:2px;right:2px;width:5px;height:5px;border-radius:50%;background:#5A8AA0;z-index:2}
+.ov-class-dot{position:absolute;top:2px;left:2px;width:5px;height:5px;border-radius:50%;background:var(--acc2);z-index:2}
 .habit-filter{display:flex;flex-direction:column;gap:4px;min-width:86px}
 .hf-label{font-size:9px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
 .hf-item{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:7px;cursor:pointer;border:1px solid transparent;transition:all 0.15s}
@@ -335,12 +334,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .today-count strong{font-size:22px;color:var(--text);font-weight:500}
 .log-occ-btn{font-size:10px;padding:7px 14px;border-radius:8px;border:1px solid var(--acc);color:var(--acc);background:transparent;cursor:pointer;transition:all 0.2s;font-family:var(--sans)}
 .log-occ-btn:hover{background:rgba(196,98,58,0.08)}
+.log-clean-btn{font-size:10px;padding:7px 14px;border-radius:8px;border:1px solid var(--border2);color:var(--text3);background:transparent;cursor:pointer;transition:all 0.2s;font-family:var(--sans)}
+.log-clean-btn:hover{border-color:var(--acc2);color:var(--acc2)}
 .qcal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
 .qcal-lbl{font-size:10px;color:var(--text2);letter-spacing:0.06em;text-transform:uppercase;font-weight:500}
 .qcal-btn{background:transparent;border:1px solid var(--border2);color:var(--text3);font-size:10px;padding:2px 7px;border-radius:5px;cursor:pointer;transition:all 0.15s;font-family:var(--sans)}
 .qcal-btn:hover{border-color:var(--acc);color:var(--acc)}
 .qdgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-.qdc{aspect-ratio:1;border-radius:4px;border:1px solid var(--border);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:500;background:var(--bgc);min-width:0;color:var(--text3)}
+.qdc{aspect-ratio:1;border-radius:4px;border:1px solid var(--border);cursor:pointer;transition:all 0.15s;display:flex;align-items:flex-start;justify-content:flex-start;position:relative;padding:2px 3px;font-size:7px;font-weight:500;background:var(--bgc);min-width:0;color:var(--text3)}
 .qdc.emp{border-color:transparent;background:transparent;cursor:default;pointer-events:none}
 .qdc.fut{opacity:0.3;cursor:not-allowed;pointer-events:none}
 .qdc.q-none{color:var(--text4)}
@@ -350,6 +351,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .qdc.q-bad{background:#FEEAE8;border-color:#E88070;color:#7A2010}
 .qdc.q-tracking{background:var(--bgc);border-color:var(--border2);color:var(--text2)}
 .qdc.today-q{border-color:var(--acc)!important}
+.qdc-day{position:absolute;top:2px;left:3px;font-size:7px;font-weight:400;color:inherit;line-height:1}
+.qdc-count{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:13px;font-weight:600;color:inherit;line-height:1}
 .suggest-banner{background:var(--bgc);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:12px}
 .sb-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:4px}
 .sb-body{font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:10px}
@@ -380,6 +383,17 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .bkeep:hover{border-color:var(--acc);color:var(--acc)}
 .bdel{background:rgba(196,98,58,0.1);border:1px solid var(--acc);color:var(--acc)}
 .bdel:hover{background:rgba(196,98,58,0.2)}
+.session-badge.pending{background:rgba(196,98,58,0.1);color:#C4623A}
+.session-badge.confirmed{background:rgba(122,158,126,0.1);color:var(--acc2)}
+.session-badge.denied{background:rgba(100,100,100,0.1);color:var(--text3)}
+.sess-req-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.dd-modal{background:var(--bgs);border-radius:14px;padding:20px;width:300px;max-width:100%}
+.dd-date{font-family:var(--serif);font-size:16px;color:var(--text);margin-bottom:14px}
+.dd-section{margin-bottom:12px}
+.dd-label{font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text4);margin-bottom:5px;font-weight:500}
+.dd-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2);padding:3px 0}
+.dd-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dd-empty{font-size:11px;color:var(--text4);font-style:italic;padding:3px 0}
 </style>
 </head>
 <body>
@@ -488,9 +502,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
     <div class="xp-footer" id="xp-footer">0 / 11,000 XP to prestige</div>
     <div class="stats-rule"></div>
     <div class="stats">
-      <div class="stat"><div class="sv" id="s-xp">0</div><div class="sv-sub" id="s-alltime">0 all-time</div><div class="sl">Chapter XP</div></div>
-      <div class="stat"><div class="sv" id="s-str">0</div><div class="sv-sub">days</div><div class="sl">Best streak</div></div>
-      <div class="stat"><div class="sv" id="s-mo">0</div><div class="sv-sub">completions</div><div class="sl">This month</div></div>
+      <div class="stat"><div class="sv" id="s-total">0</div><div class="sv-sub">completions</div><div class="sl">Total habits logged</div></div>
+      <div class="stat"><div class="sv" id="s-str">0</div><div class="sv-sub">days</div><div class="sl">Longest streak</div></div>
+      <div class="stat"><div class="sv" id="s-quit">0</div><div class="sv-sub">days tracked</div><div class="sl">Quit days logged</div></div>
     </div>
   </div>
 
@@ -516,17 +530,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
   <!-- OVERVIEW PANEL -->
   <div class="panel" id="panel-overview">
     <div class="ov-hdr">
-      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-        <div class="ov-month-nav">
-          <button class="ov-month-btn" onclick="changeOvMonth(-1)">◀</button>
-          <div class="ov-month-label" id="ov-month-label"></div>
-          <button class="ov-month-btn" onclick="changeOvMonth(1)">▶</button>
-        </div>
-        <div id="ov-month-stats" style="font-size:11px;color:var(--text3);display:flex;gap:10px;flex-wrap:wrap"></div>
+      <div class="ov-month-nav">
+        <button class="ov-month-btn" onclick="changeOvMonth(-1)">◀</button>
+        <div class="ov-month-label" id="ov-month-label"></div>
+        <button class="ov-month-btn" onclick="changeOvMonth(1)">▶</button>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="add-session-btn" onclick="openOverlay('add-session-overlay')">+ Schedule Session</button>
-        <button class="log-class-btn" onclick="openOverlay('log-class-overlay')">+ Log Class</button>
+        <button class="add-session-btn" onclick="openOverlay('add-session-overlay')">+ Request Session</button>
+        <button class="log-class-btn" onclick="openOverlay('log-workout-overlay')">+ Log Workout</button>
       </div>
     </div>
     <div class="ov-layout">
@@ -537,11 +548,15 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
           <div class="ov-leg-item"><div class="ov-leg-dot" style="background:var(--acc)"></div>Morning habit</div>
           <div class="ov-leg-item"><div class="ov-leg-dot" style="background:var(--acc);opacity:0.65"></div>Midday habit</div>
           <div class="ov-leg-item"><div class="ov-leg-dot" style="background:var(--acc);opacity:0.35"></div>Evening habit</div>
-          <div class="ov-leg-item"><div style="width:14px;height:4px;border-radius:1px;background:#5A8AA0;flex-shrink:0"></div>Training session</div>
-          <div class="ov-leg-item"><div style="width:14px;height:4px;border-radius:1px;background:#C4914A;flex-shrink:0"></div>Group class</div>
+          <div class="ov-leg-item"><div class="ov-leg-dot" style="background:#5A8AA0"></div>Session request</div>
+          <div class="ov-leg-item"><div class="ov-leg-dot" style="background:var(--acc2)"></div>Workout logged</div>
         </div>
       </div>
       <div><div class="habit-filter" id="habit-filter"></div></div>
+    </div>
+    <div class="ov-cards-section">
+      <div class="sectit">Sessions &amp; Classes</div>
+      <div class="ov-cards-grid" id="ov-cards"></div>
     </div>
   </div>
 
@@ -626,29 +641,27 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
   </div>
 </div>
 
-<!-- ADD SESSION OVERLAY -->
+<!-- REQUEST SESSION OVERLAY -->
 <div class="overlay" id="add-session-overlay">
   <div class="modal narrow">
-    <div class="mtit">Schedule Session</div>
-    <div class="mfg"><label class="mfl">Date</label><input class="mfi" id="sess-date" type="date"></div>
-    <div class="mfg"><label class="mfl">Time</label><input class="mfi" id="sess-time" type="time"></div>
-    <div class="mfg"><label class="mfl">Type</label>
-      <select class="mfsel" id="sess-type">
-        <option value="in-person">In-person</option>
-        <option value="virtual">Virtual</option>
-      </select>
+    <div class="mtit">Request Session</div>
+    <div class="mfg"><label class="mfl">Preferred date</label><input class="mfi" id="sess-date" type="date"></div>
+    <div class="mfg"><label class="mfl">Preferred time</label><input class="mfi" id="sess-time" type="time"></div>
+    <div class="mfg"><label class="mfl">Focus / notes (optional)</label><input class="mfi" id="sess-focus" type="text" placeholder="e.g. Squat form, nutrition check-in..."></div>
+    <div style="background:rgba(90,138,160,0.06);border:1px solid rgba(90,138,160,0.2);border-radius:8px;padding:10px 12px;margin-bottom:12px">
+      <div style="font-size:11px;color:#5A8AA0">Your coach will confirm or suggest an alternative time.</div>
     </div>
-    <div class="mfg"><label class="mfl">Notes (optional)</label><input class="mfi" id="sess-notes" type="text" placeholder="e.g. Focus on squat form"></div>
-    <div class="mact"><button class="mcnl" onclick="closeOverlay('add-session-overlay')">Cancel</button><button class="mcrt" onclick="addSession()">Schedule</button></div>
+    <div class="mact"><button class="mcnl" onclick="closeOverlay('add-session-overlay')">Cancel</button><button class="mcrt" onclick="requestSession()">Send Request</button></div>
   </div>
 </div>
 
-<!-- LOG CLASS OVERLAY -->
-<div class="overlay" id="log-class-overlay">
+<!-- LOG WORKOUT OVERLAY -->
+<div class="overlay" id="log-workout-overlay">
   <div class="modal narrow">
-    <div class="mtit">Log a Class</div>
+    <div class="mtit">Log Workout</div>
     <div class="mfg"><label class="mfl">Date</label><input class="mfi" id="cls-date" type="date"></div>
-    <div class="mfg"><label class="mfl">Class Type</label>
+    <div class="mfg"><label class="mfl">Time</label><input class="mfi" id="cls-time" type="time"></div>
+    <div class="mfg"><label class="mfl">Type</label>
       <select class="mfsel" id="cls-type">
         <option value="Cycling">Cycling</option>
         <option value="Pilates">Pilates</option>
@@ -663,9 +676,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
     </div>
     <div class="mfg"><label class="mfl">Duration (minutes)</label><input class="mfi" id="cls-duration" type="number" placeholder="45" min="5" max="180"></div>
     <div style="background:rgba(196,98,58,0.06);border:1px solid rgba(196,98,58,0.15);border-radius:8px;padding:10px 12px;margin-bottom:12px">
-      <div style="font-size:11px;color:var(--acc);font-weight:500">+25 XP for logging a class</div>
+      <div style="font-size:11px;color:var(--acc);font-weight:500">+25 XP for logging a workout</div>
     </div>
-    <div class="mact"><button class="mcnl" onclick="closeOverlay('log-class-overlay')">Cancel</button><button class="mcrt" onclick="logClass()">Log Class</button></div>
+    <div class="mact"><button class="mcnl" onclick="closeOverlay('log-workout-overlay')">Cancel</button><button class="mcrt" onclick="logWorkout()">Log Workout</button></div>
   </div>
 </div>
 
@@ -758,6 +771,26 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
     <div class="mact" style="margin-top:16px"><button class="mcnl" onclick="closeOverlay('view-logs-overlay')" style="flex:none;width:100%">Close</button></div>
   </div>
 </div>
+<!-- DAY DETAIL OVERLAY -->
+<div class="overlay" id="day-detail-overlay">
+  <div class="dd-modal">
+    <div class="dd-date" id="dd-date"></div>
+    <div id="dd-sessions-section" class="dd-section">
+      <div class="dd-label">Session Requests</div>
+      <div id="dd-sessions"></div>
+    </div>
+    <div id="dd-workouts-section" class="dd-section">
+      <div class="dd-label">Workouts</div>
+      <div id="dd-workouts"></div>
+    </div>
+    <div id="dd-habits-section" class="dd-section">
+      <div class="dd-label">Habits</div>
+      <div id="dd-habits"></div>
+    </div>
+    <div class="mact" style="margin-top:16px"><button class="mcnl" onclick="closeOverlay('day-detail-overlay')" style="flex:none;width:100%">Close</button></div>
+  </div>
+</div>
+
 <!-- SET TARGET -->
 <div class="overlay" id="set-target-overlay">
   <div class="modal narrow">
@@ -873,8 +906,8 @@ async function init(){
   else showDashboard();
   if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 }
-function freshData(){return{xp:0,allTimeXp:0,bestStreak:0,perfectDays:0,habits:[],completions:{},completedQuests:[],prestigeCount:0,extraUnlocks:0,coachMessage:'',coachNotes:'',theme:'warm',onboardingComplete:false,journeyStartedAt:null,xpFromArchivedHabits:0,sessions:[],classLogs:[],quitHabits:[]};}
-function ensureDataFields(){const d=CR.data;if(!d.sessions)d.sessions=[];if(!d.classLogs)d.classLogs=[];if(!d.completedQuests)d.completedQuests=[];if(!d.quitHabits)d.quitHabits=[];}
+function freshData(){return{xp:0,allTimeXp:0,bestStreak:0,perfectDays:0,habits:[],completions:{},completedQuests:[],prestigeCount:0,extraUnlocks:0,coachMessage:'',coachNotes:'',theme:'warm',onboardingComplete:false,journeyStartedAt:null,xpFromArchivedHabits:0,sessions:[],classLogs:[],quitHabits:[],sessionRequests:[],sessionCancelRequests:[],workouts:[]};}
+function ensureDataFields(){const d=CR.data;if(!d.sessions)d.sessions=[];if(!d.classLogs)d.classLogs=[];if(!d.completedQuests)d.completedQuests=[];if(!d.quitHabits)d.quitHabits=[];if(!d.sessionRequests)d.sessionRequests=[];if(!d.sessionCancelRequests)d.sessionCancelRequests=[];if(!d.workouts)d.workouts=[];}
 function showErr(msg){document.getElementById('loading-screen').innerHTML=`<div class="fs-box"><div class="fs-logo">Habit OS</div><div class="fs-sub">Build better. Quit smarter.</div><div class="fs-msg">${msg}</div></div>`;}
 function applyTheme(id){
   const t=THEMES.find(x=>x.id===id)||THEMES[0];
@@ -918,8 +951,11 @@ function scheduleSave(){clearTimeout(saveTimer);saveTimer=setTimeout(sync,1500);
 
 function totalChecks(data){let c=0;Object.values(data.completions||{}).forEach(day=>{c+=Object.values(day).filter(Boolean).length;});return c;}
 function getCatChecks(data,cat){const ids=(data.habits||[]).filter(h=>(h.cat||h.category)===cat).map(h=>h.id);let c=0;Object.values(data.completions||{}).forEach(day=>{ids.forEach(id=>{if(day[id])c++;});});return c;}
-function totalAllTimeXP(data){let t=0;const comps=data.completions||{};const habits=data.habits||[];Object.values(comps).forEach(day=>{Object.entries(day).forEach(([id,done])=>{if(done){const h=habits.find(x=>String(x.id)===String(id));if(h)t+=h.xp||0;}});});return t+(data.xpFromArchivedHabits||0)+((data.classLogs||[]).length*CLASS_XP);}
+function totalAllTimeXP(data){let t=0;const comps=data.completions||{};const habits=data.habits||[];Object.values(comps).forEach(day=>{Object.entries(day).forEach(([id,done])=>{if(done){const h=habits.find(x=>String(x.id)===String(id));if(h)t+=h.xp||0;}});});return t+(data.xpFromArchivedHabits||0)+((data.classLogs||[]).length*CLASS_XP)+((data.workouts||[]).length*CLASS_XP);}
 function getMonthTotal(){const n=new Date(),m=n.getMonth(),y=n.getFullYear();let c=0;Object.keys(d().completions||{}).forEach(k=>{if(k.startsWith(`${y}-${String(m+1).padStart(2,'0')}`))c+=Object.values(d().completions[k]).filter(Boolean).length;});return c;}
+function getTotalLogged(){return totalChecks(d());}
+function getQuitDaysLogged(){const quits=d().quitHabits||[];const logged=new Set();quits.forEach(q=>(q.logs||[]).forEach(l=>logged.add(l.date)));return logged.size;}
+function getCurrentStreak(){let s=0,dt=new Date();for(;;){const k=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;const day=d().completions?.[k]||{};if(Object.values(day).some(Boolean)){s++;dt.setDate(dt.getDate()-1);}else break;}return s;}
 function getHabitStreak(id){let s=0,dt=new Date();for(;;){const k=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;if(d().completions?.[k]?.[id]){s++;dt.setDate(dt.getDate()-1);}else break;}return s;}
 function getHabitMonthRate(id){const n=new Date(),days=n.getDate();if(!days)return 0;let c=0;for(let i=1;i<=days;i++){const k=`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;if(d().completions?.[k]?.[id])c++;}return Math.round(c/days*100);}
 function isDone(id,y,m,day){const k=`${y}-${String(m+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;return!!(d().completions?.[k]?.[id]);}
@@ -942,10 +978,9 @@ function render(){
   if(ch>0){chEl.textContent='Chapter '+chR;chEl.style.display='block';sepEl.style.display=dayNum?'block':'none';}else{chEl.style.display='none';sepEl.style.display='none';}
   const msgStrip=document.getElementById('msg-strip');
   if(data.coachMessage){document.getElementById('msg-txt').textContent=data.coachMessage;msgStrip.style.display='flex';}else{msgStrip.style.display='none';}
-  document.getElementById('s-xp').textContent=(data.xp||0).toLocaleString();
-  document.getElementById('s-alltime').textContent=totalAllTimeXP(data).toLocaleString()+' all-time';
+  document.getElementById('s-total').textContent=getTotalLogged().toLocaleString();
   document.getElementById('s-str').textContent=data.bestStreak||0;
-  document.getElementById('s-mo').textContent=getMonthTotal();
+  document.getElementById('s-quit').textContent=getQuitDaysLogged();
   const lvl=getLevel(data.xp||0);
   document.getElementById('xp-level-txt').textContent='Level '+lvl+' — '+getLvlName(data.xp||0);
   document.getElementById('xp-ch-pill').textContent='Chapter '+(ch<3?chR:'III');
@@ -1030,7 +1065,7 @@ function toggleDay(id,y,m,day,e){
     if(!was){
       const prevXP=data.xp||0;const prevLvl=getLevel(prevXP);
       data.xp=(data.xp||0)+h.xp;showToast('+'+h.xp+' XP');bloom(e);
-      const ns=getHabitStreak(id);if(ns>(data.bestStreak||0)){data.bestStreak=ns;if([3,7,14,21,30].includes(ns))qCeleb('🔥','Streak Milestone',ns+' Day Streak',ns+' consecutive days. The skill is consolidating.','');}
+      const ns=getCurrentStreak();if(ns>(data.bestStreak||0)){data.bestStreak=ns;if([3,7,14,21,30].includes(ns))qCeleb('🔥','Streak Milestone',ns+' Day Streak',ns+' consecutive days. The skill is consolidating.','');}
       if(checkPerfectDay(k))data.perfectDays=(data.perfectDays||0)+1;
       if(getLevel(data.xp)>prevLvl)qCeleb('⬆️','Level Up','Level '+getLevel(data.xp)+' — '+getLvlName(data.xp),'Your practice is compounding. Keep going.','');
     }else{data.xp=Math.max(0,(data.xp||0)-h.xp);}
@@ -1088,15 +1123,18 @@ async function doPrestige(){
 
 function renderOverview(){
   const data=d();const now=new Date();const tY=now.getFullYear(),tM=now.getMonth(),tD=now.getDate();
-  document.getElementById('ov-month-label').textContent=MONTHS[ovMonth]+' '+ovYear;
+  const sessionRequests=data.sessionRequests||[];const workouts=data.workouts||[];
+  const mSess=sessionRequests.filter(s=>s.date&&s.date.startsWith(`${ovYear}-${String(ovMonth+1).padStart(2,'0')}`)).length;
+  const mWork=workouts.filter(w=>w.date&&w.date.startsWith(`${ovYear}-${String(ovMonth+1).padStart(2,'0')}`)).length;
+  let monthLabel=MONTHS[ovMonth]+' '+ovYear;
+  if(mSess||mWork){const parts=[];if(mSess)parts.push(mSess+' session'+(mSess!==1?'s':''));if(mWork)parts.push(mWork+' workout'+(mWork!==1?'s':''));monthLabel+=' · '+parts.join(' · ');}
+  document.getElementById('ov-month-label').textContent=monthLabel;
   const firstDay=new Date(ovYear,ovMonth,1).getDay();const dim=new Date(ovYear,ovMonth+1,0).getDate();
   const activeHabits=(data.habits||[]).filter(h=>!h.archived);
   const filtered=ovFilter==='all'?activeHabits:activeHabits.filter(h=>String(h.id)===String(ovFilter));
   const mH=filtered.filter(h=>(h.slot||'morning')==='morning');
   const dH=filtered.filter(h=>h.slot==='midday');
   const eH=filtered.filter(h=>h.slot==='evening');
-  const sessions=data.sessions||[];
-  const classLogs=data.classLogs||[];
   let cells='';
   for(let i=0;i<firstDay;i++)cells+='<div class="ov-dc emp"></div>';
   for(let day=1;day<=dim;day++){
@@ -1104,37 +1142,29 @@ function renderOverview(){
     const k=`${ovYear}-${String(ovMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
     const dc=data.completions?.[k]||{};
     const mDone=mH.some(h=>dc[h.id]);const dDone=dH.some(h=>dc[h.id]);const eDone=eH.some(h=>dc[h.id]);
-    const hasSess=sessions.some(s=>s.date===k);const hasCls=classLogs.some(c=>c.date===k);
-    cells+=`<div class="ov-dc ${isToday?'today':''} ${isFut?'fut':''}">
+    const hasSess=sessionRequests.some(s=>s.date===k);const hasWork=workouts.some(w=>w.date===k);
+    cells+=`<div class="ov-dc ${isToday?'today':''} ${isFut?'fut':''}" onclick="openDayDetail('${k}')">
+      ${hasSess?'<div class="ov-session-dot"></div>':''}
+      ${hasWork?'<div class="ov-class-dot"></div>':''}
       <div class="ov-seg ${mDone?'m-done':''}"></div><div class="ov-seg-div"></div>
       <div class="ov-seg ${dDone?'d-done':''}"></div><div class="ov-seg-div"></div>
       <div class="ov-seg ${eDone?'e-done':''}"></div>
       <div class="ov-num">${day}</div>
-      ${(hasSess||hasCls)?`<div class="ov-ev-strip">${hasCls?'<div class="ov-ev-cls"></div>':''}${hasSess?'<div class="ov-ev-sess"></div>':''}</div>`:''}
     </div>`;
   }
   document.getElementById('ov-grid').innerHTML=cells;
-  const monthKey=`${ovYear}-${String(ovMonth+1).padStart(2,'0')}`;
-  const mSess=sessions.filter(s=>s.date.startsWith(monthKey)).length;
-  const mCls=classLogs.filter(c=>c.date.startsWith(monthKey)).length;
-  const statsEl=document.getElementById('ov-month-stats');
-  if(statsEl){
-    let sp='';
-    if(mSess)sp+=`<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:3px;border-radius:1px;background:#5A8AA0;display:inline-block"></span>${mSess} session${mSess!==1?'s':''}</span>`;
-    if(mCls)sp+=`<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:3px;border-radius:1px;background:#C4914A;display:inline-block"></span>${mCls} class${mCls!==1?'es':''}</span>`;
-    statsEl.innerHTML=sp;
-  }
   let fHtml='<div class="hf-label">Filter</div>';
   fHtml+=`<div class="hf-item ${ovFilter==='all'?'active':''}" onclick="setOvFilter('all')"><div class="hf-dot" style="background:var(--text3)"></div><div class="hf-name">All</div></div>`;
   activeHabits.forEach(h=>{const a=String(ovFilter)===String(h.id);fHtml+=`<div class="hf-item ${a?'active':''}" onclick="setOvFilter(${h.id})"><div class="hf-dot" style="background:${h.color||'var(--acc)'}"></div><div class="hf-name">${h.name}</div></div>`;});
   document.getElementById('habit-filter').innerHTML=fHtml;
+  renderOvCards(sessionRequests,workouts);
 }
-function renderOvCards(sessions,classLogs){
+function renderOvCards(sessionRequests,workouts){
   const all=[
-    ...sessions.map(s=>({...s,_type:'session'})),
-    ...classLogs.map(c=>({...c,_type:'class'}))
+    ...sessionRequests.map(s=>({...s,_type:'session'})),
+    ...workouts.map(w=>({...w,_type:'workout'}))
   ].sort((a,b)=>a.date.localeCompare(b.date));
-  if(!all.length){document.getElementById('ov-cards').innerHTML='<div class="ov-empty">No sessions or classes logged yet</div>';return;}
+  if(!all.length){document.getElementById('ov-cards').innerHTML='<div class="ov-empty">No sessions or workouts logged yet</div>';return;}
   const now=new Date().toISOString().split('T')[0];
   const upcoming=all.filter(x=>x.date>=now);const past=all.filter(x=>x.date<now);
   let html='';
@@ -1144,29 +1174,30 @@ function renderOvCards(sessions,classLogs){
 }
 function renderCard(x){
   if(x._type==='session'){
-    const typeLabel=x.type==='in-person'?'In-person':'Virtual';
-    const icon=x.type==='in-person'?'🏋️':'💻';
+    const statusLabel={pending:'Awaiting confirmation',confirmed:'Confirmed',denied:'Denied'}[x.status]||'Pending';
+    const statusDot={pending:'#C4623A',confirmed:'var(--acc2)',denied:'var(--text4)'}[x.status]||'#C4623A';
     const dateStr=formatDate(x.date);const timeStr=x.time?formatTime(x.time):'';
+    const canDelete=x.status==='pending';const cancelType=x.status==='confirmed'?'session-cancel':'session';
     return`<div class="session-card">
       <div class="session-left">
-        <div class="session-type-icon ${x.type}">${icon}</div>
-        <div><div class="session-date-big">${dateStr}${timeStr?' · '+timeStr:''}</div><div class="session-meta">Training Session</div>${x.notes?`<div class="session-notes">${x.notes}</div>`:''}</div>
+        <div class="session-type-icon in-person">📅</div>
+        <div><div class="session-date-big">${dateStr}${timeStr?' · '+timeStr:''}</div><div class="session-meta">Session Request</div>${x.focusNote?`<div class="session-notes">${x.focusNote}</div>`:''}</div>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
-        <span class="session-badge ${x.type}">${typeLabel}</span>
-        <button class="session-del-btn" onclick="openDel('session','${x.id}')">✕</button>
+        <span class="session-badge ${x.status||'pending'}" style="display:flex;align-items:center"><span class="sess-req-dot" style="background:${statusDot}"></span>${statusLabel}</span>
+        ${canDelete||x.status==='confirmed'?`<button class="session-del-btn" onclick="openDel('${cancelType}','${x.id}')">✕</button>`:''}
       </div>
     </div>`;
   }else{
-    const dateStr=formatDate(x.date);
+    const dateStr=formatDate(x.date);const timeStr=x.time?formatTime(x.time):'';
     return`<div class="session-card">
       <div class="session-left">
         <div class="session-type-icon class">🏃</div>
-        <div><div class="session-date-big">${dateStr}</div><div class="session-meta">${x.type}${x.duration?' · '+x.duration+' min':''}</div></div>
+        <div><div class="session-date-big">${dateStr}${timeStr?' · '+timeStr:''}</div><div class="session-meta">${x.type}${x.duration?' · '+x.duration+' min':''}</div></div>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
         <span class="session-badge class">+25 XP</span>
-        <button class="session-del-btn" onclick="openDel('class','${x.id}')">✕</button>
+        <button class="session-del-btn" onclick="openDel('workout','${x.id}')">✕</button>
       </div>
     </div>`;
   }
@@ -1183,34 +1214,35 @@ function formatTime(timeStr){
 function setOvFilter(id){ovFilter=id;renderOverview();}
 function changeOvMonth(dir){ovMonth+=dir;if(ovMonth<0){ovMonth=11;ovYear--;}if(ovMonth>11){ovMonth=0;ovYear++;}renderOverview();}
 
-function addSession(){
-  const date=document.getElementById('sess-date').value;const time=document.getElementById('sess-time').value;const type=document.getElementById('sess-type').value;const notes=document.getElementById('sess-notes').value.trim();
+function requestSession(){
+  const date=document.getElementById('sess-date').value;const time=document.getElementById('sess-time').value;const focusNote=document.getElementById('sess-focus').value.trim();
   if(!date){showToast('Please select a date');return;}
-  const sessions=d().sessions||[];
-  sessions.push({id:String(Date.now()),date,time,type,notes,createdBy:'client',createdAt:new Date().toISOString()});
-  d().sessions=sessions;
-  closeOverlay('add-session-overlay');scheduleSave();render();showToast('Session scheduled');
+  if(!d().sessionRequests)d().sessionRequests=[];
+  d().sessionRequests.push({id:String(Date.now()),date,time,focusNote,status:'pending',createdAt:new Date().toISOString()});
+  closeOverlay('add-session-overlay');scheduleSave();render();showToast('Session request sent');
 }
-function logClass(){
-  const date=document.getElementById('cls-date').value;const type=document.getElementById('cls-type').value;const duration=parseInt(document.getElementById('cls-duration').value)||0;
+function logWorkout(){
+  const date=document.getElementById('cls-date').value;const time=document.getElementById('cls-time').value;const type=document.getElementById('cls-type').value;const duration=parseInt(document.getElementById('cls-duration').value)||0;
   if(!date){showToast('Please select a date');return;}
-  const classLogs=d().classLogs||[];
-  classLogs.push({id:String(Date.now()),date,type,duration,xp:CLASS_XP,createdAt:new Date().toISOString()});
-  d().classLogs=classLogs;
+  if(!d().workouts)d().workouts=[];
+  d().workouts.push({id:String(Date.now()),date,time,type,duration,xp:CLASS_XP,createdAt:new Date().toISOString()});
   d().xp=(d().xp||0)+CLASS_XP;
-  checkBadges();closeOverlay('log-class-overlay');scheduleSave();render();showToast('+'+CLASS_XP+' XP — Class logged');
+  checkBadges();closeOverlay('log-workout-overlay');scheduleSave();render();showToast('+'+CLASS_XP+' XP — Workout logged');
 }
 function openDel(type,id){
   delTarget=id;delType=type;
-  const msg=type==='session'?'Remove this training session?':'Remove this class log?';
-  document.getElementById('del-msg').textContent=msg;openOverlay('del-overlay');
+  const msgs={session:'Remove this session request?',workout:'Remove this workout log?','session-cancel':'Cancel this confirmed session?'};
+  document.getElementById('del-msg').textContent=msgs[type]||'Remove this item?';openOverlay('del-overlay');
 }
 function confirmDel(){
-  if(delType==='session'){d().sessions=(d().sessions||[]).filter(s=>s.id!==delTarget);}
-  else if(delType==='class'){
-    const cls=(d().classLogs||[]).find(c=>c.id===delTarget);
-    if(cls)d().xp=Math.max(0,(d().xp||0)-CLASS_XP);
-    d().classLogs=(d().classLogs||[]).filter(c=>c.id!==delTarget);
+  if(delType==='session'){d().sessionRequests=(d().sessionRequests||[]).filter(s=>s.id!==delTarget);}
+  else if(delType==='workout'){
+    const w=(d().workouts||[]).find(x=>x.id===delTarget);
+    if(w)d().xp=Math.max(0,(d().xp||0)-CLASS_XP);
+    d().workouts=(d().workouts||[]).filter(x=>x.id!==delTarget);
+  }else if(delType==='session-cancel'){
+    if(!d().sessionCancelRequests)d().sessionCancelRequests=[];
+    d().sessionCancelRequests.push({sessionId:delTarget,requestedAt:new Date().toISOString()});
   }
   closeOverlay('del-overlay');scheduleSave();render();showToast('Removed');
 }
@@ -1330,8 +1362,36 @@ async function pickTheme(id,el){
 function showMain(panel,btn){
   document.querySelectorAll('.mtab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
   document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));document.getElementById('panel-'+panel).classList.add('active');
-  if(panel==='overview'){const now=new Date();document.getElementById('sess-date').value=now.toISOString().split('T')[0];document.getElementById('cls-date').value=now.toISOString().split('T')[0];renderOverview();}
-  if(panel==='quests')renderQuests();if(panel==='quit')renderQuit();if(panel==='overview')renderOverview();
+  if(panel==='overview'){
+    const now=new Date();const td=now.toISOString().split('T')[0];
+    const th=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+    document.getElementById('sess-date').value=td;
+    document.getElementById('cls-date').value=td;
+    document.getElementById('cls-time').value=th;
+    renderOverview();
+  }
+  if(panel==='quests')renderQuests();if(panel==='quit')renderQuit();
+}
+function openDayDetail(k){
+  const data=d();
+  const[y,m,day]=k.split('-').map(Number);
+  const dateLabel=new Date(y,m-1,day).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  document.getElementById('dd-date').textContent=dateLabel;
+  const sessions=(data.sessionRequests||[]).filter(s=>s.date===k);
+  const workoutList=(data.workouts||[]).filter(w=>w.date===k);
+  const dc=data.completions?.[k]||{};
+  const doneHabits=(data.habits||[]).filter(h=>!h.archived&&dc[h.id]);
+  const sessEl=document.getElementById('dd-sessions');
+  sessEl.innerHTML=sessions.length?sessions.map(s=>{
+    const statusLabel={pending:'Awaiting confirmation',confirmed:'Confirmed',denied:'Denied'}[s.status]||'Pending';
+    const dot={pending:'#C4623A',confirmed:'var(--acc2)',denied:'var(--text4)'}[s.status]||'#C4623A';
+    return`<div class="dd-item"><span class="dd-dot" style="background:${dot}"></span>${s.time?formatTime(s.time)+' — ':''}${statusLabel}${s.focusNote?' · '+s.focusNote:''}</div>`;
+  }).join(''):'<div class="dd-empty">No session requests</div>';
+  const workEl=document.getElementById('dd-workouts');
+  workEl.innerHTML=workoutList.length?workoutList.map(w=>`<div class="dd-item"><span class="dd-dot" style="background:var(--acc2)"></span>${w.type}${w.duration?' · '+w.duration+' min':''}${w.time?' · '+formatTime(w.time):''}</div>`).join(''):'<div class="dd-empty">No workouts</div>';
+  const habEl=document.getElementById('dd-habits');
+  habEl.innerHTML=doneHabits.length?doneHabits.map(h=>`<div class="dd-item"><span class="dd-dot" style="background:${h.color||'var(--acc)'}"></span>${h.icon||'⭐'} ${h.name}</div>`).join(''):'<div class="dd-empty">No habits completed</div>';
+  openOverlay('day-detail-overlay');
 }
 function showTime(slot,btn){
   document.querySelectorAll('.ttab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
@@ -1409,8 +1469,7 @@ function buildQuitCard(q){
     const isFut=new Date(cs.y,cs.m,day)>new Date(tY,tM,tD);
     const isBeforeStart=q.startDate&&new Date(cs.y,cs.m,day)<new Date(q.startDate);
     let cls='qdc';let label='';
-    if(isFut){cls+=' fut';}
-    else if(isBeforeStart){/* plain visible cell — fills the grid */}
+    if(isFut||isBeforeStart){cls+=' emp';}
     else{
       const count=getQuitDayCount(q,k);label=count>0?String(count):'';
       if(isToday)cls+=' today-q';
@@ -1424,7 +1483,8 @@ function buildQuitCard(q){
       }
     }
     const click=(isFut||isBeforeStart)?'':` onclick="viewDayLogs('${q.id}','${k}')"`;
-    cells+=`<div class="${cls}"${click}>${day}</div>`;
+    const count=(!isFut&&!isBeforeStart)?getQuitDayCount(q,k):0;
+    cells+=`<div class="${cls}"${click}><span class="qdc-day">${(!isFut&&!isBeforeStart)?day:''}</span>${count>0?`<span class="qdc-count">${count}</span>`:''}</div>`;
   }
   const weekAvg=q.phase==='reduction'?getQuitWeekAvg(q,getQuitCurrentWeek(q)):null;
   const bestDay=getBestDayThisWeek(q);
@@ -1447,7 +1507,7 @@ function buildQuitCard(q){
     </div>
     <div class="today-log-row">
       <div class="today-count"><strong>${todayCount}</strong> logged today${target?' of '+target+' target':''}</div>
-      <button class="log-occ-btn" onclick="openLogOcc('${q.id}')">+ Log one</button>
+      <div style="display:flex;gap:6px"><button class="log-occ-btn" onclick="openLogOcc('${q.id}')">+ Log one</button><button class="log-clean-btn" onclick="logCleanDay('${q.id}')">Log clean day</button></div>
     </div>
     <div>
       <div class="qcal-nav"><button class="qcal-btn" onclick="navQCal('${q.id}',-1)">◀</button><div class="qcal-lbl">${MS[cs.m]} ${cs.y}</div><button class="qcal-btn" onclick="navQCal('${q.id}',1)">▶</button></div>
@@ -1535,6 +1595,16 @@ function removeQuitHabit(id){
   if(!confirm('Remove this quit habit? Your log history will be lost.'))return;
   d().quitHabits=(d().quitHabits||[]).filter(x=>String(x.id)!==String(id));
   scheduleSave();renderQuit();showToast('Removed');
+}
+function logCleanDay(id){
+  const q=(d().quitHabits||[]).find(x=>String(x.id)===String(id));if(!q)return;
+  const today=todayKey();if(!q.logs)q.logs=[];
+  let dayLog=q.logs.find(l=>l.date===today);
+  if(!dayLog){dayLog={date:today,occurrences:[]};q.logs.push(dayLog);}
+  if(dayLog.occurrences.length>0){showToast('Already logged occurrences today');return;}
+  dayLog.clean=true;
+  const xp=q.xpPerDay||10;d().xp=(d().xp||0)+xp;
+  checkBadges();checkQuitMilestones(q);scheduleSave();renderQuit();showToast('+'+xp+' XP — Clean day logged');
 }
 function openAddQuit(){
   selQuitLib=null;document.getElementById('q-name').value='';document.getElementById('q-icon').value='';
