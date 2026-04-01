@@ -662,7 +662,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
     <div class="mfg"><label class="mfl">Date</label><input class="mfi" id="cls-date" type="date"></div>
     <div class="mfg"><label class="mfl">Time</label><input class="mfi" id="cls-time" type="time"></div>
     <div class="mfg"><label class="mfl">Type</label>
-      <select class="mfsel" id="cls-type">
+      <select class="mfsel" id="cls-type" onchange="document.getElementById('other-type-fg').style.display=this.value==='Other'?'block':'none'">
         <option value="Cycling">Cycling</option>
         <option value="Pilates">Pilates</option>
         <option value="Barre">Barre</option>
@@ -674,7 +674,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
         <option value="Other">Other</option>
       </select>
     </div>
+    <div class="mfg" id="other-type-fg" style="display:none"><label class="mfl">Workout Name</label><input class="mfi" id="cls-other-type" type="text" placeholder="e.g. Boxing, Dance, Swimming"></div>
     <div class="mfg"><label class="mfl">Duration (minutes)</label><input class="mfi" id="cls-duration" type="number" placeholder="45" min="5" max="180"></div>
+    <div class="mfg"><label class="mfl">Notes (optional)</label><input class="mfi" id="cls-note" type="text" placeholder="How did it go?"></div>
     <div style="background:rgba(196,98,58,0.06);border:1px solid rgba(196,98,58,0.15);border-radius:8px;padding:10px 12px;margin-bottom:12px">
       <div style="font-size:11px;color:var(--acc);font-weight:500">+25 XP for logging a workout</div>
     </div>
@@ -1160,9 +1162,10 @@ function renderOverview(){
   renderOvCards(sessionRequests,workouts);
 }
 function renderOvCards(sessionRequests,workouts){
+  const monthPfx=`${ovYear}-${String(ovMonth+1).padStart(2,'0')}`;
   const all=[
-    ...sessionRequests.map(s=>({...s,_type:'session'})),
-    ...workouts.map(w=>({...w,_type:'workout'}))
+    ...sessionRequests.filter(s=>s.date&&s.date.startsWith(monthPfx)).map(s=>({...s,_type:'session'})),
+    ...workouts.filter(w=>w.date&&w.date.startsWith(monthPfx)).map(w=>({...w,_type:'workout'}))
   ].sort((a,b)=>a.date.localeCompare(b.date));
   if(!all.length){document.getElementById('ov-cards').innerHTML='<div class="ov-empty">No sessions or workouts logged yet</div>';return;}
   const now=new Date().toISOString().split('T')[0];
@@ -1193,7 +1196,7 @@ function renderCard(x){
     return`<div class="session-card">
       <div class="session-left">
         <div class="session-type-icon class">🏃</div>
-        <div><div class="session-date-big">${dateStr}${timeStr?' · '+timeStr:''}</div><div class="session-meta">${x.type}${x.duration?' · '+x.duration+' min':''}</div></div>
+        <div><div class="session-date-big">${dateStr}${timeStr?' · '+timeStr:''}</div><div class="session-meta">${x.type}${x.duration?' · '+x.duration+' min':''}</div>${x.note?`<div class="session-notes">${x.note}</div>`:''}</div>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
         <span class="session-badge class">+25 XP</span>
@@ -1222,10 +1225,14 @@ function requestSession(){
   closeOverlay('add-session-overlay');scheduleSave();render();showToast('Session request sent');
 }
 function logWorkout(){
-  const date=document.getElementById('cls-date').value;const time=document.getElementById('cls-time').value;const type=document.getElementById('cls-type').value;const duration=parseInt(document.getElementById('cls-duration').value)||0;
+  const date=document.getElementById('cls-date').value;const time=document.getElementById('cls-time').value;
+  let type=document.getElementById('cls-type').value;
+  if(type==='Other'){const custom=(document.getElementById('cls-other-type').value||'').trim();if(custom)type=custom;}
+  const duration=parseInt(document.getElementById('cls-duration').value)||0;
+  const note=(document.getElementById('cls-note').value||'').trim();
   if(!date){showToast('Please select a date');return;}
   if(!d().workouts)d().workouts=[];
-  d().workouts.push({id:String(Date.now()),date,time,type,duration,xp:CLASS_XP,createdAt:new Date().toISOString()});
+  d().workouts.push({id:String(Date.now()),date,time,type,duration,note,xp:CLASS_XP,createdAt:new Date().toISOString()});
   d().xp=(d().xp||0)+CLASS_XP;
   checkBadges();closeOverlay('log-workout-overlay');scheduleSave();render();showToast('+'+CLASS_XP+' XP — Workout logged');
 }

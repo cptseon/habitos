@@ -264,6 +264,84 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .toast.show{transform:translateY(0);opacity:1}
 .spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--acc);border-radius:50%;animation:spin 0.6s linear infinite;vertical-align:middle;margin-right:6px}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* MIRROR VIEW — HABIT CARDS */
+.hgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-bottom:12px}
+.hcard{background:var(--bgs);border:1px solid var(--border);border-radius:14px;padding:14px;transition:border-color 0.2s}
+.hcard:hover{border-color:var(--border2)}
+.hcard-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.hcard-info{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.hico{width:32px;height:32px;border-radius:8px;background:var(--bgc);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;border:1px solid var(--border)}
+.hname{font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hcat{font-size:9px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin-top:1px}
+.hmeta{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.hxp{font-size:10px;color:var(--acc)}
+.hstreak{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--acc3)}
+.hstreak-dot{width:5px;height:5px;border-radius:50%;background:var(--acc3);animation:pulse 1.5s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hrate{font-size:10px;color:var(--text3);margin-bottom:6px}
+.mcal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.mcal-label{font-size:10px;color:var(--text2);letter-spacing:0.06em;text-transform:uppercase;font-weight:500}
+.mcal-btn{background:transparent;border:1px solid var(--border2);color:var(--text3);font-size:10px;padding:2px 7px;border-radius:5px;cursor:pointer;transition:all 0.15s}
+.mcal-btn:hover{border-color:var(--acc);color:var(--acc)}
+.dow-row{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:2px}
+.dowc{font-size:7px;color:var(--text4);text-align:center}
+.dgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.dc{aspect-ratio:1;border-radius:4px;border:1px solid var(--border);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--text4);background:var(--bgc);min-width:0}
+.dc:hover{border-color:var(--border2)}
+.dc.done{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+.dc.today{border-color:var(--acc);color:var(--acc);background:var(--bgs)}
+.dc.today.done{color:#fff;background:var(--acc)}
+.dc.emp{border-color:transparent;background:transparent;cursor:default}
+.dc.fut{opacity:0.3;cursor:not-allowed}
+.locked-slot{background:var(--bgc);border:1px dashed var(--border2);border-radius:14px;padding:18px;display:flex;align-items:center;gap:12px}
+.lock-icon{font-size:20px;opacity:0.4}
+.lock-title{font-size:11px;font-weight:500;color:var(--text2);margin-bottom:2px}
+.lock-cd{font-size:12px;color:var(--acc3)}
+.addbtn{width:100%;padding:12px;background:transparent;border:1px dashed var(--border2);border-radius:14px;color:var(--text3);font-family:var(--sans);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;min-height:80px}
+.addbtn:hover{border-color:var(--acc);color:var(--acc);background:rgba(196,98,58,0.03)}
+/* MIRROR VIEW — QUIT CARDS */
+.qcard{background:var(--bgs);border:1px solid var(--border);border-radius:14px;padding:14px}
+.qcard-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.qcard-info{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.qico{width:32px;height:32px;border-radius:8px;background:var(--bgc);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;border:1px solid var(--border)}
+.qname{font-size:13px;font-weight:500;color:var(--text)}
+.qphase{font-size:9px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin-top:1px}
+.qt-row{display:flex;align-items:center;justify-content:space-between;background:var(--bgc);border-radius:8px;padding:8px 12px;margin-bottom:10px;flex-wrap:wrap;gap:6px}
+.qt-label{font-size:10px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase}
+.qt-val{font-size:13px;font-weight:500;color:var(--text)}
+.qt-badge{font-size:9px;padding:2px 8px;border-radius:8px}
+.qt-badge.tracking{background:rgba(139,115,85,0.12);color:var(--acc3);border:1px solid rgba(139,115,85,0.2)}
+.qt-badge.reducing{background:rgba(122,158,126,0.12);color:var(--acc2);border:1px solid rgba(122,158,126,0.2)}
+.quit-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
+.qs{background:var(--bgc);border-radius:8px;padding:8px 6px;text-align:center}
+.qs-val{font-size:20px;font-weight:500;color:var(--text);line-height:1}
+.qs-sub{font-size:8px;color:var(--text3);margin-top:2px}
+.qs-lbl{font-size:7px;color:var(--text3);letter-spacing:0.05em;text-transform:uppercase;margin-top:3px}
+.today-log-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.today-count{font-size:13px;color:var(--text2)}
+.today-count strong{font-size:22px;color:var(--text);font-weight:500}
+.log-occ-btn{font-size:10px;padding:7px 14px;border-radius:8px;border:1px solid var(--acc);color:var(--acc);background:transparent;cursor:pointer;transition:all 0.2s;font-family:var(--sans)}
+.log-occ-btn:hover{background:rgba(196,98,58,0.08)}
+.qcal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.qcal-lbl{font-size:10px;color:var(--text2);letter-spacing:0.06em;text-transform:uppercase;font-weight:500}
+.qcal-btn{background:transparent;border:1px solid var(--border2);color:var(--text3);font-size:10px;padding:2px 7px;border-radius:5px;cursor:pointer;transition:all 0.15s;font-family:var(--sans)}
+.qcal-btn:hover{border-color:var(--acc);color:var(--acc)}
+.qdgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.qdc{aspect-ratio:1;border-radius:4px;border:1px solid var(--border);cursor:pointer;transition:all 0.15s;display:flex;align-items:flex-start;justify-content:flex-start;position:relative;padding:2px 3px;font-size:7px;font-weight:500;background:var(--bgc);min-width:0;color:var(--text3)}
+.qdc.emp{border-color:transparent;background:transparent;cursor:default;pointer-events:none}
+.qdc.fut{opacity:0.3;cursor:not-allowed;pointer-events:none}
+.qdc.q-none{color:var(--text4)}
+.qdc.q-good{background:#E8F4EC;border-color:#A8D4B0;color:#2A6B3C}
+.qdc.q-ok{background:#FFF8EC;border-color:#E8C870;color:#7A5A10}
+.qdc.q-over{background:#FEF0E8;border-color:#E8A870;color:#7A3A10}
+.qdc.q-bad{background:#FEEAE8;border-color:#E88070;color:#7A2010}
+.qdc.q-tracking{background:var(--bgc);border-color:var(--border2);color:var(--text2)}
+.qdc.today-q{border-color:var(--acc)!important}
+.qdc-day{position:absolute;top:2px;left:3px;font-size:7px;font-weight:400;color:inherit;line-height:1}
+.qdc-count{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:13px;font-weight:600;color:inherit;line-height:1}
+.sectit{font-size:10px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sectit::after{content:'';flex:1;height:1px;background:var(--border)}
 </style>
 </head>
 <body>
@@ -1248,9 +1326,10 @@ async function saveNotes(){
 
 // SESSION REQUESTS
 function renderSessionRequests(c){
+  const monthPfx=`${viewYear}-${String(viewMonth+1).padStart(2,'0')}`;
   // Also surface legacy sessions created by client (pre-v8.1 format)
-  const legacyClientSessions=(c.data?.sessions||[]).filter(s=>s.createdBy==='client').map(s=>({...s,status:'pending',focusNote:s.notes||''}));
-  const reqs=[...(c.data?.sessionRequests||[]),...legacyClientSessions].sort((a,b)=>a.date.localeCompare(b.date));
+  const legacyClientSessions=(c.data?.sessions||[]).filter(s=>s.createdBy==='client'&&s.date&&s.date.startsWith(monthPfx)).map(s=>({...s,status:'pending',focusNote:s.notes||''}));
+  const reqs=[...(c.data?.sessionRequests||[]).filter(r=>r.date&&r.date.startsWith(monthPfx)),...legacyClientSessions].sort((a,b)=>a.date.localeCompare(b.date));
   const cancelReqs=c.data?.sessionCancelRequests||[];
   const el=document.getElementById('sess-req-list');
   const badge=document.getElementById('sess-req-badge');
@@ -1358,9 +1437,10 @@ async function confirmDeleteSession(){
   await saveClientData(curClientId,d);showToast('Session removed');
 }
 function renderSessions(c){
-  const sessions=(c.data?.sessions||[]);
+  const monthPfx=`${viewYear}-${String(viewMonth+1).padStart(2,'0')}`;
+  const sessions=(c.data?.sessions||[]).filter(s=>s.date&&s.date.startsWith(monthPfx));
   const el=document.getElementById('sessions-list');
-  if(!sessions.length){el.innerHTML='<div class="sessions-empty">No sessions scheduled yet</div>';return;}
+  if(!sessions.length){el.innerHTML='<div class="sessions-empty">No sessions this month</div>';return;}
   const now=new Date();
   el.innerHTML=sessions.map(s=>{
     const sessionDt=new Date(s.date+'T'+s.time);
