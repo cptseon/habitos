@@ -333,6 +333,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
         <div class="cd-meta" id="cd-meta"></div>
       </div>
       <div class="cd-actions">
+        <button class="rbtn" onclick="refreshClient()" id="refresh-btn">↻ Refresh</button>
         <button class="rbtn" onclick="copyClientLink()">⎘ Copy Link</button>
         <button class="rbtn" onclick="regenerateLink()">↻ New Link</button>
         <button class="rbtn danger" onclick="resetOnboarding()">Reset Onboarding</button>
@@ -663,6 +664,7 @@ const HABIT_LIBRARY={
 
 let allClients=[],allLeads=[],curClientId=null,selColor='#C4623A',selLibItem=null,archiveTargetId=null,deleteLeadId=null,convertLeadData=null;
 let showArchived=false,viewMonth=new Date().getMonth(),viewYear=new Date().getFullYear();
+let calStates={};
 
 async function coachLogin(){
   const email=document.getElementById('l-email').value.trim();
@@ -690,7 +692,6 @@ async function loadClients(){
   if(error){showToast('Error loading clients');return;}
   allClients=data||[];
   renderDropdown();renderRoster();
-  if(curClientId){const c=allClients.find(x=>x.id===curClientId);if(c)renderClientDetail(c);}
 }
 async function loadLeads(){
   const{data,error}=await sb.from('leads').select('*').order('created_at',{ascending:false});
@@ -786,8 +787,11 @@ function renderRoster(){
     const streak=d.bestStreak||0;
     const lastCI=getLastCheckin(d);
     const rate=getMonthCompletionRate(d);
+    const pendingReqs=(d.sessionRequests||[]).filter(r=>r.status==='pending').length;
+    const cancelReqs=(d.sessionCancelRequests||[]).length;
+    const notifCount=pendingReqs+cancelReqs;
     return`<tr class="${c.id===curClientId?'active-row':''}" onclick="selectClient('${c.id}')">
-      <td><span class="rt-name">${c.name}</span></td>
+      <td><span class="rt-name">${c.name}</span>${notifCount>0?`<span class="notif-badge">${notifCount}</span>`:''}</td>
       <td>${streak}d</td>
       <td style="font-size:11px;color:var(--text3)">${lastCI||'—'}</td>
       <td>${getMonthTotal(d)}</td>
@@ -836,13 +840,24 @@ async function selectClient(id){
   viewMonth=new Date().getMonth();viewYear=new Date().getFullYear();
   renderRoster();
   if(!id){document.getElementById('client-detail').style.display='none';return;}
+  // Show immediately with cached data while live fetch loads
+  const cached=allClients.find(x=>x.id===id);
+  if(cached){document.getElementById('client-detail').style.display='block';renderClientDetail(cached);}
   // Live fetch — always get fresh data from Supabase
   const{data,error}=await sb.from('clients').select('*').eq('id',id).single();
-  if(error||!data){document.getElementById('client-detail').style.display='none';showToast('Error loading client');return;}
-  // Update local cache
+  if(error||!data){if(!cached){document.getElementById('client-detail').style.display='none';showToast('Error loading client');}return;}
+  // Update local cache and re-render with fresh data
   const idx=allClients.findIndex(x=>x.id===id);
   if(idx>=0)allClients[idx]=data;else allClients.push(data);
-  renderClientDetail(data);
+  renderClientDetail(data);renderRoster();
+}
+async function refreshClient(){
+  if(!curClientId)return;
+  const btn=document.getElementById('refresh-btn');
+  if(btn){btn.textContent='...';btn.disabled=true;}
+  await selectClient(curClientId);
+  if(btn){btn.textContent='↻ Refresh';btn.disabled=false;}
+  showToast('Refreshed');
 }
 function renderClientDetail(c){
   const d=c.data||{};
@@ -900,6 +915,9 @@ function showMirrorTab(tab,btn){
     const b=document.getElementById('m-tab-'+t);
     if(b){b.style.background=t===tab?'var(--bgc)':'transparent';b.style.color=t===tab?'var(--text)':'var(--text3)';b.style.fontWeight=t===tab?'500':'400';}
   });
+  if(tab==='sessions'&&curClientId){
+    const c=allClients.find(x=>x.id===curClientId);if(c){renderSessions(c);renderSessionRequests(c);}
+  }
 }
 function showMirrorSlot(slot,btn){
   ['morning','midday','evening'].forEach(s=>{
@@ -1230,7 +1248,9 @@ async function saveNotes(){
 
 // SESSION REQUESTS
 function renderSessionRequests(c){
-  const reqs=(c.data?.sessionRequests||[]).slice().sort((a,b)=>a.date.localeCompare(b.date));
+  // Also surface legacy sessions created by client (pre-v8.1 format)
+  const legacyClientSessions=(c.data?.sessions||[]).filter(s=>s.createdBy==='client').map(s=>({...s,status:'pending',focusNote:s.notes||''}));
+  const reqs=[...(c.data?.sessionRequests||[]),...legacyClientSessions].sort((a,b)=>a.date.localeCompare(b.date));
   const cancelReqs=c.data?.sessionCancelRequests||[];
   const el=document.getElementById('sess-req-list');
   const badge=document.getElementById('sess-req-badge');
