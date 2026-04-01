@@ -520,8 +520,15 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
     <!-- Sessions panel -->
     <div id="m-panel-sessions" style="display:none">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-        <div style="font-size:13px;font-weight:500;color:var(--text)">Session Requests <span id="sess-req-badge" style="display:none;background:rgba(196,98,58,0.1);color:var(--acc);font-size:9px;padding:2px 8px;border-radius:8px;margin-left:6px"></span></div>
-        <button class="rbtn primary" onclick="openAddSession()">+ Schedule Session</button>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <button class="month-nav-btn" onclick="changeSessionsMonth(-1)">◀</button>
+          <div style="font-size:13px;font-weight:500;color:var(--text)" id="sess-month-label"></div>
+          <button class="month-nav-btn" onclick="changeSessionsMonth(1)">▶</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <div style="font-size:13px;font-weight:500;color:var(--text)">Session Requests <span id="sess-req-badge" style="display:none;background:rgba(196,98,58,0.1);color:var(--acc);font-size:9px;padding:2px 8px;border-radius:8px;margin-left:6px"></span></div>
+          <button class="rbtn primary" onclick="openAddSession()">+ Schedule Session</button>
+        </div>
       </div>
       <div id="sess-req-list"></div>
       <div style="margin-top:16px;margin-bottom:8px;font-size:9px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase">Coach-Scheduled Sessions</div>
@@ -994,6 +1001,7 @@ function showMirrorTab(tab,btn){
     if(b){b.style.background=t===tab?'var(--bgc)':'transparent';b.style.color=t===tab?'var(--text)':'var(--text3)';b.style.fontWeight=t===tab?'500':'400';}
   });
   if(tab==='sessions'&&curClientId){
+    const lbl=document.getElementById('sess-month-label');if(lbl)lbl.textContent=MONTHS_S[viewMonth]+' '+viewYear;
     const c=allClients.find(x=>x.id===curClientId);if(c){renderSessions(c);renderSessionRequests(c);}
   }
 }
@@ -1220,6 +1228,15 @@ function changeViewMonth(dir){
   document.getElementById('month-sel').value=`${viewYear}-${viewMonth}`;
   renderMonthNav();renderHabitTable();
 }
+const MONTHS_S=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function changeSessionsMonth(dir){
+  viewMonth+=dir;
+  if(viewMonth<0){viewMonth=11;viewYear--;}if(viewMonth>11){viewMonth=0;viewYear++;}
+  document.getElementById('month-sel').value=`${viewYear}-${viewMonth}`;
+  renderMonthNav();
+  const lbl=document.getElementById('sess-month-label');if(lbl)lbl.textContent=MONTHS_S[viewMonth]+' '+viewYear;
+  const c=allClients.find(x=>x.id===curClientId);if(c){renderSessions(c);renderSessionRequests(c);}
+}
 function onMonthSelChange(){
   const val=document.getElementById('month-sel').value.split('-');
   viewYear=parseInt(val[0]);viewMonth=parseInt(val[1]);
@@ -1363,7 +1380,7 @@ function renderSessionRequests(c){
       <div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap">
         ${r.status==='pending'?`<button class="rbtn primary" style="font-size:9px;padding:4px 10px" onclick="confirmSessionReq('${c.id}','${r.id}')">Confirm</button><button class="rbtn" style="font-size:9px;padding:4px 10px" onclick="denySessionReq('${c.id}','${r.id}')">Deny</button>`:''}
         ${r.status==='confirmed'&&isCancelReq?`<button class="rbtn danger" style="font-size:9px;padding:4px 10px" onclick="approveCancelReq('${c.id}','${r.id}')">Approve Cancel</button>`:''}
-        ${r.status!=='pending'?`<button class="tbl-btn danger" onclick="deleteSessionReq('${c.id}','${r.id}')" title="Remove">⊖</button>`:''}
+        <button class="tbl-btn danger" onclick="deleteSessionReq('${c.id}','${r.id}')" title="Remove">⊖</button>
       </div>
     </div>`;
   }).join('');

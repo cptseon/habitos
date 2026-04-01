@@ -530,10 +530,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
   <!-- OVERVIEW PANEL -->
   <div class="panel" id="panel-overview">
     <div class="ov-hdr">
-      <div class="ov-month-nav">
-        <button class="ov-month-btn" onclick="changeOvMonth(-1)">◀</button>
-        <div class="ov-month-label" id="ov-month-label"></div>
-        <button class="ov-month-btn" onclick="changeOvMonth(1)">▶</button>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="ov-month-nav">
+          <button class="ov-month-btn" onclick="changeOvMonth(-1)">◀</button>
+          <div class="ov-month-label" id="ov-month-label"></div>
+          <button class="ov-month-btn" onclick="changeOvMonth(1)">▶</button>
+        </div>
+        <div id="ov-month-stats" style="font-size:11px;color:var(--text3)"></div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <button class="add-session-btn" onclick="openOverlay('add-session-overlay')">+ Request Session</button>
@@ -1128,9 +1131,9 @@ function renderOverview(){
   const sessionRequests=data.sessionRequests||[];const workouts=data.workouts||[];
   const mSess=sessionRequests.filter(s=>s.date&&s.date.startsWith(`${ovYear}-${String(ovMonth+1).padStart(2,'0')}`)).length;
   const mWork=workouts.filter(w=>w.date&&w.date.startsWith(`${ovYear}-${String(ovMonth+1).padStart(2,'0')}`)).length;
-  let monthLabel=MONTHS[ovMonth]+' '+ovYear;
-  if(mSess||mWork){const parts=[];if(mSess)parts.push(mSess+' session'+(mSess!==1?'s':''));if(mWork)parts.push(mWork+' workout'+(mWork!==1?'s':''));monthLabel+=' · '+parts.join(' · ');}
-  document.getElementById('ov-month-label').textContent=monthLabel;
+  document.getElementById('ov-month-label').textContent=MONTHS[ovMonth]+' '+ovYear;
+  let statsStr='';if(mSess||mWork){const parts=[];if(mSess)parts.push(mSess+' session'+(mSess!==1?'s':''));if(mWork)parts.push(mWork+' workout'+(mWork!==1?'s':''));statsStr=parts.join(' · ');}
+  document.getElementById('ov-month-stats').textContent=statsStr;
   const firstDay=new Date(ovYear,ovMonth,1).getDay();const dim=new Date(ovYear,ovMonth+1,0).getDate();
   const activeHabits=(data.habits||[]).filter(h=>!h.archived);
   const filtered=ovFilter==='all'?activeHabits:activeHabits.filter(h=>String(h.id)===String(ovFilter));
