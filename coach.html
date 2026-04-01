@@ -404,6 +404,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
         <div style="background:var(--bgc);border-radius:10px;padding:11px 8px;text-align:center"><div style="font-size:22px;font-weight:500;color:var(--text);line-height:1" id="m-s-mo">0</div><div style="font-size:9px;color:var(--text3);margin-top:2px">completions</div><div style="font-size:7px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px">This Month</div></div>
       </div>
     </div>
+    <!-- Slot controls -->
+    <div class="slot-controls" id="m-slot-controls" style="display:none">
+      <div class="sc-title">Slot Unlocks</div>
+      <div class="sc-slots" id="sc-slots-display"></div>
+    </div>
     <!-- Mirror Tabs -->
     <div style="display:flex;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px">
       <button class="mtab active" id="m-tab-habits" onclick="showMirrorTab('habits',this)" style="flex:1;font-size:11px;padding:10px 6px;background:var(--bgc);color:var(--text);cursor:pointer;border:none;border-right:1px solid var(--border);font-weight:500;font-family:var(--sans);letter-spacing:0.04em">Habits</button>
@@ -436,9 +441,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
     <!-- Sessions panel -->
     <div id="m-panel-sessions" style="display:none">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-        <div style="font-size:13px;font-weight:500;color:var(--text)">Training Sessions</div>
+        <div style="font-size:13px;font-weight:500;color:var(--text)">Session Requests <span id="sess-req-badge" style="display:none;background:rgba(196,98,58,0.1);color:var(--acc);font-size:9px;padding:2px 8px;border-radius:8px;margin-left:6px"></span></div>
         <button class="rbtn primary" onclick="openAddSession()">+ Schedule Session</button>
       </div>
+      <div id="sess-req-list"></div>
+      <div style="margin-top:16px;margin-bottom:8px;font-size:9px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase">Coach-Scheduled Sessions</div>
       <div id="sessions-list"></div>
     </div>
     <!-- Notes panel -->
@@ -755,7 +762,7 @@ async function confirmConvertLead(){
   if(!convertLeadData)return;
   const start=document.getElementById('conv-start').value;
   const pin=generatePin();
-  const fresh={xp:0,allTimeXp:0,bestStreak:0,perfectDays:0,habits:[],completions:{},unlockedBadges:{},completedQuests:[],prestigeCount:0,extraUnlocks:0,coachMessage:'',coachNotes:'',theme:'warm',onboardingComplete:false,journeyStartedAt:null,xpFromArchivedHabits:0,sessions:[],classLogs:[],email:convertLeadData.email||'',phone:convertLeadData.phone||''};
+  const fresh={xp:0,allTimeXp:0,bestStreak:0,perfectDays:0,habits:[],completions:{},unlockedBadges:{},completedQuests:[],prestigeCount:0,extraUnlocks:0,coachMessage:'',coachNotes:'',theme:'warm',onboardingComplete:false,journeyStartedAt:null,xpFromArchivedHabits:0,sessions:[],classLogs:[],quitHabits:[],sessionRequests:[],sessionCancelRequests:[],workouts:[],email:convertLeadData.email||'',phone:convertLeadData.phone||''};
   const{data,error}=await sb.from('clients').insert({name:convertLeadData.name,pin,start_date:start||null,data:fresh}).select().single();
   if(error){showToast('Error: '+error.message);return;}
   await sb.from('leads').update({status:'converted'}).eq('id',convertLeadData.id);
@@ -823,14 +830,19 @@ function totalAllTimeXP(d){
   Object.values(comps).forEach(day=>{Object.entries(day).forEach(([id,done])=>{if(done){const h=habits.find(x=>String(x.id)===String(id));if(h)total+=h.xp||0;}});});
   return total+(d.xpFromArchivedHabits||0);
 }
-function selectClient(id){
+async function selectClient(id){
   curClientId=id;
   document.getElementById('client-dropdown').value=id;
-  const c=allClients.find(x=>x.id===id);
   viewMonth=new Date().getMonth();viewYear=new Date().getFullYear();
   renderRoster();
-  if(!c){document.getElementById('client-detail').style.display='none';return;}
-  renderClientDetail(c);
+  if(!id){document.getElementById('client-detail').style.display='none';return;}
+  // Live fetch — always get fresh data from Supabase
+  const{data,error}=await sb.from('clients').select('*').eq('id',id).single();
+  if(error||!data){document.getElementById('client-detail').style.display='none';showToast('Error loading client');return;}
+  // Update local cache
+  const idx=allClients.findIndex(x=>x.id===id);
+  if(idx>=0)allClients[idx]=data;else allClients.push(data);
+  renderClientDetail(data);
 }
 function renderClientDetail(c){
   const d=c.data||{};
@@ -871,12 +883,16 @@ function renderClientDetail(c){
   document.getElementById('m-s-alltime').textContent=totalAllTimeXP(d).toLocaleString()+' all-time';
   document.getElementById('m-s-str').textContent=d.bestStreak||0;
   document.getElementById('m-s-mo').textContent=getMonthTotal(d);
+  // Slot controls
+  document.getElementById('m-slot-controls').style.display='block';
+  renderSlotControls(c);
   // Mirror habits
   renderMirrorHabits(c);
   // Mirror quit
   renderMirrorQuit(c);
-  // Mirror sessions
+  // Sessions + requests
   renderSessions(c);
+  renderSessionRequests(c);
 }
 function showMirrorTab(tab,btn){
   ['habits','quit','sessions','notes'].forEach(t=>{
@@ -1212,6 +1228,77 @@ async function saveNotes(){
   const el=document.getElementById('notes-saved');el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2000);
 }
 
+// SESSION REQUESTS
+function renderSessionRequests(c){
+  const reqs=(c.data?.sessionRequests||[]).slice().sort((a,b)=>a.date.localeCompare(b.date));
+  const cancelReqs=c.data?.sessionCancelRequests||[];
+  const el=document.getElementById('sess-req-list');
+  const badge=document.getElementById('sess-req-badge');
+  const tab=document.getElementById('m-tab-sessions');
+  const pending=reqs.filter(r=>r.status==='pending');
+  if(pending.length){
+    badge.textContent=pending.length+' pending';badge.style.display='inline';
+    if(tab){tab.style.position='relative';tab.innerHTML='Sessions <span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--acc);color:#fff;font-size:8px;font-weight:500;margin-left:3px">'+pending.length+'</span>';}
+  }else{
+    badge.style.display='none';
+    if(tab)tab.textContent='Sessions';
+  }
+  if(!reqs.length){el.innerHTML='<div style="font-size:11px;color:var(--text4);font-style:italic;padding:6px 0">No session requests yet</div>';return;}
+  el.innerHTML=reqs.map(r=>{
+    const statusColor={pending:'#C4623A',confirmed:'var(--acc2)',denied:'var(--text4)'}[r.status]||'#C4623A';
+    const statusLabel={pending:'Pending',confirmed:'Confirmed',denied:'Denied'}[r.status]||'Pending';
+    const dateStr=formatSessionDate(r.date);const timeStr=r.time?formatTime(r.time):'';
+    const isCancelReq=cancelReqs.some(cr=>cr.sessionId===r.id);
+    return`<div class="session-card" style="${r.status==='denied'?'opacity:0.5':''}">
+      <div class="session-left">
+        <div class="session-type-dot" style="background:${statusColor}"></div>
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <div class="session-date">${dateStr}${timeStr?' · '+timeStr:''}</div>
+            <span class="session-type-label" style="background:${r.status==='confirmed'?'rgba(122,158,126,0.1)':r.status==='denied'?'var(--bgc)':'rgba(196,98,58,0.1)'};color:${statusColor}">${statusLabel}</span>
+            ${isCancelReq?'<span style="font-size:8px;color:#C4623A;letter-spacing:0.04em">Cancel requested</span>':''}
+          </div>
+          ${r.focusNote?`<div class="session-notes-txt">${r.focusNote}</div>`:''}
+        </div>
+      </div>
+      <div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap">
+        ${r.status==='pending'?`<button class="rbtn primary" style="font-size:9px;padding:4px 10px" onclick="confirmSessionReq('${c.id}','${r.id}')">Confirm</button><button class="rbtn" style="font-size:9px;padding:4px 10px" onclick="denySessionReq('${c.id}','${r.id}')">Deny</button>`:''}
+        ${r.status==='confirmed'&&isCancelReq?`<button class="rbtn danger" style="font-size:9px;padding:4px 10px" onclick="approveCancelReq('${c.id}','${r.id}')">Approve Cancel</button>`:''}
+        ${r.status!=='pending'?`<button class="tbl-btn danger" onclick="deleteSessionReq('${c.id}','${r.id}')" title="Remove">⊖</button>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+async function confirmSessionReq(clientId,reqId){
+  const c=allClients.find(x=>x.id===clientId);if(!c)return;
+  const d={...c.data};
+  if(!d.sessionRequests)d.sessionRequests=[];
+  const req=d.sessionRequests.find(r=>r.id===reqId);if(!req)return;
+  req.status='confirmed';req.confirmedAt=new Date().toISOString();
+  await saveClientData(clientId,d);showToast('Session confirmed');
+}
+async function denySessionReq(clientId,reqId){
+  const c=allClients.find(x=>x.id===clientId);if(!c)return;
+  const d={...c.data};
+  if(!d.sessionRequests)d.sessionRequests=[];
+  const req=d.sessionRequests.find(r=>r.id===reqId);if(!req)return;
+  req.status='denied';req.deniedAt=new Date().toISOString();
+  await saveClientData(clientId,d);showToast('Session denied');
+}
+async function approveCancelReq(clientId,reqId){
+  const c=allClients.find(x=>x.id===clientId);if(!c)return;
+  const d={...c.data};
+  d.sessionRequests=(d.sessionRequests||[]).filter(r=>r.id!==reqId);
+  d.sessionCancelRequests=(d.sessionCancelRequests||[]).filter(cr=>cr.sessionId!==reqId);
+  await saveClientData(clientId,d);showToast('Session cancelled');
+}
+async function deleteSessionReq(clientId,reqId){
+  const c=allClients.find(x=>x.id===clientId);if(!c)return;
+  const d={...c.data};
+  d.sessionRequests=(d.sessionRequests||[]).filter(r=>r.id!==reqId);
+  await saveClientData(clientId,d);showToast('Removed');
+}
+
 // SESSION SCHEDULING
 let deleteSessionId=null;
 function openAddSession(){
@@ -1293,14 +1380,20 @@ async function resetOnboarding(){
 async function saveClientData(id,data){
   const{error}=await sb.from('clients').update({data}).eq('id',id);
   if(error){showToast('Error saving');return;}
-  await loadClients();const c=allClients.find(x=>x.id===id);if(c)renderClientDetail(c);
+  // Live re-fetch this client after save
+  const{data:fresh,error:ferr}=await sb.from('clients').select('*').eq('id',id).single();
+  if(!ferr&&fresh){
+    const idx=allClients.findIndex(x=>x.id===id);
+    if(idx>=0)allClients[idx]=fresh;else allClients.push(fresh);
+    renderRoster();renderDropdown();renderClientDetail(fresh);
+  }
 }
 function openNewClient(){document.getElementById('nc-name').value='';document.getElementById('nc-start').value=new Date().toISOString().split('T')[0];openOverlay('newclient-overlay');}
 async function createClient(){
   const name=document.getElementById('nc-name').value.trim();const start=document.getElementById('nc-start').value;
   if(!name){showToast('Name required');return;}
   const pin=generatePin();
-  const fresh={xp:0,allTimeXp:0,bestStreak:0,perfectDays:0,habits:[],completions:{},unlockedBadges:{},completedQuests:[],prestigeCount:0,extraUnlocks:0,coachMessage:'',coachNotes:'',theme:'warm',onboardingComplete:false,journeyStartedAt:null,xpFromArchivedHabits:0,sessions:[],classLogs:[]};
+  const fresh={xp:0,allTimeXp:0,bestStreak:0,perfectDays:0,habits:[],completions:{},unlockedBadges:{},completedQuests:[],prestigeCount:0,extraUnlocks:0,coachMessage:'',coachNotes:'',theme:'warm',onboardingComplete:false,journeyStartedAt:null,xpFromArchivedHabits:0,sessions:[],classLogs:[],quitHabits:[],sessionRequests:[],sessionCancelRequests:[],workouts:[]};
   const{data,error}=await sb.from('clients').insert({name,pin,start_date:start||null,data:fresh}).select().single();
   if(error){showToast('Error: '+error.message);return;}
   closeOverlay('newclient-overlay');await loadClients();selectClient(data.id);showToast('Client created: '+name);
